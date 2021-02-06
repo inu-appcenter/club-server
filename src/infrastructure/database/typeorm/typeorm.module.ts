@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { EnvironmentConfigService } from '../../config/config.service';
 import { EnvironmentConfigModule } from '../../config/config.module';
+import { User } from 'src/domain/entity/user.entity';
+import { Admin } from 'src/domain/entity/admin.entity';
 
 export const getTypeOrmModuleOptions = (environmentConfigService: EnvironmentConfigService): TypeOrmModuleOptions =>
   ({
@@ -10,9 +12,9 @@ export const getTypeOrmModuleOptions = (environmentConfigService: EnvironmentCon
     port: parseInt(environmentConfigService.get('DB_PORT'), 10),
     username: environmentConfigService.get('DB_USERNAME'),
     password: environmentConfigService.get('DB_PASSWORD'),
-    // database: environmentConfigService.get('DB_NAME'),
-    // entities: [],
-    // ssl: true,
+    database: environmentConfigService.get('DB_NAME'),
+    entities: [User, Admin],
+    synchronize: true,
   } as TypeOrmModuleOptions);
 
 export const getTypeOrmMigrationsOptions = (environmentConfigService: EnvironmentConfigService) => ({
@@ -30,16 +32,6 @@ export const getTypeOrmMigrationsOptions = (environmentConfigService: Environmen
       inject: [EnvironmentConfigService],
       useFactory: getTypeOrmModuleOptions,
     }),
-    // TypeOrmModule.forRoot({
-    //   type: 'mysql',
-    //   host: 'mysql',
-    //   port: 3306,
-    //   username: 'root',
-    //   password: 'root',
-    //   database: 'test',
-    //   entities: [],
-    //   synchronize: true,
-    // }),
   ],
 })
-export class TypeormModule {}
+export class TypeormConfigModule {}

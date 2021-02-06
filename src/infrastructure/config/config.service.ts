@@ -21,6 +21,7 @@ export class EnvironmentConfigService {
       DB_PORT: Joi.number().required(),
       DB_USERNAME: Joi.string().required(),
       DB_PASSWORD: Joi.string().required(),
+      DB_NAME: Joi.string().required(),
     }).unknown(true);
 
     const { error, value: validatedEnvironmentConfig }: ValidationResult = envVarsSchema.validate(environmentConfig);
