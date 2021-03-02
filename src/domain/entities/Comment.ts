@@ -1,0 +1,28 @@
+import { Entity } from '@/common/entity/Entity';
+import { IsString } from 'class-validator';
+import { CommentEntityPayload } from './types/payloads/CommentEntityPayload';
+
+/**
+ * @description 소모임 댓글
+ */
+export class Comment extends Entity {
+  @IsString()
+  private _host: string;
+
+  @IsString()
+  private _content: string;
+
+  constructor(payload: CommentEntityPayload) {
+    super();
+    this._host = payload.host;
+    this._content = payload.content;
+  }
+
+  public get host() {
+    return this._host;
+  }
+
+  public get content() {
+    return this._content;
+  }
+}
