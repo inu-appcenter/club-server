@@ -1,7 +1,7 @@
 import { Entity } from '@/common/entity/Entity';
 import { IsString } from 'class-validator';
 import { Category } from './Category';
-import { applicationInfo, Image } from './types/aliases';
+import { ApplicationInfo, Image } from './types/aliases';
 import { ClubEntityPayload } from './types/payloads/ClubEntityPayload';
 
 /**
@@ -24,10 +24,11 @@ export class Club extends Entity {
 
   private _images: Array<Image>;
 
-  private _applicationInfo: applicationInfo;
+  private _applicationInfo: ApplicationInfo;
 
   constructor(payload: ClubEntityPayload) {
     super();
+    this.id = payload.id || -1;
 
     this._name = payload.name;
     this._location = payload.location;

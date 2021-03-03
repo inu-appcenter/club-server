@@ -14,6 +14,8 @@ export class ReComment extends Entity {
 
   constructor(payload: CommentEntityPayload) {
     super();
+    this.id = payload.id || -1;
+
     this._host = payload.host;
     this._content = payload.content;
   }

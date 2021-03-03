@@ -8,6 +8,8 @@ export class Category extends Entity {
 
   constructor(payload: CategoryEntityPayload) {
     super();
+    this.id = payload.id || -1;
+
     this._name = payload.name;
   }
 

@@ -17,6 +17,8 @@ export class ClubToday extends Entity {
 
   constructor(payload: ClubTodayEntityPayload) {
     super();
+    this.id = payload.id || -1;
+
     this._headImage = payload.headImage;
     this._title = payload.title;
     this._body = payload.body;

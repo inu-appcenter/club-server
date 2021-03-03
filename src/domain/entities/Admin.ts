@@ -17,6 +17,8 @@ export class Admin extends Entity {
 
   constructor(payload: AdminEntityPayload) {
     super();
+    this.id = payload.id || -1;
+
     this._studentId = payload.studentId;
     this._name = payload.name;
     this._phoneNumber = payload.phoneNumber;

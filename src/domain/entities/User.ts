@@ -14,6 +14,7 @@ export class User extends Entity {
 
   constructor(payload: UserEntityPayload) {
     super();
+    this.id = payload.id || -1;
     this._studentId = payload.studentId;
     this._nickname = payload.nickname;
   }
