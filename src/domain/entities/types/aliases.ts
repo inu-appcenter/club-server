@@ -1,6 +1,6 @@
 export type ApplicationInfo = {
-  openUrl: string;
-  websiteUrl: string;
+  openUrl?: string | null;
+  websiteUrl?: string | null;
 };
 
 export type Image = {

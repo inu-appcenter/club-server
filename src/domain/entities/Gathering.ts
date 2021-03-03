@@ -1,11 +1,12 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsInt, IsString } from 'class-validator';
+import { IsBoolean, IsInt, IsString } from 'class-validator';
 import { Category } from './Category';
 import { ParticipationInfo } from './types/aliases';
 import { GatheringEntityPayload } from './types/payloads/GatheringEntityPayload';
 
 /**
  * @description 소모임
+ * todo: 마감 여부
  */
 export class Gathering extends Entity {
   @IsString()
@@ -27,6 +28,9 @@ export class Gathering extends Entity {
 
   private _category: Category;
 
+  @IsBoolean()
+  private _isClosed: boolean;
+
   constructor(payload: GatheringEntityPayload) {
     super();
     this.id = payload.id || -1;
@@ -38,6 +42,7 @@ export class Gathering extends Entity {
     this._numberOfPersonsToInvite = payload.numberOfPersonsToInvite;
     this._participationInfo = payload.participationInfo;
     this._category = payload.category;
+    this._isClosed = payload.isClosed || false;
   }
 
   public get host() {
@@ -66,5 +71,9 @@ export class Gathering extends Entity {
 
   public get category() {
     return this._category;
+  }
+
+  public get isClosed() {
+    return this._isClosed;
   }
 }

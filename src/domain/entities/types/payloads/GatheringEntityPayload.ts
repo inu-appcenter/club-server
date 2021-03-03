@@ -10,4 +10,5 @@ export type GatheringEntityPayload = {
   numberOfPersonsToInvite: number;
   participationInfo: ParticipationInfo;
   category: Category;
+  isClosed?: boolean;
 };
