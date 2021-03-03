@@ -22,7 +22,7 @@ export class Club extends Entity {
   @IsString()
   private _summary: string;
 
-  private _images: Array<Image>;
+  private _images: Image[];
 
   private _applicationInfo: ApplicationInfo;
 

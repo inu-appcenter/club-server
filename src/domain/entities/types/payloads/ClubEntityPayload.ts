@@ -8,6 +8,6 @@ export type ClubEntityPayload = {
   location: string;
   representative: string;
   summary: string;
-  images: Array<Image>;
+  images: Image[];
   applicationInfo: ApplicationInfo;
 };
