@@ -6,7 +6,6 @@ import { GatheringEntityPayload } from './types/payloads/GatheringEntityPayload'
 
 /**
  * @description 소모임
- * todo: 마감 여부
  */
 export class Gathering extends Entity {
   @IsString()

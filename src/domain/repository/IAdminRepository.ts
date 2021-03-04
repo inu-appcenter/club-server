@@ -1,4 +1,4 @@
-import { Admin } from '../entities/Admin';
+import { Admin } from '../entity/Admin';
 
 /**
  * todo: 웹

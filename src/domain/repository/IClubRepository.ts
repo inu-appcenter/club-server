@@ -1,4 +1,4 @@
-import { Club } from '../entities/Club';
+import { Club } from '../entity/Club';
 
 /**
  * todo: 추천 (새내기 추천, 현내기 추천)

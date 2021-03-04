@@ -1,4 +1,4 @@
-import { ReComment } from '../entities/ReComment';
+import { ReComment } from '../entity/ReComment';
 
 /**
  * todo: 대댓글 신고

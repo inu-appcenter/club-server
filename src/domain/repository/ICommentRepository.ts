@@ -1,5 +1,5 @@
-import { Comment } from '../entities/Comment';
-import { ReComment } from '../entities/ReComment';
+import { Comment } from '../entity/Comment';
+import { ReComment } from '../entity/ReComment';
 
 /**
  * todo: 댓글 신고

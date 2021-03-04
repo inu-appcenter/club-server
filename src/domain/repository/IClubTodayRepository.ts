@@ -1,4 +1,4 @@
-import { ClubToday } from '../entities/ClubToday';
+import { ClubToday } from '../entity/ClubToday';
 
 /**
  * ? 앱에서는 조회만 가능

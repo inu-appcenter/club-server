@@ -1,4 +1,4 @@
-import { Gathering } from '../entities/Gathering';
+import { Gathering } from '../entity/Gathering';
 
 export interface IGatheringRepository {
   getGatherings(): Promise<Gathering[]>;
