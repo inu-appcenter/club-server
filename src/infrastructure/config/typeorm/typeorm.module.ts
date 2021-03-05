@@ -8,6 +8,7 @@ import { OrmClubTodayImage } from '@/infrastructure/repositories/entities/club_t
 import { OrmComment } from '@/infrastructure/repositories/entities/comment.entity';
 import { OrmGathering } from '@/infrastructure/repositories/entities/gathering.entity';
 import { OrmReComment } from '@/infrastructure/repositories/entities/re_comment.entity';
+import { OrmSuperAdmin } from '@/infrastructure/repositories/entities/super_admin.entity';
 import { OrmUser } from '@/infrastructure/repositories/entities/user.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
@@ -34,8 +35,9 @@ export const getTypeOrmModuleOptions = (environmentConfigService: EnvironmentCon
       OrmClubTodayImage,
       OrmComment,
       OrmReComment,
+      OrmSuperAdmin,
     ],
-    synchronize: true,
+    synchronize: false,
   } as TypeOrmModuleOptions);
 
 export const getTypeOrmMigrationsOptions = (environmentConfigService: EnvironmentConfigService) => ({
