@@ -23,6 +23,6 @@ export class OrmUser extends CommonTypeOrm {
   reComments: OrmReComment[];
 
   @ManyToMany((type) => OrmGathering, (gathering) => gathering.id)
-  @JoinTable({ name: 'participation' })
-  participationGatherings: OrmGathering[];
+  @JoinTable({ name: 'participants' })
+  participantsGatherings: OrmGathering[];
 }

@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './infrastructure/app.module';
-import { EnvironmentConfigService } from './infrastructure/config/config.service';
-import { createDocument } from './swagger/swagger';
+import { createDocument } from './common/swagger/Swagger';
+import { EnvironmentConfigService } from './infrastructure/config/environment/env.service';
 
 async function root() {
   const app = await NestFactory.create(AppModule);

@@ -15,7 +15,7 @@ export class OrmClubToday extends CommonTypeOrm {
   body!: string;
 
   @OneToMany((type) => OrmClubTodayImage, (clubTodayImage) => clubTodayImage.clubToday)
-  images: OrmClubTodayImage;
+  images: OrmClubTodayImage[];
 
   @ManyToOne((type) => OrmAdmin, (admin) => admin.clubTodays)
   admin: OrmAdmin;

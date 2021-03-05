@@ -1,5 +1,13 @@
 import { OrmAdmin } from '@/infrastructure/repositories/entities/admin.entity';
+import { OrmApplicationInfo } from '@/infrastructure/repositories/entities/application_info.entity';
+import { OrmCategory } from '@/infrastructure/repositories/entities/category.entity';
+import { OrmClub } from '@/infrastructure/repositories/entities/club.entity';
+import { OrmClubImage } from '@/infrastructure/repositories/entities/club_image.entity';
+import { OrmClubToday } from '@/infrastructure/repositories/entities/club_today.entity';
+import { OrmClubTodayImage } from '@/infrastructure/repositories/entities/club_today_image.entity';
+import { OrmComment } from '@/infrastructure/repositories/entities/comment.entity';
 import { OrmGathering } from '@/infrastructure/repositories/entities/gathering.entity';
+import { OrmReComment } from '@/infrastructure/repositories/entities/re_comment.entity';
 import { OrmUser } from '@/infrastructure/repositories/entities/user.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
@@ -14,7 +22,19 @@ export const getTypeOrmModuleOptions = (environmentConfigService: EnvironmentCon
     username: environmentConfigService.get('DB_USERNAME'),
     password: environmentConfigService.get('DB_PASSWORD'),
     database: environmentConfigService.get('DB_NAME'),
-    entities: [OrmAdmin, OrmUser, OrmGathering],
+    entities: [
+      OrmAdmin,
+      OrmUser,
+      OrmGathering,
+      OrmApplicationInfo,
+      OrmCategory,
+      OrmClub,
+      OrmClubImage,
+      OrmClubToday,
+      OrmClubTodayImage,
+      OrmComment,
+      OrmReComment,
+    ],
     synchronize: true,
   } as TypeOrmModuleOptions);
 
