@@ -4,11 +4,15 @@ import { Optional } from '../type/CommonTypes';
 import { ClassValidationDetails, ClassValidator } from '../utils/class-validator/ClassValidator';
 
 export class Entity {
-  protected id: number;
+  protected _id: number;
 
-  public getId(): number {
-    if (typeof this.id === 'undefined') throw new Error(`${this.constructor.name}: ID is empty.`);
-    return this.id;
+  public get id(): number {
+    if (typeof this._id === 'undefined')
+      throw Exception.new({
+        code: Code.ENTITY_VALIDATION_ERROR,
+        overrideMessage: `${this.constructor.name}: ID is empty.`,
+      });
+    return this._id;
   }
 
   public async validate(): Promise<void> {
