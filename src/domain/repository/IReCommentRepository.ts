@@ -7,4 +7,5 @@ export interface IReCommentRepository {
   createReComment(reComment: ReComment): Promise<ReComment>;
   updateReComment(reComment: ReComment): Promise<ReComment>;
   removeReCommentById(reCommentId: number): Promise<any>;
+  declareReComment(): Promise<any>;
 }

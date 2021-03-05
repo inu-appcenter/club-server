@@ -9,4 +9,5 @@ export interface ICommentRepository {
   updateComment(comment: Comment): Promise<Comment>;
   removeCommentByCommentId(commentId: number): Promise<any>;
   getReCommentsByCommentId(commentId: number): Promise<ReComment[]>;
+  declareComment(): Promise<any>;
 }

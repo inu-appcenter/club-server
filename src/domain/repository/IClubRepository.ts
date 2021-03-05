@@ -9,4 +9,5 @@ export interface IClubRepository {
   getClubsByKeyword(keyword: string): Promise<Club[]>;
   updateClub(club: Club): Promise<Club>;
   removeClub(clubId: number): Promise<any>;
+  recommendClubs(): Promise<any>;
 }
