@@ -10,4 +10,5 @@ export type ClubEntityPayload = {
   summary: string;
   images: Image[];
   applicationInfo: ApplicationInfo;
+  keywords?: string;
 };

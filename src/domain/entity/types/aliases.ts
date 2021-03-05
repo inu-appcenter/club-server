@@ -1,6 +1,6 @@
 export type ApplicationInfo = {
-  openUrl?: string | null;
-  websiteUrl?: string | null;
+  openChatUrl?: string;
+  websiteUrl?: string;
 };
 
 export type Image = {

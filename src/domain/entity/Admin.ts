@@ -1,5 +1,5 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsInt, IsMobilePhone, IsPhoneNumber, IsString } from 'class-validator';
+import { IsInt, IsMobilePhone, IsString } from 'class-validator';
 import { AdminEntityPayload } from './types/payloads/AdminEntityPayload';
 
 /**

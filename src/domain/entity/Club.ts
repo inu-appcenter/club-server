@@ -6,6 +6,7 @@ import { ClubEntityPayload } from './types/payloads/ClubEntityPayload';
 
 /**
  * @description 동아리
+ * 쉼표로 키워드 구분
  */
 export class Club extends Entity {
   @IsString()
@@ -26,6 +27,9 @@ export class Club extends Entity {
 
   private _applicationInfo: ApplicationInfo;
 
+  @IsString()
+  private _keywords: string;
+
   constructor(payload: ClubEntityPayload) {
     super();
     this.id = payload.id || -1;
@@ -37,6 +41,7 @@ export class Club extends Entity {
     this._images = payload.images;
     this._representative = payload.representative;
     this._applicationInfo = payload.applicationInfo;
+    this._keywords = payload.keywords || '';
   }
 
   public get name() {
@@ -65,5 +70,9 @@ export class Club extends Entity {
 
   public get summary() {
     return this._summary;
+  }
+
+  public get keywords() {
+    return this._keywords;
   }
 }
