@@ -1,7 +1,7 @@
 import { Column, Entity as OrmEntity } from 'typeorm';
 import { CommonTypeOrm } from './common/common';
 
-@OrmEntity('applicationInfo')
+@OrmEntity()
 export class OrmApplicationInfo extends CommonTypeOrm {
   @Column({ nullable: true })
   kakaoId: string;

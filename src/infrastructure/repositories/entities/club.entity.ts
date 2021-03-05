@@ -5,9 +5,7 @@ import { OrmCategory } from './category.entity';
 import { CommonTypeOrm } from './common/common';
 import { OrmClubImage } from './club_image.entity';
 
-/**
- */
-@OrmEntity('club')
+@OrmEntity()
 export class OrmClub extends CommonTypeOrm {
   @Column()
   name!: string;

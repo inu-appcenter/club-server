@@ -3,10 +3,7 @@ import { OrmAdmin } from './admin.entity';
 import { OrmClubTodayImage } from './club_today_image.entity';
 import { CommonTypeOrm } from './common/common';
 
-/**
- * todo: 이미지
- */
-@OrmEntity('clubToday')
+@OrmEntity()
 export class OrmClubToday extends CommonTypeOrm {
   @Column()
   title!: string;

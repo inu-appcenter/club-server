@@ -3,7 +3,7 @@ import { OrmClub } from './club.entity';
 import { OrmClubToday } from './club_today.entity';
 import { CommonTypeOrm } from './common/common';
 
-@OrmEntity('admin')
+@OrmEntity()
 export class OrmAdmin extends CommonTypeOrm {
   @Column()
   studentId!: number;

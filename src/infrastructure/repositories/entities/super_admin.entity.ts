@@ -1,7 +1,7 @@
 import { Column, Entity as OrmEntity, Unique } from 'typeorm';
 import { CommonTypeOrm } from './common/common';
 
-@OrmEntity('superAdmin')
+@OrmEntity()
 @Unique(['superAdminId'])
 export class OrmSuperAdmin extends CommonTypeOrm {
   @Column()

@@ -3,7 +3,7 @@ import { CommonTypeOrm } from './common/common';
 import { OrmReComment } from './re_comment.entity';
 import { OrmUser } from './user.entity';
 
-@OrmEntity('comment')
+@OrmEntity()
 export class OrmComment extends CommonTypeOrm {
   @Column({ type: 'text' })
   content!: string;

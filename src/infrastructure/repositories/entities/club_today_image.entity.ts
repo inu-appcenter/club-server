@@ -2,7 +2,7 @@ import { Column, Entity as OrmEntity, ManyToOne } from 'typeorm';
 import { OrmClubToday } from './club_today.entity';
 import { CommonTypeOrm } from './common/common';
 
-@OrmEntity('clubTodayImage')
+@OrmEntity()
 export class OrmClubTodayImage extends CommonTypeOrm {
   @Column()
   url!: string;

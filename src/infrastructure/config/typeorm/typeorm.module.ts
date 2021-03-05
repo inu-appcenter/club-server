@@ -37,7 +37,8 @@ export const getTypeOrmModuleOptions = (environmentConfigService: EnvironmentCon
       OrmReComment,
       OrmSuperAdmin,
     ],
-    synchronize: false,
+    logging: false,
+    synchronize: true,
   } as TypeOrmModuleOptions);
 
 export const getTypeOrmMigrationsOptions = (environmentConfigService: EnvironmentConfigService) => ({

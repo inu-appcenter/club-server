@@ -3,7 +3,7 @@ import { OrmClub } from './club.entity';
 import { CommonTypeOrm } from './common/common';
 import { OrmGathering } from './gathering.entity';
 
-@OrmEntity('category')
+@OrmEntity()
 export class OrmCategory extends CommonTypeOrm {
   @Column()
   name!: string;

@@ -4,7 +4,7 @@ import { CommonTypeOrm } from './common/common';
 import { OrmGathering } from './gathering.entity';
 import { OrmReComment } from './re_comment.entity';
 
-@OrmEntity('user')
+@OrmEntity()
 @Unique(['studentId'])
 export class OrmUser extends CommonTypeOrm {
   @Column()
@@ -23,6 +23,6 @@ export class OrmUser extends CommonTypeOrm {
   reComments: OrmReComment[];
 
   @ManyToMany((type) => OrmGathering, (gathering) => gathering.id)
-  @JoinTable({ name: 'participants' })
+  @JoinTable({ name: 'orm_participants' })
   participantsGatherings: OrmGathering[];
 }

@@ -7,7 +7,7 @@ import { OrmUser } from './user.entity';
 /**
  * 실험삼아 임베디드 엔티티를 사용해봄
  */
-@OrmEntity('gathering')
+@OrmEntity()
 export class OrmGathering extends CommonTypeOrm {
   @Column()
   title!: string;
