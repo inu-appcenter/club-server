@@ -1,9 +1,10 @@
+import { OrmAdmin } from '@/infrastructure/repositories/entities/admin.entity';
+import { OrmGathering } from '@/infrastructure/repositories/entities/gathering.entity';
+import { OrmUser } from '@/infrastructure/repositories/entities/user.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { EnvironmentConfigService } from '../../config/config.service';
-import { EnvironmentConfigModule } from '../../config/config.module';
-import { User } from 'src/domain/entity/user.entity';
-import { Admin } from 'src/domain/entity/admin.entity';
+import { EnvironmentConfigModule } from '../environment/env.module';
+import { EnvironmentConfigService } from '../environment/env.service';
 
 export const getTypeOrmModuleOptions = (environmentConfigService: EnvironmentConfigService): TypeOrmModuleOptions =>
   ({
@@ -13,7 +14,7 @@ export const getTypeOrmModuleOptions = (environmentConfigService: EnvironmentCon
     username: environmentConfigService.get('DB_USERNAME'),
     password: environmentConfigService.get('DB_PASSWORD'),
     database: environmentConfigService.get('DB_NAME'),
-    entities: [User, Admin],
+    entities: [OrmAdmin, OrmUser, OrmGathering],
     synchronize: true,
   } as TypeOrmModuleOptions);
 

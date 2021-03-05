@@ -1,7 +1,7 @@
-import * as Joi from '@hapi/joi';
+import Joi from '@hapi/joi';
 import { ValidationResult } from '@hapi/joi';
 import { Injectable } from '@nestjs/common';
-import { EnvironmentConfigError } from './config.error';
+import { EnvironmentConfigError } from './env.err';
 
 export interface EnvironmentConfig {
   [key: string]: string;
