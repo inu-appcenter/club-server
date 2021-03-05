@@ -1,5 +1,8 @@
 export type CommentEntityPayload = {
   id?: number;
-  host: string;
   content: string;
+};
+
+export type EditCommentEntityPayload = {
+  content?: string;
 };

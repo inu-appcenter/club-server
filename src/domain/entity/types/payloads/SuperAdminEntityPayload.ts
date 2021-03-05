@@ -5,3 +5,10 @@ export type SuperAdminEntityPayload = {
   phoneNumber: string;
   password: string;
 };
+
+export type EditSuperAdminEntityPayload = {
+  superAdminId?: string;
+  name?: string;
+  phoneNumber?: string;
+  password?: string;
+};

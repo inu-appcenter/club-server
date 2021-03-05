@@ -4,3 +4,8 @@ export type AdminEntityPayload = {
   name: string;
   phoneNumber: string;
 };
+
+export type EditAdminEntityPayload = {
+  name?: string;
+  phoneNumber?: string;
+};

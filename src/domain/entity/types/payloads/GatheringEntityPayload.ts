@@ -1,9 +1,8 @@
-import { Category } from '../../Category';
+import { Category } from '@/domain/entity/Category';
 import { ParticipationInfo } from '../aliases';
 
 export type GatheringEntityPayload = {
   id?: number;
-  host: string;
   title: string;
   body: string;
   numberOfPersonsJoined: number;
@@ -11,4 +10,15 @@ export type GatheringEntityPayload = {
   participationInfo: ParticipationInfo;
   category: Category;
   isClosed?: boolean;
+  deadline: Date;
+};
+
+export type EditGatheringEntityPayload = {
+  title?: string;
+  body?: string;
+  numberOfPersonsToInvite?: number;
+  participationInfo?: ParticipationInfo;
+  category?: Category;
+  isClosed?: boolean;
+  deadline?: Date;
 };

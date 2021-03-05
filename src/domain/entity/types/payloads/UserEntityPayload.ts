@@ -3,3 +3,7 @@ export type UserEntityPayload = {
   studentId: number;
   nickname: string;
 };
+
+export type EditUserEntityPayload = {
+  nickname?: string;
+};
