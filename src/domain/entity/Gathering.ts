@@ -1,16 +1,13 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsBoolean, IsInt, IsString } from 'class-validator';
+import { IsBoolean, IsDate, IsInt, IsString } from 'class-validator';
 import { Category } from './Category';
 import { ParticipationInfo } from './types/aliases';
-import { GatheringEntityPayload } from './types/payloads/GatheringEntityPayload';
+import { EditGatheringEntityPayload, GatheringEntityPayload } from './types/payloads/GatheringEntityPayload';
 
 /**
  * @description 소모임
  */
 export class Gathering extends Entity {
-  @IsString()
-  private _host: string;
-
   @IsString()
   private _title: string;
 
@@ -27,14 +24,16 @@ export class Gathering extends Entity {
 
   private _category: Category;
 
+  @IsDate()
+  private _deadline: Date;
+
   @IsBoolean()
   private _isClosed: boolean;
 
   constructor(payload: GatheringEntityPayload) {
     super();
-    this.id = payload.id || -1;
+    this._id = payload.id || -1;
 
-    this._host = payload.host;
     this._title = payload.title;
     this._body = payload.body;
     this._numberOfPersonsJoined = payload.numberOfPersonsJoined;
@@ -42,10 +41,7 @@ export class Gathering extends Entity {
     this._participationInfo = payload.participationInfo;
     this._category = payload.category;
     this._isClosed = payload.isClosed || false;
-  }
-
-  public get host() {
-    return this._host;
+    this._deadline = payload.deadline;
   }
 
   public get title() {
@@ -74,5 +70,27 @@ export class Gathering extends Entity {
 
   public get isClosed() {
     return this._isClosed;
+  }
+
+  public get deadline() {
+    return this._deadline;
+  }
+
+  public async edit(payload: EditGatheringEntityPayload): Promise<void> {
+    const { body, category, deadline, isClosed, numberOfPersonsToInvite, participationInfo, title } = payload;
+    if (body) this._body = body;
+    if (category) this._category = category;
+    if (deadline) this._deadline = deadline;
+    if (isClosed) this._isClosed = isClosed;
+    if (numberOfPersonsToInvite) this._numberOfPersonsToInvite = numberOfPersonsToInvite;
+    if (participationInfo) this._participationInfo = participationInfo;
+    if (title) this._title = title;
+    await this.validate();
+  }
+
+  public static async new(payload: GatheringEntityPayload): Promise<Gathering> {
+    const gathering = new Gathering(payload);
+    await gathering.validate();
+    return gathering;
   }
 }

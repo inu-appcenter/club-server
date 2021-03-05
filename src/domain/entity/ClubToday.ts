@@ -1,7 +1,7 @@
 import { Entity } from '@/common/entity/Entity';
 import { IsString } from 'class-validator';
 import { Image } from './types/aliases';
-import { ClubTodayEntityPayload } from './types/payloads/ClubTodayEntityPayload';
+import { ClubTodayEntityPayload, EditClubTodayEntityPayload } from './types/payloads/ClubTodayEntityPayload';
 
 /**
  * @description 클럽 투데이
@@ -17,7 +17,7 @@ export class ClubToday extends Entity {
 
   constructor(payload: ClubTodayEntityPayload) {
     super();
-    this.id = payload.id || -1;
+    this._id = payload.id || -1;
 
     this._headImage = payload.headImage;
     this._title = payload.title;
@@ -34,5 +34,19 @@ export class ClubToday extends Entity {
 
   public get body() {
     return this._body;
+  }
+
+  public async edit(payload: EditClubTodayEntityPayload): Promise<void> {
+    const { body, headImage, title } = payload;
+    if (body) this._body = body;
+    if (headImage) this._headImage = headImage;
+    if (title) this._title = title;
+    await this.validate();
+  }
+
+  public static async new(payload: ClubTodayEntityPayload): Promise<ClubToday> {
+    const clubToday = new ClubToday(payload);
+    await clubToday.validate();
+    return clubToday;
   }
 }

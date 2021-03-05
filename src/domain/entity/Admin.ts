@@ -1,6 +1,6 @@
 import { Entity } from '@/common/entity/Entity';
 import { IsInt, IsMobilePhone, IsString } from 'class-validator';
-import { AdminEntityPayload } from './types/payloads/AdminEntityPayload';
+import { AdminEntityPayload, EditAdminEntityPayload } from './types/payloads/AdminEntityPayload';
 
 /**
  * @description 관리자
@@ -17,7 +17,7 @@ export class Admin extends Entity {
 
   constructor(payload: AdminEntityPayload) {
     super();
-    this.id = payload.id || -1;
+    this._id = payload.id || -1;
 
     this._studentId = payload.studentId;
     this._name = payload.name;
@@ -34,5 +34,18 @@ export class Admin extends Entity {
 
   public get phoneNumber() {
     return this._phoneNumber;
+  }
+
+  public async edit(payload: EditAdminEntityPayload): Promise<void> {
+    const { name, phoneNumber } = payload;
+    if (name) this._name = name;
+    if (phoneNumber) this._phoneNumber = phoneNumber;
+    await this.validate();
+  }
+
+  public static async new(payload: AdminEntityPayload): Promise<Admin> {
+    const admin = new Admin(payload);
+    await admin.validate();
+    return admin;
   }
 }
