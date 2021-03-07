@@ -6,7 +6,7 @@ import { User } from '../entity/User';
 export interface IUserRepository {
   createUser(user: User): Promise<User>;
   getUserById(userId: number): Promise<User>;
-  updateUser(user: User): Promise<User>;
-  removeUserById(userId: number): Promise<any>;
-  requestAdmin(): Promise<any>;
+  updateUser(user: User): Promise<void>;
+  removeUserById(userId: number): Promise<void>;
+  requestAdmin(): Promise<void>;
 }
