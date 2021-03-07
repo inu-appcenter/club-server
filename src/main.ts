@@ -5,7 +5,12 @@ import { createDocument } from './common/swagger/Swagger';
 import { EnvironmentConfigService } from './infrastructure/config/environment/env.service';
 
 async function root() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: {
+      origin: true,
+      preflightContinue: false,
+    },
+  });
   const port: string = app.get(EnvironmentConfigService).get('PORT');
 
   app.setGlobalPrefix('api/v1');

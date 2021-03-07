@@ -1,3 +1,4 @@
+import { RepositoryError } from '@/common/error/RepositoryError';
 import { User } from '@/domain/entity/User';
 import { IUserRepository } from '@/domain/repository/IUserRepository';
 import { Injectable } from '@nestjs/common';
@@ -36,6 +37,8 @@ export class UserRepository implements IUserRepository {
 
   async getUserById(userId: number): Promise<User> {
     const user = await this.ormUserRepository.findOne(userId);
+    if (!user) throw new RepositoryError('없는 유저');
+
     return this.toUser(user);
   }
   updateUser(user: User): Promise<void> {

@@ -7,7 +7,6 @@ import { RequestAdmin } from '@/domain/usecase/user/RequestAdmin';
 import { UpdateUser } from '@/domain/usecase/user/UpdateUser';
 import { UserProvides } from '@/infrastructure/di/providers/provides/user.provide';
 import { Inject, Injectable } from '@nestjs/common';
-import { GetUserDto } from '../dto/user/get.user.dto';
 
 @Injectable()
 export class UserService {
@@ -24,7 +23,7 @@ export class UserService {
     private readonly updateUserProxyService: UseCaseProxy<UpdateUser>,
   ) {}
 
-  async getUser(getUserDto: GetUserDto): Promise<User> {
-    return await this.getUserProxyService.getInstance().execute(getUserDto);
+  async getUser(userId: number): Promise<User> {
+    return await this.getUserProxyService.getInstance().execute({ userId });
   }
 }
