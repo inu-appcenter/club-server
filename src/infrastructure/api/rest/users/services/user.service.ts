@@ -9,7 +9,7 @@ import { UserProvides } from '@/infrastructure/di/providers/provides/user.provid
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
-export class UserService {
+export class UsersService {
   constructor(
     @Inject(UserProvides.GET_USER_PROXY_SERVICE)
     private readonly getUserProxyService: UseCaseProxy<GetUser>,
