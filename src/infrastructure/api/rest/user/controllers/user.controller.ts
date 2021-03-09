@@ -1,4 +1,4 @@
-import { SWAGGER_TAG_USER } from '@/common/swagger/SwaggerTagS';
+import { SWAGGER_TAG_USER } from '@/common/swagger/SwaggerTags';
 import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { UserService } from '../services/user.service';

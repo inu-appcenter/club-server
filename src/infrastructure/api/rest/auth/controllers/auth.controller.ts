@@ -1,4 +1,4 @@
-import { SWAGGER_TAG_AUTH } from '@/common/swagger/SwaggerTagS';
+import { SWAGGER_TAG_AUTH } from '@/common/swagger/SwaggerTags';
 import { Controller, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../services/auth.service';

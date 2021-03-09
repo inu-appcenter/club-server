@@ -1,4 +1,4 @@
-import { SWAGGER_TAG_GATHERING } from '@/common/swagger/SwaggerTagS';
+import { SWAGGER_TAG_GATHERING } from '@/common/swagger/SwaggerTags';
 import { Controller, Delete, Get, Patch, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
