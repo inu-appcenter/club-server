@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ClubTodayService } from './clubtoday.service';
-import { ClubTodayController } from './clubtoday.controller';
+import { ClubTodayService } from './services/clubtoday.service';
+import { ClubTodayController } from './controllers/clubtoday.controller';
 
 @Module({
   providers: [ClubTodayService],

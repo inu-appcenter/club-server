@@ -1,9 +1,10 @@
+import { SWAGGER_TAG_GATHERING_COMMENT } from '@/common/swagger/SwaggerTagS';
 import { Controller, Delete, Get, Patch, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Comment')
+@ApiTags(SWAGGER_TAG_GATHERING_COMMENT.tag)
 @Controller('/gatherings/:gatheringId/comments')
-export class CommentsController {
+export class GatheringCommentController {
   @ApiOperation({ summary: '댓글 등록' })
   @Post()
   createComment() {

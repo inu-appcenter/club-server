@@ -1,9 +1,10 @@
+import { SWAGGER_TAG_GATHERING } from '@/common/swagger/SwaggerTagS';
 import { Controller, Delete, Get, Patch, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Gathering')
+@ApiTags(SWAGGER_TAG_GATHERING.tag)
 @Controller('gatherings')
-export class GatheringsController {
+export class GatheringController {
   @ApiOperation({ summary: '소모임 등록' })
   @Post()
   createGathering() {
