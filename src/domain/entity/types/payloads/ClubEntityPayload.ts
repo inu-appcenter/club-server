@@ -3,7 +3,7 @@ import { ApplicationInfo, Image } from '../aliases';
 
 export type ClubEntityPayload = {
   id?: number;
-  name: string;
+  clubName: string;
   category: Category;
   location: string;
   summary: string;
@@ -13,7 +13,7 @@ export type ClubEntityPayload = {
 };
 
 export type EditClubEntityPayload = {
-  name?: string;
+  clubName?: string;
   category?: Category;
   location?: string;
   summary?: string;

@@ -2,6 +2,7 @@ import { SWAGGER_TAG_ADMIN } from '@/common/swagger/SwaggerTags';
 import { Controller, Get, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+// todo: 투두~
 @ApiTags(SWAGGER_TAG_ADMIN.tag)
 @Controller('admins')
 export class AdminController {
