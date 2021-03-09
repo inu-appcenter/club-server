@@ -1,5 +1,5 @@
 import { Column, Entity as OrmEntity, ManyToOne } from 'typeorm';
-import { OrmClubToday } from './club_today.entity';
+import { OrmClubToday } from './club-today.entity';
 import { CommonTypeOrm } from './common/common';
 
 @OrmEntity()

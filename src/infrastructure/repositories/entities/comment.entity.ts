@@ -1,6 +1,6 @@
 import { Column, Entity as OrmEntity, ManyToOne, OneToMany } from 'typeorm';
 import { CommonTypeOrm } from './common/common';
-import { OrmReComment } from './re_comment.entity';
+import { OrmReComment } from './recomment.entity';
 import { OrmUser } from './user.entity';
 
 @OrmEntity()

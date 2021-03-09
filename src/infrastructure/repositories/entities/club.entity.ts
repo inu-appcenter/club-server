@@ -1,17 +1,14 @@
 import { Column, Entity as OrmEntity, OneToOne, JoinColumn, OneToMany, ManyToOne } from 'typeorm';
 import { OrmAdmin } from './admin.entity';
-import { OrmApplicationInfo } from './application_info.entity';
+import { OrmApplicationInfo } from './application-info.entity';
 import { OrmCategory } from './category.entity';
 import { CommonTypeOrm } from './common/common';
-import { OrmClubImage } from './club_image.entity';
+import { OrmClubImage } from './club-image.entity';
 
 @OrmEntity()
 export class OrmClub extends CommonTypeOrm {
   @Column()
-  name!: string;
-
-  @Column()
-  title!: string;
+  clubName!: string;
 
   @Column()
   location!: string;
@@ -23,6 +20,7 @@ export class OrmClub extends CommonTypeOrm {
   keywords: string;
 
   @OneToOne((type) => OrmAdmin, (admin) => admin.club)
+  @JoinColumn()
   admin: OrmAdmin;
 
   @OneToOne((type) => OrmApplicationInfo)

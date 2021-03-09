@@ -2,7 +2,7 @@ import { Column, Entity as OrmEntity, JoinTable, ManyToMany, OneToMany, Unique }
 import { OrmComment } from './comment.entity';
 import { CommonTypeOrm } from './common/common';
 import { OrmGathering } from './gathering.entity';
-import { OrmReComment } from './re_comment.entity';
+import { OrmReComment } from './recomment.entity';
 
 @OrmEntity()
 @Unique(['studentId'])
