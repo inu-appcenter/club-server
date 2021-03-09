@@ -19,7 +19,7 @@ export class OrmClub extends CommonTypeOrm {
   @Column({ nullable: true })
   keywords: string;
 
-  @OneToOne((type) => OrmAdmin, (admin) => admin.club)
+  @OneToOne((type) => OrmAdmin, (admin) => admin.club, { nullable: true })
   @JoinColumn()
   admin: OrmAdmin;
 
