@@ -10,7 +10,7 @@ import { ClubEntityPayload, EditClubEntityPayload } from './types/payloads/ClubE
  */
 export class Club extends Entity {
   @IsString()
-  private _name: string;
+  private _clubName: string;
 
   private _category: Category;
 
@@ -31,7 +31,7 @@ export class Club extends Entity {
     super();
     this._id = payload.id || -1;
 
-    this._name = payload.name;
+    this._clubName = payload.clubName;
     this._location = payload.location;
     this._category = payload.category;
     this._summary = payload.summary;
@@ -40,8 +40,8 @@ export class Club extends Entity {
     this._keywords = payload.keywords || '';
   }
 
-  public get name() {
-    return this._name;
+  public get clubName() {
+    return this._clubName;
   }
 
   public get location() {
@@ -69,13 +69,13 @@ export class Club extends Entity {
   }
 
   public async edit(payload: EditClubEntityPayload): Promise<void> {
-    const { applicationInfo, category, images, keywords, location, name, summary } = payload;
+    const { applicationInfo, category, images, keywords, location, clubName: name, summary } = payload;
     if (applicationInfo) this._applicationInfo = applicationInfo;
     if (category) this._category = category;
     if (images) this._images = images;
     if (keywords) this._keywords = keywords;
     if (location) this._location = location;
-    if (name) this._name = name;
+    if (name) this._clubName = name;
     if (summary) this._summary = summary;
     await this.validate();
   }
