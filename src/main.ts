@@ -6,13 +6,9 @@ import { EnvironmentConfigService } from './infrastructure/config/environment/en
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    cors: {
-      origin: true,
-      preflightContinue: false,
-    },
-  });
+  const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.enableCors();
   const port: string = app.get(EnvironmentConfigService).get('PORT');
 
   app.setGlobalPrefix('api/v1');
