@@ -14,6 +14,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { EnvironmentConfigModule } from '../environment/env.module';
 import { EnvironmentConfigService } from '../environment/env.service';
+import { OrmDemand } from '@/infrastructure/repositories/entities/demand.entity';
+import { OrmReportComment } from '@/infrastructure/repositories/entities/report-comment.entity';
+import { OrmReportGathering } from '@/infrastructure/repositories/entities/report-gathering.entity';
+import { OrmReportReComment } from '@/infrastructure/repositories/entities/report-recomment.entity';
 
 export const getTypeOrmModuleOptions = (environmentConfigService: EnvironmentConfigService): TypeOrmModuleOptions =>
   ({
@@ -36,6 +40,10 @@ export const getTypeOrmModuleOptions = (environmentConfigService: EnvironmentCon
       OrmComment,
       OrmReComment,
       OrmSuperAdmin,
+      OrmDemand,
+      OrmReportComment,
+      OrmReportGathering,
+      OrmReportReComment,
     ],
     logging: false,
     synchronize: true,

@@ -1,7 +1,8 @@
-import { Column, Entity as OrmEntity, ManyToOne } from 'typeorm';
+import { Column, Entity as OrmEntity, ManyToOne, OneToMany } from 'typeorm';
 import { OrmCategory } from './category.entity';
 import { CommonTypeOrm } from './common/common';
 import { EmParticipationInfo } from './embedded/embedded';
+import { OrmReportGathering } from './report-gathering.entity';
 import { OrmUser } from './user.entity';
 
 /**
@@ -29,4 +30,7 @@ export class OrmGathering extends CommonTypeOrm {
 
   @ManyToOne((type) => OrmCategory, (category) => category.gatherings, { onUpdate: 'CASCADE' })
   category: OrmCategory;
+
+  @OneToMany((_) => OrmReportGathering, (report) => report.gathering, { onDelete: 'CASCADE' })
+  reports: OrmReportGathering[];
 }

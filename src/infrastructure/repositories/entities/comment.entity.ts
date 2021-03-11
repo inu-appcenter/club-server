@@ -1,6 +1,7 @@
 import { Column, Entity as OrmEntity, ManyToOne, OneToMany } from 'typeorm';
 import { CommonTypeOrm } from './common/common';
 import { OrmReComment } from './recomment.entity';
+import { OrmReportComment } from './report-comment.entity';
 import { OrmUser } from './user.entity';
 
 @OrmEntity()
@@ -13,4 +14,7 @@ export class OrmComment extends CommonTypeOrm {
 
   @OneToMany((type) => OrmReComment, (reComment) => reComment.comment)
   reComments: OrmReComment[];
+
+  @OneToMany((_) => OrmReportComment, (report) => report.comment, { onDelete: 'CASCADE' })
+  reports: OrmReportComment[];
 }
