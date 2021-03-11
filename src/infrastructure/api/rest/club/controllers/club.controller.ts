@@ -1,5 +1,6 @@
 import { SWAGGER_TAG_CLUB } from '@/common/swagger/SwaggerTags';
-import { Body, Controller, Delete, Get, Post, Put, Query, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, Query, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateClubDTO } from '../dto/create.club.dto';
 import { UpdateClubDTO } from '../dto/update.club.dto';
