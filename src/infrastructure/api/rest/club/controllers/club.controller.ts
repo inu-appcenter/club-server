@@ -1,47 +1,58 @@
 import { SWAGGER_TAG_CLUB } from '@/common/swagger/SwaggerTags';
-import { Body, Controller, Delete, Get, Post, Put, Query, UseInterceptors, ValidationPipe } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateClubDTO } from '../dto/create.club.dto';
-import { UpdateClubDTO } from '../dto/update.club.dto';
+import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CreateClubDTO } from '../models/dto/create-club.dto';
+import { UpdateClubDTO } from '../models/dto/update-club.dto';
+import { AllClubsRes, ClubRes } from '../models/res/club.res';
+import { CreateClubRes } from '../models/res/create-club.res';
+import { UpdateClubRes } from '../models/res/update-club.res';
 
 @ApiTags(SWAGGER_TAG_CLUB.tag)
 @Controller('clubs')
 export class ClubController {
+  // todo: 생성 시 응답을 어떻게 줄까
   @ApiOperation({ summary: '동아리 생성' })
-  @ApiCreatedResponse({ description: '성공' })
+  @ApiCreatedResponse({ description: '성공', type: CreateClubRes })
+  @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateClubDTO })
+  @UseInterceptors(FilesInterceptor('images'))
   @Post()
-  createClub(@Body(ValidationPipe) createClubDto: CreateClubDTO) {
+  async createClub(@UploadedFiles() images, @Body() createClubDto: CreateClubDTO) {
+    console.log(images);
+    console.log({ ...createClubDto });
     return;
   }
 
   @ApiOperation({ summary: '동아리 모두 조회' })
-  @ApiOkResponse({ description: '성공' })
+  @ApiOkResponse({ description: '성공', type: AllClubsRes })
   @Get()
-  getAllClubs() {
+  async getAllClubs(): Promise<AllClubsRes> {
     return;
   }
 
   @ApiOperation({ summary: '동아리 상세 조회' })
-  @ApiOkResponse({ description: '성공' })
+  @ApiOkResponse({ description: '성공', type: ClubRes })
   @Get(':clubId')
-  getClubById() {
+  async getClubById(@Param('clubId') clubId: number): Promise<ClubRes> {
     return;
   }
 
+  // todo: 동아리를 수정할 때 이미지는 어찌?
+  // todo: 응답은?
   @ApiOperation({ summary: '동아리 수정' })
-  @ApiCreatedResponse({ description: '성공' })
+  @ApiCreatedResponse({ description: '성공', type: UpdateClubRes })
   @ApiBody({ type: UpdateClubDTO })
   @Put(':clubId')
-  updateClubById(@Body(ValidationPipe) createClubDto: UpdateClubDTO) {
+  async updateClubById(@Body() createClubDto: UpdateClubDTO) {
     return;
   }
 
+  // todo: 응답은?
   @ApiOperation({ summary: '동아리 삭제' })
   @ApiOkResponse({ description: '성공' })
   @Delete(':clubId')
-  removeClubById() {
+  async removeClubById(@Param('clubId') clubId: number) {
     return;
   }
 }

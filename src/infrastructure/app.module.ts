@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { LoggerMiddleware } from './api/middlewares/logger.middleware';
 import { RestModule } from './api/rest/rest.module';
 import { EnvironmentConfigModule } from './config/environment/env.module';
 
@@ -10,4 +11,8 @@ import { EnvironmentConfigModule } from './config/environment/env.module';
     RestModule, // api
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}

@@ -1,17 +1,29 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsArray, IsNumber, IsString } from 'class-validator';
 
-export class UpdateClubDTO {
+export class CreateClubDTO {
+  // 이미지들은 유효성 검사를 뺄 것이다~
+  @ApiProperty({
+    type: 'array',
+    description: '동아리 사진들',
+    items: { type: 'file', format: 'binary' },
+  })
+  images: Express.Multer.File[];
+
   @ApiProperty({ type: Number, description: '카테고리 pk', example: 1 })
   @IsNumber()
+  @Type(() => Number)
   categoryId: number;
 
   @ApiProperty({ type: Number, description: '관리자 pk', example: 1 })
   @IsNumber()
+  @Type(() => Number)
   adminId: number;
 
   @ApiProperty({ type: Number, description: '지원 정보 pk', example: 1 })
   @IsNumber()
+  @Type(() => Number)
   applicationInfoId: number;
 
   @ApiProperty({ type: String, description: '동아리 이름', example: '앱센터' })

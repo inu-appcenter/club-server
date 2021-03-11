@@ -14,6 +14,10 @@ import { OrmReComment } from './entities/recomment.entity';
 import { OrmSuperAdmin } from './entities/superadmin.entity';
 import { OrmUser } from './entities/user.entity';
 import { UserRepository } from './user.repository';
+import { OrmDemand } from './entities/demand.entity';
+import { OrmReportComment } from './entities/report-comment.entity';
+import { OrmReportGathering } from './entities/report-gathering.entity';
+import { OrmReportReComment } from './entities/report-recomment.entity';
 
 @Module({
   imports: [
@@ -31,6 +35,10 @@ import { UserRepository } from './user.repository';
       OrmGathering,
       OrmReComment,
       OrmSuperAdmin,
+      OrmDemand,
+      OrmReportComment,
+      OrmReportGathering,
+      OrmReportReComment,
     ]),
   ],
   providers: [UserRepository],

@@ -1,17 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IsNumber, IsString } from 'class-validator';
 
-export class CreateClubDTO {
+export class UpdateClubDTO {
   @ApiProperty({ type: Number, description: '카테고리 pk', example: 1 })
   @IsNumber()
+  @Type(() => Number)
   categoryId: number;
 
   @ApiProperty({ type: Number, description: '관리자 pk', example: 1 })
   @IsNumber()
+  @Type(() => Number)
   adminId: number;
 
   @ApiProperty({ type: Number, description: '지원 정보 pk', example: 1 })
   @IsNumber()
+  @Type(() => Number)
   applicationInfoId: number;
 
   @ApiProperty({ type: String, description: '동아리 이름', example: '앱센터' })
