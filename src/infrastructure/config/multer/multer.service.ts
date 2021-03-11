@@ -22,6 +22,9 @@ export class MulterConfigService implements MulterOptionsFactory {
           cb(null, `${Date.now()}-${file.originalname}`);
         },
       }),
+      limits: {
+        fileSize: 20971520, // 20MB
+      },
     };
   }
 }
