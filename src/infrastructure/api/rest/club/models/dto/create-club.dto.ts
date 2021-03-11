@@ -9,7 +9,7 @@ export class CreateClubDTO {
     description: '동아리 사진들',
     items: { type: 'file', format: 'binary' },
   })
-  images: Express.Multer.File[];
+  images: any[];
 
   @ApiProperty({ type: Number, description: '카테고리 pk', example: 1 })
   @IsNumber()
