@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IsDate, IsNumber, IsString } from 'class-validator';
 
 export class CreateGatheringDTO {
@@ -16,13 +17,16 @@ export class CreateGatheringDTO {
 
   @ApiProperty({ type: Number, description: '모집 인원', example: 4 })
   @IsNumber()
+  @Type(() => Number)
   numberOfPersonsToInvite: number;
 
   @ApiProperty({ type: Date, description: '모집 마감일', example: '2021.12.10' })
   @IsDate()
+  @Type(() => Date)
   deadline: Date;
 
   @ApiProperty({ type: Number, description: '카테고리 pk', example: 1 })
   @IsNumber()
+  @Type(() => Number)
   categoryId: number;
 }
