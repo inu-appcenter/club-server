@@ -7,6 +7,6 @@ export class OrmClubImage extends CommonTypeOrm {
   @Column()
   url!: string;
 
-  @ManyToOne((type) => OrmClub, (club) => club.images)
+  @ManyToOne((type) => OrmClub, (club) => club.images, { onDelete: 'CASCADE' })
   club: OrmClub;
 }

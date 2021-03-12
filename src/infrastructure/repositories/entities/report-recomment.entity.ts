@@ -5,6 +5,6 @@ import { Entity as OrmEntity } from 'typeorm';
 
 @OrmEntity()
 export class OrmReportReComment extends CommonTypeOrm {
-  @ManyToOne((_) => OrmReComment, (reComment) => reComment.reports, { onDelete: 'CASCADE' })
+  @ManyToOne((_) => OrmReComment, (reComment) => reComment.reports, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   reComment: OrmReComment;
 }
