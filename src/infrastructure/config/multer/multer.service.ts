@@ -8,7 +8,7 @@ import { existsSync, mkdirSync } from 'fs';
 export class MulterConfigService implements MulterOptionsFactory {
   createMulterOptions(): MulterModuleOptions {
     return {
-      fileFilter: (req: any, file: any, cb: any) => {
+      fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
         if (file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) cb(null, true);
         else cb(new Error(`Unsupported file type ${extname(file.originalname)}`), false);
       },

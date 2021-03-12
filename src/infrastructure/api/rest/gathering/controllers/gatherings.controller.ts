@@ -1,8 +1,10 @@
 import { SWAGGER_TAG_GATHERING } from '@/common/swagger/SwaggerTags';
-import { Body, Controller, Delete, Get, Patch, Post, Put, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateGatheringDTO } from '../dto/create.gathering.dto';
-import { UpdateGatheringDTO } from '../dto/update.gathering.dto';
+import { CreateGatheringDTO } from '../models/dto/create-gathering.dto';
+import { UpdateGatheringDTO } from '../models/dto/update-gathering.dto';
+import { AllGatheringsRes } from '../models/res/all-gathering.res';
+import { GatheringRes } from '../models/res/gathering.res';
 
 @ApiTags(SWAGGER_TAG_GATHERING.tag)
 @Controller('gatherings')
@@ -11,23 +13,23 @@ export class GatheringController {
   @ApiCreatedResponse({ description: '성공' })
   @ApiBody({ type: CreateGatheringDTO })
   @Post()
-  createGathering(@Body(ValidationPipe) createGatheringDto: CreateGatheringDTO) {
+  async createGathering(@Body() createGatheringDto: CreateGatheringDTO) {
     return;
   }
 
   // todo: 정렬 -> 최신순, 마감 임박순
   // todo: 카테고리 -> 다중 선택
   @ApiOperation({ summary: '모집 중인 소모임 조회' })
-  @ApiOkResponse({ description: '성공' })
+  @ApiOkResponse({ description: '성공', type: AllGatheringsRes })
   @Get()
-  getGatherings() {
+  async getGatherings(): Promise<AllGatheringsRes> {
     return;
   }
 
   @ApiOperation({ summary: '소모임 상세 조회' })
-  @ApiOkResponse({ description: '성공' })
+  @ApiOkResponse({ description: '성공', type: GatheringRes })
   @Get(':gatheringId')
-  getGatheringById() {
+  async getGatheringById(@Param('gatheringId') gatheringId: number): Promise<GatheringRes> {
     return;
   }
 
@@ -35,28 +37,28 @@ export class GatheringController {
   @ApiOkResponse({ description: '성공' })
   @ApiBody({ type: UpdateGatheringDTO })
   @Put(':gatheringId')
-  updateGatheringById(@Body(ValidationPipe) updateGatheringDto: UpdateGatheringDTO) {
+  async updateGatheringById(@Param('gatheringId') gatheringId: number, @Body() updateGatheringDto: UpdateGatheringDTO) {
     return;
   }
 
   @ApiOperation({ summary: '소모임 강제 마감' })
   @ApiOkResponse({ description: '성공' })
   @Patch(':gatheringId')
-  closeGatheringById() {
+  async closeGatheringById(@Param('gatheringId') gatheringId: number) {
     return;
   }
 
   @ApiOperation({ summary: '소모임 삭제' })
   @ApiOkResponse({ description: '성공' })
   @Delete(':gatheringId')
-  removeGatheringById() {
+  async removeGatheringById(@Param('gatheringId') gatheringId: number) {
     return;
   }
 
   @ApiOperation({ summary: '소모임 신고' })
   @ApiOkResponse({ description: '성공' })
   @Post(':gatheringId/report')
-  reportGathering() {
+  async reportGathering() {
     return;
   }
 }

@@ -1,8 +1,8 @@
 import { SWAGGER_TAG_GATHERING_RECOMMENT } from '@/common/swagger/SwaggerTags';
-import { Body, Controller, Delete, Post, Put, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateReCommentDTO } from '../dto/create.recomment.dto';
-import { UpdateReCommentDTO } from '../dto/update.recomment.dto';
+import { CreateReCommentDTO } from '../models/dto/create-recomment.dto';
+import { UpdateReCommentDTO } from '../models/dto/update-recomment.dto';
 
 @ApiTags(SWAGGER_TAG_GATHERING_RECOMMENT.tag)
 @Controller('/gatherings/:gatheringId/comments/:commentId/recomments')
@@ -11,7 +11,11 @@ export class GatheringReCommentController {
   @ApiCreatedResponse({ description: '성공' })
   @ApiBody({ type: CreateReCommentDTO })
   @Post()
-  createComment(@Body(ValidationPipe) createReCommentDto: CreateReCommentDTO) {
+  createComment(
+    @Param('gatheringId') gatheringId: number,
+    @Param('commentId') commentId: number,
+    @Body() createReCommentDto: CreateReCommentDTO,
+  ) {
     return;
   }
 
@@ -19,21 +23,34 @@ export class GatheringReCommentController {
   @ApiOkResponse({ description: '성공' })
   @ApiBody({ type: UpdateReCommentDTO })
   @Put(':reCommentId')
-  updateCommentById(@Body(ValidationPipe) updateReCommentDto: UpdateReCommentDTO) {
+  updateCommentById(
+    @Param('gatheringId') gatheringId: number,
+    @Param('commentId') commentId: number,
+    @Param('reCommentId') reCommentId: number,
+    @Body() updateReCommentDto: UpdateReCommentDTO,
+  ) {
     return;
   }
 
-  @ApiOperation({ summary: '댓글 삭제' })
+  @ApiOperation({ summary: '대댓글 삭제' })
   @ApiOkResponse({ description: '성공' })
   @Delete(':reCommentId')
-  removeCommentById() {
+  removeCommentById(
+    @Param('gatheringId') gatheringId: number,
+    @Param('commentId') commentId: number,
+    @Param('reCommentId') reCommentId: number,
+  ) {
     return;
   }
 
-  @ApiOperation({ summary: '댓글 신고' })
+  @ApiOperation({ summary: '대댓글 신고' })
   @ApiOkResponse({ description: '성공' })
   @Post(':reCommentId/report')
-  reportComment() {
+  reportComment(
+    @Param('gatheringId') gatheringId: number,
+    @Param('commentId') commentId: number,
+    @Param('reCommentId') reCommentId: number,
+  ) {
     return;
   }
 }
