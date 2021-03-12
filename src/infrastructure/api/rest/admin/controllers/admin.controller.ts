@@ -11,9 +11,9 @@ import { DemandAdminRes } from '../models/res/demand-admin.res';
 export class AdminController {
   @ApiOperation({ summary: '관리자 등록 요청' })
   @ApiBody({ type: DemandAdminDTO })
-  @ApiCreatedResponse({ description: '성공', type: DemandAdminRes })
+  @ApiCreatedResponse({ description: '성공' })
   @Post('demand')
-  async demandToAdmin(@Body() demandAdminDto: DemandAdminDTO): Promise<DemandAdminRes> {
+  async demandToAdmin(@Body() demandAdminDto: DemandAdminDTO) {
     return;
   }
 
@@ -29,14 +29,6 @@ export class AdminController {
   @ApiOkResponse({ description: '성공', type: AdminRes })
   @Put(':adminId')
   async updateAdminById(@Param('adminId') adminId: number): Promise<AdminRes> {
-    return;
-  }
-
-  // todo
-  @ApiOperation({ summary: '관리자 클럽투데이 조회' })
-  @ApiOkResponse({ description: '성공' })
-  @Get(':adminId/clubtoday')
-  async getClubTodayByAdminId(@Param('adminId') adminId: number) {
     return;
   }
 

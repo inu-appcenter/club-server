@@ -5,5 +5,5 @@ import { IsString } from 'class-validator';
 export class UpdateClubTodayDTO {
   @ApiProperty({ type: String, description: 'html 코드', example: '<h1>프론트랑 논의가 필요해</h1>' })
   @IsString()
-  html: string;
+  body: string;
 }
