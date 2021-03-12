@@ -15,6 +15,6 @@ export class OrmReComment extends CommonTypeOrm {
   @ManyToOne((type) => OrmComment, (comment) => comment.reComments, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   comment: OrmComment;
 
-  @OneToMany((_) => OrmReportReComment, (report) => report.reComment, { onDelete: 'CASCADE' })
+  @OneToMany((_) => OrmReportReComment, (report) => report.reComment, { cascade: true })
   reports: OrmReportReComment[];
 }

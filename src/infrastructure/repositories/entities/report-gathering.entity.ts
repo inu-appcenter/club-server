@@ -5,6 +5,6 @@ import { Entity as OrmEntity } from 'typeorm';
 
 @OrmEntity()
 export class OrmReportGathering extends CommonTypeOrm {
-  @ManyToOne((_) => OrmGathering, (gathering) => gathering.reports, { onDelete: 'CASCADE' })
+  @ManyToOne((_) => OrmGathering, (gathering) => gathering.reports, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   gathering: OrmGathering;
 }
