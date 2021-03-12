@@ -11,14 +11,14 @@ export class ClubTodayController {
   @ApiOperation({ summary: '클럽투데이 모두 조회' })
   @ApiOkResponse({ description: '성공' })
   @Get()
-  getAllClubToday() {
+  async getAllClubToday() {
     return;
   }
 
   @ApiOperation({ summary: '클럽투데이 상세 조회' })
   @ApiOkResponse({ description: '성공' })
   @Get(':clubTodayId')
-  getClubTodayById() {
+  async getClubTodayById() {
     return;
   }
 
@@ -26,7 +26,7 @@ export class ClubTodayController {
   @ApiCreatedResponse({ description: '성공' })
   @ApiBody({ type: CreateClubTodayDTO })
   @Post()
-  createClubToday(@Body(ValidationPipe) createClubTodayDto: CreateClubTodayDTO) {
+  async createClubToday(@Body(ValidationPipe) createClubTodayDto: CreateClubTodayDTO) {
     return;
   }
 
@@ -34,14 +34,14 @@ export class ClubTodayController {
   @ApiCreatedResponse({ description: '성공' })
   @ApiBody({ type: UpdateClubTodayDTO })
   @Put(':clubTodayId')
-  updateClubDayById(@Body(ValidationPipe) updateClubTodayDto: UpdateClubTodayDTO) {
+  async updateClubDayById(@Body(ValidationPipe) updateClubTodayDto: UpdateClubTodayDTO) {
     return;
   }
 
   @ApiOperation({ summary: '클럽투데이 삭제' })
   @ApiOkResponse({ description: '성공' })
   @Delete(':clubTodayId')
-  removeClubTodayById() {
+  async removeClubTodayById() {
     return;
   }
 }
