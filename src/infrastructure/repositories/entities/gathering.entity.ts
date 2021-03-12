@@ -31,6 +31,6 @@ export class OrmGathering extends CommonTypeOrm {
   @ManyToOne((type) => OrmCategory, (category) => category.gatherings, { onUpdate: 'CASCADE' })
   category: OrmCategory;
 
-  @OneToMany((_) => OrmReportGathering, (report) => report.gathering, { onDelete: 'CASCADE' })
+  @OneToMany((_) => OrmReportGathering, (report) => report.gathering, { cascade: true })
   reports: OrmReportGathering[];
 }

@@ -4,6 +4,7 @@ import { OrmApplicationInfo } from './application-info.entity';
 import { OrmCategory } from './category.entity';
 import { CommonTypeOrm } from './common/common';
 import { OrmClubImage } from './club-image.entity';
+import { OrmClubToday } from './club-today.entity';
 
 @OrmEntity()
 export class OrmClub extends CommonTypeOrm {
@@ -23,13 +24,16 @@ export class OrmClub extends CommonTypeOrm {
   @JoinColumn()
   admin: OrmAdmin;
 
-  @OneToOne((type) => OrmApplicationInfo)
+  @OneToOne((type) => OrmApplicationInfo, { cascade: true })
   @JoinColumn()
   applicationInfo: OrmApplicationInfo;
 
   @ManyToOne((type) => OrmCategory, (category) => category.clubs)
   category: OrmCategory;
 
-  @OneToMany((type) => OrmClubImage, (image) => image.club)
+  @OneToMany((type) => OrmClubImage, (image) => image.club, { cascade: true })
   images: OrmClubImage[];
+
+  @OneToMany((type) => OrmClubToday, (clubToday) => clubToday.club, { cascade: true })
+  clubTodays: OrmClubToday[];
 }

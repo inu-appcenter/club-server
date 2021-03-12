@@ -13,16 +13,16 @@ export class OrmUser extends CommonTypeOrm {
   @Column()
   nickname!: string;
 
-  @OneToMany((type) => OrmGathering, (gathering) => gathering.user)
+  @OneToMany((type) => OrmGathering, (gathering) => gathering.user, { cascade: true })
   gatherings: OrmGathering[];
 
-  @OneToMany((type) => OrmComment, (comment) => comment.user)
+  @OneToMany((type) => OrmComment, (comment) => comment.user, { cascade: true })
   comments: OrmComment[];
 
-  @OneToMany((type) => OrmReComment, (reComment) => reComment.user)
+  @OneToMany((type) => OrmReComment, (reComment) => reComment.user, { cascade: true })
   reComments: OrmReComment[];
 
-  @ManyToMany((type) => OrmGathering, (gathering) => gathering.id)
+  @ManyToMany((type) => OrmGathering, (gathering) => gathering.id, { cascade: true })
   @JoinTable({ name: 'orm_participants' })
   participantsGatherings: OrmGathering[];
 }
