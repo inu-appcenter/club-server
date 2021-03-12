@@ -22,6 +22,9 @@ export class OrmGathering extends CommonTypeOrm {
   @Column()
   numberOfPersonsToInvite!: number;
 
+  @Column({ type: 'date' })
+  deadline: Date;
+
   @Column((_) => EmParticipationInfo)
   participation!: EmParticipationInfo;
 
