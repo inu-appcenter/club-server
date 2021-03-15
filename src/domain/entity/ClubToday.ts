@@ -5,6 +5,7 @@ import { ClubTodayEntityPayload, EditClubTodayEntityPayload } from './types/payl
 
 /**
  * @description 클럽 투데이
+ * todo: headImage는 최상단 이미지로?
  */
 export class ClubToday extends Entity {
   private _headImage: Image;
