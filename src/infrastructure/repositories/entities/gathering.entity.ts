@@ -1,3 +1,4 @@
+import { boolean } from '@hapi/joi';
 import { Column, Entity as OrmEntity, ManyToOne, OneToMany } from 'typeorm';
 import { OrmCategory } from './category.entity';
 import { CommonTypeOrm } from './common/common';
@@ -24,6 +25,9 @@ export class OrmGathering extends CommonTypeOrm {
 
   @Column({ type: 'date' })
   deadline: Date;
+
+  @Column({ type: 'boolean', default: false })
+  isClosed: boolean;
 
   @Column((_) => EmParticipationInfo)
   participation!: EmParticipationInfo;

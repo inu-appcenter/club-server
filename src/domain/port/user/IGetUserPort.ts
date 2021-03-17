@@ -1,3 +1,3 @@
 export interface IGetUserPort {
-  userId: number;
+  id: number;
 }

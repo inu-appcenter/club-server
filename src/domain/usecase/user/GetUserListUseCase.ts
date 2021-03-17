@@ -1,12 +1,10 @@
 import { IUseCase } from '@/common/usecase/IUseCase';
 import { User } from '../../entity/User';
 import { IUserRepository } from '../../repository/IUserRepository';
-import { IGetUserPort } from '../../port/user/IGetUserPort';
 
-export class GetUser implements IUseCase<IGetUserPort, User> {
+export class GetUserListUseCase implements IUseCase<any, User[]> {
   constructor(private readonly userRepository: IUserRepository) {}
-
-  async execute(port?: IGetUserPort): Promise<User> {
-    return this.userRepository.getUserById(port.userId);
+  async execute(port?: any): Promise<User[]> {
+    return this.userRepository.getUsers();
   }
 }

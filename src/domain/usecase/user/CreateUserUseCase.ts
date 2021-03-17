@@ -3,7 +3,7 @@ import { User } from '@/domain/entity/User';
 import { IUserRepository } from '@/domain/repository/IUserRepository';
 import { ICreateUserPort } from '../../port/user/ICreateUserPort';
 
-export class CreateUser implements IUseCase<ICreateUserPort, User> {
+export class CreateUserUseCase implements IUseCase<ICreateUserPort, User> {
   constructor(private readonly userRepository: IUserRepository) {}
 
   async execute(port?: ICreateUserPort): Promise<User> {
