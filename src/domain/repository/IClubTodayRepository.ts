@@ -11,9 +11,10 @@ export interface IClubTodayRepository {
   /**
    * todo: offset, limit
    * 특정 동아리의 클럽투데이 모두 조회
+   * @param clubId 클럽 pk
    * @description 특정 동아리의 클럽투데이 모두 조회
    */
-  getClubTodayListByClubId(): Promise<ClubToday[]>;
+  getClubTodayListByClubId(clubId: number): Promise<ClubToday[]>;
 
   /**
    * 클럽투데이 상세 조회

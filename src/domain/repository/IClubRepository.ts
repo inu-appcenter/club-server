@@ -20,7 +20,7 @@ export interface IClubRepository {
    * 동아리 모두 조회
    * @description 동아리 모두 조회
    */
-  getAllClubs(): Promise<Club[]>;
+  getClubs(): Promise<Club[]>;
 
   /**
    * 카테고리별 동아리 조회
@@ -37,7 +37,7 @@ export interface IClubRepository {
   getClubsByKeyword(keyword: string): Promise<Club[]>;
 
   /**
-   * todo
+   * todo: 동아리 수정 시 이미지는 어떻게?
    * 동아리 수정
    * @param club 클럽 엔티티
    * @description 동아리 정보를 모두 수정
@@ -54,7 +54,7 @@ export interface IClubRepository {
   removeClubById(clubId: number): Promise<void>;
 
   /**
-   * todo
+   * todo: 동아리 추천 (나는 보류)
    */
   recommendClubs(): Promise<void>;
 }

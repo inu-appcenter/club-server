@@ -9,6 +9,13 @@ export interface IUserRepository {
   createUser(user: User): Promise<User>;
 
   /**
+   * todo: offset, limit
+   * 사용자 모두 조회
+   * @description 사용자 모두 조회
+   */
+  getUsers(): Promise<User[]>;
+
+  /**
    * 사용자 조회
    * @param userId 유저 pk
    * @description pk값으로 특정 사용자 조회
