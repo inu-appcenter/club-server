@@ -1,11 +1,12 @@
 import { IUseCase } from '@/common/usecase/IUseCase';
 import { Club } from '@/domain/entity/Club';
-import { IGetAllClubs } from '@/domain/port/club/IGetAllClubs';
+import { IGetClubPort } from '@/domain/port/club/IGetClubPort';
 import { IClubRepository } from '@/domain/repository/IClubRepository';
 
-export class GetAllClubs implements IUseCase<IGetAllClubs, Club[]> {
+export class GetClubUseCase implements IUseCase<IGetClubPort, Club> {
   constructor(private readonly clubRepository: IClubRepository) {}
-  async execute(port?: IGetAllClubs): Promise<Club[]> {
-    return this.clubRepository.getAllClubs();
+
+  execute(port?: IGetClubPort): Promise<Club> {
+    return this.clubRepository.getClubById(port.id);
   }
 }
