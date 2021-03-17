@@ -19,10 +19,24 @@ export class UserRepository implements IUserRepository {
   private toOrmUser(user: User): OrmUser {
     const ormUser = new OrmUser();
     const { id, nickname, studentId } = user;
-    ormUser.id = id;
+    if (id != -1) ormUser.id = id;
     ormUser.nickname = nickname;
     ormUser.studentId = studentId;
     return ormUser;
+  }
+
+  /**
+   * todo: offset, limit
+   */
+  async getUsers(): Promise<User[]> {
+    const ormUsers = await this.ormUserRepository.find({ select: ['id', 'nickname', 'studentId'] });
+    return ormUsers.map((ormUser) => this.toUser(ormUser));
+  }
+
+  // * save 메서드가 생성과 수정 모두 해준다. 나중에 통합 시킬지 고민
+  async updateUserById(user: User): Promise<void> {
+    const ormUser = this.toOrmUser(user);
+    await this.ormUserRepository.save(ormUser, { transaction: false });
   }
 
   async createUser(user: User): Promise<User> {
@@ -31,6 +45,7 @@ export class UserRepository implements IUserRepository {
     return this.toUser(saved);
   }
 
+  // todo: 괸리자 요청
   requestAdmin(): Promise<any> {
     throw new Error('Method not implemented.');
   }
@@ -41,10 +56,9 @@ export class UserRepository implements IUserRepository {
 
     return this.toUser(user);
   }
-  updateUser(user: User): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
+
   removeUserById(userId: number): Promise<void> {
-    throw new Error('Method not implemented.');
+    this.ormUserRepository.delete({ id: userId });
+    return;
   }
 }
