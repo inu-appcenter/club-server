@@ -25,4 +25,13 @@ export class ClubTodayRes {
   @ApiProperty({ type: String, description: '동아리 이름', example: '앱센터' })
   @IsString()
   clubName: string;
+
+  constructor(id, title, headerImage, body, clubId, clubName) {
+    this.id = id;
+    this.title = title;
+    this.headerImage = headerImage;
+    this.body = body;
+    this.clubId = clubId;
+    this.clubName = clubName;
+  }
 }

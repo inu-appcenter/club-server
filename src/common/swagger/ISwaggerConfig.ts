@@ -10,3 +10,8 @@ export interface ISwaggerConfig {
   tags: ITagType[];
   basePath: string;
 }
+
+export interface ISwaggerTag {
+  tag: string;
+  desc: string;
+}

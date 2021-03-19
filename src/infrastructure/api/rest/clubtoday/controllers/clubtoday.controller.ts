@@ -3,18 +3,31 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateClubTodayDTO } from '../models/dto/create-clubtoday.dto';
 import { UpdateClubTodayDTO } from '../models/dto/update-clubtoday.dto';
-import { AllClubTodayRes } from '../models/res/all-clubtoday.res';
 import { ClubTodayRes } from '../models/res/clubtoday.res';
+import { ClubTodayService } from '../services/clubtoday.service';
 
 @ApiTags(SWAGGER_TAG_CLUBTODAY.tag)
 @Controller('clubs/:clubId/clubtoday')
 export class ClubTodayController {
+  constructor(private readonly clubTodayService: ClubTodayService) {}
+
   // todo: offset, limit
   @ApiOperation({ summary: '해당 동아리의 클럽투데이 모두 조회' })
-  @ApiOkResponse({ description: '성공', type: AllClubTodayRes })
+  @ApiOkResponse({ description: '성공', isArray: true, type: ClubTodayRes })
   @Get()
   async getAllClubTodayByClubId(@Param('clubId') clubId: number) {
-    return;
+    try {
+      const [clubTodayList, clubName] = await Promise.all([
+        this.clubTodayService.getClubTodayListByClubId(clubId),
+        this.clubTodayService.getClubNameByClubId(clubId),
+      ]);
+      return clubTodayList.map(
+        (clubToday) =>
+          new ClubTodayRes(clubToday.id, clubToday.title, clubToday.headImage.url, clubToday.body, clubId, clubName),
+      );
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   @ApiOperation({ summary: '클럽투데이 상세 조회' })
