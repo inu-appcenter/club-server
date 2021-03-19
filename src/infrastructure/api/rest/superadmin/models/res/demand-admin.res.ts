@@ -9,4 +9,11 @@ export class DemandAdminRes {
   name: string;
   @ApiProperty({ type: String, description: '휴대폰 번호', example: '010-0000-0000' })
   phoneNumber: string;
+
+  constructor(id: number, studentId: number, name: string, phoneNumber: string) {
+    this.id = id;
+    this.studentId = studentId;
+    this.name = name;
+    this.phoneNumber = phoneNumber;
+  }
 }
