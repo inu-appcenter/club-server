@@ -3,6 +3,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFiles, UseInte
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AllClubTodayRes } from '../../clubtoday/models/res/all-clubtoday.res';
+import { ClubTodayRes } from '../../clubtoday/models/res/clubtoday.res';
 import { CreateClubDTO } from '../models/dto/create-club.dto';
 import { UpdateClubDTO } from '../models/dto/update-club.dto';
 import { AllClubsRes, ClubRes } from '../models/res/club.res';
@@ -61,7 +62,7 @@ export class ClubController {
 
   // todo: offset, limit
   @ApiOperation({ summary: '클럽투데이 모두 조회' })
-  @ApiOkResponse({ description: '성공', type: AllClubTodayRes })
+  @ApiOkResponse({ description: '성공', isArray: true, type: ClubTodayRes })
   @Get('clubtoday/all')
   async getAllClubToday() {
     return;
