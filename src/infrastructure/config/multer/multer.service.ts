@@ -3,6 +3,7 @@ import { MulterModuleOptions, MulterOptionsFactory } from '@nestjs/platform-expr
 import { extname } from 'path';
 import { diskStorage } from 'multer';
 import { existsSync, mkdirSync } from 'fs';
+import { v4 } from 'uuid';
 
 @Injectable()
 export class MulterConfigService implements MulterOptionsFactory {
@@ -19,7 +20,8 @@ export class MulterConfigService implements MulterOptionsFactory {
           cb(null, uploadPath);
         },
         filename: (req: any, file: any, cb: any) => {
-          cb(null, `${Date.now()}-${file.originalname}`);
+          const extension = file.mimetype.split('/')[1];
+          cb(null, `${v4()}.${extension}`);
         },
       }),
       limits: {
