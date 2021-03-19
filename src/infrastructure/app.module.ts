@@ -12,7 +12,7 @@ import { EnvironmentConfigModule } from './config/environment/env.module';
     EnvironmentConfigModule, // 환경 변수 설정
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', '..', 'uploads'),
-    }),
+    }), // 정적 컨텐츠 제공
     RestModule, // api
   ],
 })
