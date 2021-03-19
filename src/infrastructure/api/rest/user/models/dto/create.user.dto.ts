@@ -1,8 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { UserDTO } from './user.dto';
 
-export class CreateUserDTO {
-  @ApiProperty({ type: String, description: '닉네임', example: '인천대 1짱' })
-  @IsString()
-  nickname: string;
-}
+export class CreateUserDTO extends UserDTO {}
