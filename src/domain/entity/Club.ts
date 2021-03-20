@@ -1,7 +1,7 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsString } from 'class-validator';
+import { IsArray, IsString } from 'class-validator';
 import { Category } from './Category';
-import { ApplicationInfo, Image } from './types/aliases';
+import { ApplicationInfo } from './types/aliases';
 import { ClubEntityPayload, EditClubEntityPayload } from './types/payloads/ClubEntityPayload';
 
 /**
@@ -20,7 +20,8 @@ export class Club extends Entity {
   @IsString()
   private _summary: string;
 
-  private _images: Image[];
+  @IsArray()
+  private _images: string[];
 
   private _applicationInfo: ApplicationInfo;
 
@@ -69,13 +70,13 @@ export class Club extends Entity {
   }
 
   public async edit(payload: EditClubEntityPayload): Promise<void> {
-    const { applicationInfo, category, images, keywords, location, clubName: name, summary } = payload;
+    const { applicationInfo, category, images, keywords, location, clubName, summary } = payload;
     if (applicationInfo) this._applicationInfo = applicationInfo;
     if (category) this._category = category;
     if (images) this._images = images;
     if (keywords) this._keywords = keywords;
     if (location) this._location = location;
-    if (name) this._clubName = name;
+    if (clubName) this._clubName = clubName;
     if (summary) this._summary = summary;
     await this.validate();
   }

@@ -1,14 +1,12 @@
-import { Image } from '../aliases';
-
 export type ClubTodayEntityPayload = {
   id?: number;
-  headImage: Image;
+  headerImage: string;
   title: string;
   body: string;
 };
 
 export type EditClubTodayEntityPayload = {
-  headImage?: Image;
+  headerImage?: string;
   title?: string;
   body?: string;
 };

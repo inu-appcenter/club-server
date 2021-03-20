@@ -1,14 +1,14 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsString } from 'class-validator';
-import { Image } from './types/aliases';
+import { IsArray, IsString } from 'class-validator';
 import { ClubTodayEntityPayload, EditClubTodayEntityPayload } from './types/payloads/ClubTodayEntityPayload';
 
 /**
  * @description 클럽 투데이
- * todo: headImage는 최상단 이미지로?
+ * todo: headerImage는 최상단 이미지로?
  */
 export class ClubToday extends Entity {
-  private _headImage: Image;
+  @IsString()
+  private _headerImage: string;
 
   @IsString()
   private _title: string;
@@ -19,14 +19,13 @@ export class ClubToday extends Entity {
   constructor(payload: ClubTodayEntityPayload) {
     super();
     this._id = payload.id || -1;
-
-    this._headImage = payload.headImage;
+    this._headerImage = payload.headerImage;
     this._title = payload.title;
     this._body = payload.body;
   }
 
-  public get headImage() {
-    return this._headImage;
+  public get headerImage() {
+    return this._headerImage;
   }
 
   public get title() {
@@ -38,9 +37,9 @@ export class ClubToday extends Entity {
   }
 
   public async edit(payload: EditClubTodayEntityPayload): Promise<void> {
-    const { body, headImage, title } = payload;
+    const { body, headerImage, title } = payload;
     if (body) this._body = body;
-    if (headImage) this._headImage = headImage;
+    if (headerImage) this._headerImage = headerImage;
     if (title) this._title = title;
     await this.validate();
   }

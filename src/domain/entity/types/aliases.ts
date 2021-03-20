@@ -3,10 +3,6 @@ export type ApplicationInfo = {
   websiteUrl?: string;
 };
 
-export type Image = {
-  url: string;
-};
-
 export type ParticipationInfo = {
   openChatUrl: string;
 };
