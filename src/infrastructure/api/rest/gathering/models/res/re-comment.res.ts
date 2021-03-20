@@ -2,13 +2,13 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNumber, IsString } from 'class-validator';
 
-export class CommentRes {
-  @ApiProperty({ type: Number, description: '댓글 pk', example: 1 })
+export class ReCommentRes {
+  @ApiProperty({ type: Number, description: '대댓글 pk', example: 1 })
   @IsNumber()
   @Type(() => Number)
   id: number;
 
-  @ApiProperty({ type: String, description: '댓글 내용', example: '참여하겠습니다~' })
+  @ApiProperty({ type: String, description: '대댓글 내용', example: '참여 감사합니다~' })
   @IsString()
   content: string;
 

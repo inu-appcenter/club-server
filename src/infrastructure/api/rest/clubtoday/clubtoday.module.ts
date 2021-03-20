@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ClubTodayService } from './services/clubtoday.service';
-import { ClubTodayController } from './controllers/clubtoday.controller';
+import { ClubClubTodayController } from './controllers/club-clubtoday.controller';
 import { ClubTodayServiceModule } from '@/infrastructure/di/injections/clubtoday.services.module';
+import { ClubTodayController } from './controllers/clubtoday.controller';
 
 @Module({
   imports: [ClubTodayServiceModule.register()],
   providers: [ClubTodayService],
-  controllers: [ClubTodayController],
+  controllers: [ClubClubTodayController, ClubTodayController],
 })
 export class ClubTodayModule {}

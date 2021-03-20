@@ -3,7 +3,6 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/
 import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateGatheringDTO } from '../models/dto/create-gathering.dto';
 import { UpdateGatheringDTO } from '../models/dto/update-gathering.dto';
-import { AllGatheringsRes } from '../models/res/all-gathering.res';
 import { GatheringRes } from '../models/res/gathering.res';
 
 @ApiTags(SWAGGER_TAG_GATHERING.tag)
@@ -17,8 +16,6 @@ export class GatheringController {
     return;
   }
 
-  // todo: 정렬 -> 최신순, 마감 임박순
-  // todo: 카테고리 -> 다중 선택
   @ApiOperation({ summary: '모집 중인 소모임 조회' })
   @ApiOkResponse({ description: '성공', isArray: true, type: GatheringRes })
   @Get()
@@ -33,7 +30,7 @@ export class GatheringController {
     return;
   }
 
-  @ApiOperation({ summary: '참여한 소모임들' })
+  @ApiOperation({ summary: '참여한 소모임들 조회' })
   @ApiOkResponse({ description: '성공', isArray: true, type: GatheringRes })
   @Get('participation')
   async GetAllMyGatherings(): Promise<GatheringRes[]> {

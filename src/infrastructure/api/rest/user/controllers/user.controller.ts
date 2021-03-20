@@ -1,8 +1,8 @@
 import { SWAGGER_TAG_USER } from '@/common/swagger/SwaggerTags';
 import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateUserDTO } from '../models/dto/create.user.dto';
-import { UpdateUserDTO } from '../models/dto/update.user.dto';
+import { CreateUserDTO } from '../models/dto/create-user.dto';
+import { UpdateUserDTO } from '../models/dto/update-user.dto';
 import { UserRes } from '../models/res/user.res';
 import { UserService } from '../services/user.service';
 

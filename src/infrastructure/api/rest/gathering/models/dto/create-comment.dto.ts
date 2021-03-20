@@ -1,8 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { CommentDTO } from './comment.dto';
 
-export class CreateCommentDTO {
-  @ApiProperty({ type: String, description: '댓글 내용', example: '중간에 탈주 가능한가요?' })
-  @IsString()
-  content: string;
-}
+export class CreateCommentDTO extends CommentDTO {}

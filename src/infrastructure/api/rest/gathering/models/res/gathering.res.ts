@@ -37,9 +37,9 @@ export class GatheringRes {
   @IsString()
   openChatUrl: string;
 
-  @ApiProperty({ type: String, description: '작성자 닉네임', example: '도비는자유에요' })
-  @IsString()
-  userNickname: string;
+  @ApiProperty({ type: Number, description: '작성자 pk', example: 1 })
+  @IsNumber()
+  userId: number;
 
   @ApiProperty({ type: String, description: '상대적인 시간', example: '1분 전' })
   @IsString()

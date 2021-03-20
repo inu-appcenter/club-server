@@ -2,8 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNumber, IsString } from 'class-validator';
 
-// todo: 관리자의 모든 정보말고 pk랑 이름만 보여줘야 하나
-// todo: 동아리 정보도 필요하려나
 export class ClubTodayRes {
   @ApiProperty({ type: Number, description: '클럽투데이 pk', example: 1 })
   @IsNumber()
@@ -22,16 +20,12 @@ export class ClubTodayRes {
   @IsNumber()
   @Type(() => Number)
   clubId: number;
-  @ApiProperty({ type: String, description: '동아리 이름', example: '앱센터' })
-  @IsString()
-  clubName: string;
 
-  constructor(id, title, headerImage, body, clubId, clubName) {
+  constructor(id, title, headerImage, body, clubId) {
     this.id = id;
     this.title = title;
     this.headerImage = headerImage;
     this.body = body;
     this.clubId = clubId;
-    this.clubName = clubName;
   }
 }

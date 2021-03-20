@@ -3,10 +3,6 @@ import { Type } from 'class-transformer';
 import { IsNumber, IsString } from 'class-validator';
 
 export class ApplicationInfoRes {
-  @ApiProperty({ type: Number, description: '지원정보 pk', example: 1 })
-  @IsNumber()
-  @Type(() => Number)
-  id: number;
   @ApiProperty({ type: String, description: '카카오톡 id', example: 'kakao1234' })
   @IsString()
   kakaoId: string;
@@ -52,11 +48,13 @@ export class ClubRes {
   @IsString()
   summary: string;
 
-  @ApiProperty({ type: ApplicationInfoRes })
+  @ApiProperty({ type: ApplicationInfoRes, description: '지원 정보' })
   applicationInfo: ApplicationInfoRes;
 
-  @ApiProperty({ type: CategoryRes })
-  category: CategoryRes;
+  @ApiProperty({ type: Number, description: '카테고리 pk', example: 1 })
+  @IsNumber()
+  @Type(() => Number)
+  categoryId: number;
 
   @ApiProperty({
     isArray: true,
