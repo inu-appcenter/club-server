@@ -4,22 +4,23 @@ import { IClubTodayRepository } from '@/domain/repository/IClubTodayRepository';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { OrmClubTodayImage } from './entities/club-today-image.entity';
-import { OrmClubToday } from './entities/club-today.entity';
+import { OrmClubTodayHeaderImage } from './entities/clubtoday-header-image.entity';
+import { OrmClubToday } from './entities/clubtoday.entity';
 
 @Injectable()
 export class ClubTodayRepository implements IClubTodayRepository {
   constructor(
     @InjectRepository(OrmClubToday) private readonly ormClubTodayRepository: Repository<OrmClubToday>,
-    @InjectRepository(OrmClubTodayImage) private readonly ormClubTodayImageRepository: Repository<OrmClubTodayImage>,
+    @InjectRepository(OrmClubTodayHeaderImage)
+    private readonly ormClubTodayImageRepository: Repository<OrmClubTodayHeaderImage>,
   ) {}
 
   private toClubToday(ormClubToday: OrmClubToday): ClubToday {
-    const { id, body, title, headImage } = ormClubToday;
+    const { id, body, title, headerImage } = ormClubToday;
     const clubToday = new ClubToday({
       id,
       body,
-      headImage: { url: headImage?.url },
+      headerImage: headerImage.url,
       title,
     });
     return clubToday;
@@ -27,11 +28,11 @@ export class ClubTodayRepository implements IClubTodayRepository {
 
   private toOrmClubToday(clubToday: ClubToday): OrmClubToday {
     const ormClubToday = new OrmClubToday();
-    const ormClubTodayImage = new OrmClubTodayImage();
-    const { id, headImage, title, body } = clubToday;
+    const ormClubTodayImage = new OrmClubTodayHeaderImage();
+    const { id, headerImage, title, body } = clubToday;
     if (id != -1) ormClubToday.id = id;
-    ormClubTodayImage.url = headImage.url;
-    ormClubToday.headImage = ormClubTodayImage;
+    ormClubTodayImage.url = headerImage;
+    ormClubToday.headerImage = ormClubTodayImage;
     ormClubToday.title = title;
     ormClubToday.body = body;
     return ormClubToday;

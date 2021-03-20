@@ -1,6 +1,6 @@
 import { Column, Entity as OrmEntity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { OrmClub } from './club.entity';
-import { OrmClubToday } from './club-today.entity';
+import { OrmClubToday } from './clubtoday.entity';
 import { CommonTypeOrm } from './common/common';
 
 @OrmEntity()

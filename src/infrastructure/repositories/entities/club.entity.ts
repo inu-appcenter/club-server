@@ -3,8 +3,8 @@ import { OrmAdmin } from './admin.entity';
 import { OrmApplicationInfo } from './application-info.entity';
 import { OrmCategory } from './category.entity';
 import { CommonTypeOrm } from './common/common';
+import { OrmClubToday } from './clubtoday.entity';
 import { OrmClubImage } from './club-image.entity';
-import { OrmClubToday } from './club-today.entity';
 
 @OrmEntity()
 export class OrmClub extends CommonTypeOrm {
