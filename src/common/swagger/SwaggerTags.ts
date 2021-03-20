@@ -16,7 +16,7 @@ export const SWAGGER_TAG_GATHERING_PARTICIPATION: ISwaggerTag = {
   desc: '소모임 참가 API',
 };
 export const SWAGGER_TAG_UPLOAD_IMAGE: ISwaggerTag = { tag: 'Upload-Image', desc: '사진 업로드 API' };
-export const SWAGGER_TAG_CATEGORY = { tag: 'Category', desc: '카테고리 API (슈퍼관리자 전용)' };
+export const SWAGGER_TAG_CATEGORY = { tag: 'Category', desc: '카테고리 API' };
 
 export const SWAGGER_TAGS = [
   SWAGGER_TAG_AUTH,
