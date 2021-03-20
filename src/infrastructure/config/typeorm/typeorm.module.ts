@@ -3,11 +3,11 @@ import { OrmApplicationInfo } from '@/infrastructure/repositories/entities/appli
 import { OrmCategory } from '@/infrastructure/repositories/entities/category.entity';
 import { OrmClub } from '@/infrastructure/repositories/entities/club.entity';
 import { OrmClubImage } from '@/infrastructure/repositories/entities/club-image.entity';
-import { OrmClubToday } from '@/infrastructure/repositories/entities/club-today.entity';
-import { OrmClubTodayImage } from '@/infrastructure/repositories/entities/club-today-image.entity';
+import { OrmClubToday } from '@/infrastructure/repositories/entities/clubtoday.entity';
+import { OrmClubTodayHeaderImage } from '@/infrastructure/repositories/entities/clubtoday-header-image.entity';
 import { OrmComment } from '@/infrastructure/repositories/entities/comment.entity';
 import { OrmGathering } from '@/infrastructure/repositories/entities/gathering.entity';
-import { OrmReComment } from '@/infrastructure/repositories/entities/recomment.entity';
+import { OrmReComment } from '@/infrastructure/repositories/entities/re-comment.entity';
 import { OrmSuperAdmin } from '@/infrastructure/repositories/entities/superadmin.entity';
 import { OrmUser } from '@/infrastructure/repositories/entities/user.entity';
 import { Module } from '@nestjs/common';
@@ -36,7 +36,7 @@ export const getTypeOrmModuleOptions = (environmentConfigService: EnvironmentCon
       OrmClub,
       OrmClubImage,
       OrmClubToday,
-      OrmClubTodayImage,
+      OrmClubTodayHeaderImage,
       OrmComment,
       OrmReComment,
       OrmSuperAdmin,
