@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { MulterModuleOptions, MulterOptionsFactory } from '@nestjs/platform-express';
 import { extname } from 'path';
 import { diskStorage } from 'multer';
-import { existsSync, mkdirSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { v4 } from 'uuid';
+import { join } from 'path';
 
 @Injectable()
 export class MulterConfigService implements MulterOptionsFactory {
@@ -16,7 +17,9 @@ export class MulterConfigService implements MulterOptionsFactory {
       storage: diskStorage({
         destination: (req: any, file: any, cb: any) => {
           const uploadPath = './uploads';
+          const indexPage = 'index.html';
           if (!existsSync(uploadPath)) mkdirSync(uploadPath);
+          if (!existsSync(join(uploadPath, indexPage))) writeFileSync(join(uploadPath, indexPage), '<html />');
           cb(null, uploadPath);
         },
         filename: (req: any, file: any, cb: any) => {
