@@ -7,6 +7,7 @@ import { GatheringModule } from './gathering/gatherings.module';
 import { AdminModule } from './admin/admin.module';
 import { SuperAdminModule } from './superadmin/superadmin.module';
 import { UploadTestModule } from './upload/upload.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UploadTestModule } from './upload/upload.module';
     AdminModule,
     SuperAdminModule,
     UploadTestModule,
+    CategoryModule,
   ],
 })
 export class RestModule {}
