@@ -1,5 +1,4 @@
 import { IUseCase } from '@/common/usecase/IUseCase';
-import { Club } from '@/domain/entity/Club';
 import { IUpdateClubPort } from '@/domain/port/club/IUpdateClubPort';
 import { IClubRepository } from '@/domain/repository/IClubRepository';
 
