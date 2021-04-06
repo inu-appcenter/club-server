@@ -4,16 +4,20 @@ import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } fro
 import { CreateClubDTO } from '../models/dto/create-club.dto';
 import { UpdateClubDTO } from '../models/dto/update-club.dto';
 import { AllClubsRes, ClubRes } from '../models/res/club.res';
+import { ClubService } from '../services/club.service';
 
 @ApiTags(SWAGGER_TAG_CLUB.tag)
 @Controller('clubs')
 export class ClubController {
+  constructor(private readonly clubService: ClubService) {}
+
   @ApiOperation({ summary: '동아리 생성' })
   @ApiCreatedResponse({ description: '성공', type: Object })
   @ApiBody({ type: CreateClubDTO })
   @Post()
   async createClub(@Body() createClubDto: CreateClubDTO) {
-    console.log({ ...createClubDto });
+    // todo: 관리자 id가 있다고 가정
+    this.clubService.createClub(createClubDto, adminId);
     return;
   }
 
