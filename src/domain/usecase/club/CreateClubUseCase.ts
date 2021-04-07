@@ -8,6 +8,6 @@ export class CreateClubUseCase implements IUseCase<any, Club> {
 
   async execute(port?: ICreateClubPort): Promise<Club> {
     const club = await Club.new(port);
-    return this.clubRepository.createClub(club);
+    return this.clubRepository.createClub(club, port.adminId);
   }
 }

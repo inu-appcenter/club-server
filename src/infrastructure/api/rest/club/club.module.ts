@@ -8,7 +8,7 @@ import { ClubController } from './controllers/club.controller';
 import { ClubService } from './services/club.service';
 
 @Module({
-  imports: [MulterConfigModule, AdminServiceModule.register(), ClubServiceModule.register()],
+  imports: [MulterConfigModule, ClubServiceModule.register()],
   controllers: [ClubController, ClubRecommendationController, ClubSearchController],
   providers: [ClubService],
 })

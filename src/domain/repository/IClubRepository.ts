@@ -4,10 +4,11 @@ export interface IClubRepository {
   /**
    * 동아리 생성
    * @param club 클럽 엔티티
+   * @param adminId 관리자 pk
    * @description 새로운 동아리를 생성
    * @permission 관리자
    */
-  createClub(club: Club): Promise<Club>;
+  createClub(club: Club, adminId: number): Promise<Club>;
 
   /**
    * 동아리 상세 조회
