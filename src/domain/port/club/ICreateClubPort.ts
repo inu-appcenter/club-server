@@ -9,4 +9,5 @@ export interface ICreateClubPort {
   images: string[];
   applicationInfo: ApplicationInfo;
   keywords?: string;
+  adminId: number;
 }

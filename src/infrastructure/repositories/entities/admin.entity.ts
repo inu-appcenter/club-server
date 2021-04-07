@@ -12,7 +12,7 @@ export class OrmAdmin extends CommonTypeOrm {
   name!: string;
 
   @Column()
-  phonNumber!: string;
+  phoneNumber!: string;
 
   @OneToOne((type) => OrmClub, (club) => club.admin, { nullable: true })
   @JoinColumn()

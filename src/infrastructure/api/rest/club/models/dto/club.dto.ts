@@ -17,10 +17,10 @@ export class ClubDTO {
   @Type(() => Number)
   categoryId: number;
 
-  @ApiProperty({ type: Number, description: '관리자 pk', example: 1 })
-  @IsNumber()
-  @Type(() => Number)
-  adminId: number;
+  // @ApiProperty({ type: Number, description: '관리자 pk', example: 1 })
+  // @IsNumber()
+  // @Type(() => Number)
+  // adminId: number;
 
   @ApiProperty({ type: String, description: '카카오톡 아이디', example: 'kakao1234' })
   kakaoId: string;

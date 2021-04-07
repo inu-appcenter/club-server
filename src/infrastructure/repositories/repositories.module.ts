@@ -19,6 +19,8 @@ import { OrmReportComment } from './entities/report-comment.entity';
 import { OrmReportGathering } from './entities/report-gathering.entity';
 import { OrmReportReComment } from './entities/report-recomment.entity';
 import { ClubTodayRepository } from './clubtoday.repository';
+import { ClubRepository } from './club.repository';
+import { AdminRepository } from './admin.repository';
 
 @Module({
   imports: [
@@ -42,7 +44,7 @@ import { ClubTodayRepository } from './clubtoday.repository';
       OrmReportReComment,
     ]),
   ],
-  providers: [UserRepository, ClubTodayRepository],
-  exports: [UserRepository, ClubTodayRepository],
+  providers: [UserRepository, ClubRepository, AdminRepository, ClubTodayRepository],
+  exports: [UserRepository, ClubRepository, AdminRepository, ClubTodayRepository],
 })
 export class RepositoriesModule {}

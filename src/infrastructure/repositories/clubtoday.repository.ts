@@ -38,12 +38,10 @@ export class ClubTodayRepository implements IClubTodayRepository {
     return ormClubToday;
   }
 
-  // todo: offset, limit
   async getClubTodayList(): Promise<ClubToday[]> {
     return (await this.ormClubTodayRepository.find()).map((clubToday) => this.toClubToday(clubToday));
   }
 
-  // todo: 동아리 이름 나오게 하자구~
   async getClubTodayListByClubId(clubId: number): Promise<ClubToday[]> {
     const a = await this.ormClubTodayRepository.find({ relations: ['club'], where: { club: { id: clubId } } });
     console.log('ClubTodayRepository', a);
