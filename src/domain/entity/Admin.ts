@@ -1,5 +1,5 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsInt, IsMobilePhone, IsString } from 'class-validator';
+import { IsInt, IsString } from 'class-validator';
 import { AdminEntityPayload, EditAdminEntityPayload } from './types/payloads/AdminEntityPayload';
 
 /**
@@ -8,11 +8,9 @@ import { AdminEntityPayload, EditAdminEntityPayload } from './types/payloads/Adm
 export class Admin extends Entity {
   @IsInt()
   private _studentId: number;
-
   @IsString()
   private _name: string;
-
-  @IsMobilePhone('ko-KR')
+  @IsString()
   private _phoneNumber: string;
 
   constructor(payload: AdminEntityPayload) {

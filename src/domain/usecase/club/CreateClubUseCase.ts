@@ -3,7 +3,7 @@ import { Club } from '@/domain/entity/Club';
 import { ICreateClubPort } from '@/domain/port/club/ICreateClubPort';
 import { IClubRepository } from '@/domain/repository/IClubRepository';
 
-export class CreateClubUseCase implements IUseCase<any, Club> {
+export class CreateClubUseCase implements IUseCase<ICreateClubPort, Club> {
   constructor(private readonly clubRepository: IClubRepository) {}
 
   async execute(port?: ICreateClubPort): Promise<Club> {
