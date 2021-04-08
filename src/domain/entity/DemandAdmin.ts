@@ -12,7 +12,7 @@ export class DemandAdmin extends Entity {
   @IsString()
   private _name: string;
 
-  @IsMobilePhone('ko-KR')
+  @IsString()
   private _phoneNumber: string;
 
   constructor(payload: AdminEntityPayload) {

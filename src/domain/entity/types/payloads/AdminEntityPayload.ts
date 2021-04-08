@@ -3,9 +3,11 @@ export type AdminEntityPayload = {
   studentId: number;
   name: string;
   phoneNumber: string;
+  demand: boolean;
 };
 
 export type EditAdminEntityPayload = {
   name?: string;
   phoneNumber?: string;
+  demand?: boolean;
 };

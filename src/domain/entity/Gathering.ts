@@ -20,6 +20,7 @@ export class Gathering extends Entity {
   @IsInt()
   private _numberOfPersonsToInvite: number;
 
+  
   private _participationInfo: ParticipationInfo;
 
   private _category: Category;

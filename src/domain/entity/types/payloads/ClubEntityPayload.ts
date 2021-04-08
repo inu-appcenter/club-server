@@ -1,5 +1,6 @@
 import { Category } from '@/domain/entity/Category';
-import { ApplicationInfo } from '../aliases';
+import { ApplicationInfo } from '../../ApplicationInfo';
+import { Image } from '../../Image';
 
 export type ClubEntityPayload = {
   id?: number;
@@ -7,7 +8,7 @@ export type ClubEntityPayload = {
   category: Category;
   location: string;
   summary: string;
-  images: string[];
+  images: Image[];
   applicationInfo: ApplicationInfo;
   keywords?: string;
 };
@@ -17,7 +18,7 @@ export type EditClubEntityPayload = {
   category?: Category;
   location?: string;
   summary?: string;
-  images?: string[];
+  images?: Image[];
   applicationInfo?: ApplicationInfo;
   keywords?: string;
 };
