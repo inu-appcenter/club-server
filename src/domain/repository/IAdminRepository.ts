@@ -20,10 +20,18 @@ export interface IAdminRepository {
   /**
    * 관리자, 요청자 조회
    * @param adminId 어드민 pk
-   * @description pk값으로 특정 관리자 조회
+   * @description 키값으로 관리자 조회
    * @permission 슈퍼관리자, 관리자
    */
   getAdminById(adminId: number): Promise<Admin>;
+
+  /**
+   * 관리자, 요청자 조회
+   * @param studentId 학번
+   * @description 키값으로 관리자 조회
+   * @permission 슈퍼관리자, 관리자
+   */
+  getAdminByStudentId(studentId: number): Promise<Admin>;
 
   /**
    * 관리자 수정

@@ -24,10 +24,11 @@ export interface IClubTodayRepository {
   /**
    * 클럽투데이 생성
    * @param clubToday 클럽투데이 엔티티
+   * @param adminId 관리자 pk
    * @description 클럽투데이 생성
    * @permission 관리자
    */
-  createClubToday(clubToday: ClubToday): Promise<ClubToday>;
+  createClubToday(clubToday: ClubToday, adminId: number): Promise<ClubToday>;
 
   /**
    * 클럽투데이 수정

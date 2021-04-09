@@ -11,10 +11,11 @@ export interface IGatheringRepository {
   /**
    * 소모임 생성
    * @param gathering 소모임 엔티티
+   * @param userId 유저 pk
    * @description 소모임 생성
    * @permission 사용자
    */
-  createGathering(gathering: Gathering): Promise<Gathering>;
+  createGathering(gathering: Gathering, userId: number): Promise<Gathering>;
 
   /**
    * 소모임 수정

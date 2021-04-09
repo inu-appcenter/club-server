@@ -6,7 +6,7 @@ import { IAdminRepository } from '@/domain/repository/IAdminRepository';
 export class GetAdminUseCase implements IUseCase<IGetAdminPort, Admin> {
   constructor(private readonly clubRepository: IAdminRepository) {}
 
-  execute(port?: IGetAdminPort): Promise<Admin> {
-    return this.clubRepository.getAdminById(port.id);
+  async execute(port?: IGetAdminPort): Promise<Admin> {
+    return await this.clubRepository.getAdminById(port.id);
   }
 }

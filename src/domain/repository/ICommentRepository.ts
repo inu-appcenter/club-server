@@ -4,10 +4,11 @@ export interface ICommentRepository {
   /**
    * 댓글 등록
    * @param comment 코멘트 엔티티
+   * @param userId 유저 pk
    * @description 특정 소모임에 댓글 또는 대댓글 등록
    * @permission 사용자
    */
-  createComment(comment: Comment): Promise<Comment>;
+  createComment(comment: Comment, userId: number): Promise<Comment>;
 
   /**
    * 댓글 모두 조회
