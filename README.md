@@ -20,11 +20,11 @@
 
 ## 사용 기술
 
-- JavaScript, TypeScript
-- Node.js, Nest.js, Typeorm
-- Windows Server 2012
-- Mysql
-- Swagger
+- `JavaScript`, `TypeScript`
+- `Node.js`, `Nest.js`, `Typeorm`
+- `Windows Server 2012`
+- `Mysql`
+- `Swagger`
 
 ## 프로젝트 구조
 
@@ -74,9 +74,9 @@ src
 
 #### 의존성 원칙
 
-- 공통사항(common): 모든 계층에서 참조할 수 있는 공통사항 담당
-- 도메인(domain): 핵심 영역으로 비지니스 규칙 구현 및 캡슐화 담당
-- 인프라스트럭처(infrastructure): 애플리케이션을 구성하는 기술적 세부 구현 담당
+- **공통사항(common)**: 모든 계층에서 참조할 수 있는 공통사항 담당
+- **도메인(domain)**: 핵심 영역으로 비지니스 규칙 구현 및 캡슐화 담당
+- **인프라스트럭처(infrastructure)**: 애플리케이션을 구성하는 기술적 세부 구현 담당
 
 도메인 계층의 클래스에서는 인프라스트럭처 계층의 클래스를 직접 참조할 수 없고, 반대로 인프라스트럭처 계층의 클래스에서는 도메인 계층의 클래스를 직접 참조할 수 있습니다.
 
