@@ -1,8 +1,10 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsBoolean, IsDate, IsInstance, IsInt, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsDate, IsInstance, IsInt, IsString } from 'class-validator';
 import { Category } from './Category';
+import { Comment } from './Comment';
 import { ParticipationInfo } from './types/aliases';
 import { EditGatheringEntityPayload, GatheringEntityPayload } from './types/payloads/GatheringEntityPayload';
+import { User } from './User';
 
 /**
  * @description 소모임
@@ -17,8 +19,12 @@ export class Gathering extends Entity {
   @IsInt()
   private _numberOfPersonsToInvite: number;
   private _participationInfo: ParticipationInfo;
+  @IsInstance(User)
+  private _user: User;
   @IsInstance(Category)
   private _category: Category;
+  @IsArray()
+  private _comments?: Comment[];
   @IsDate()
   private _deadline: Date;
   @IsBoolean()
@@ -33,6 +39,8 @@ export class Gathering extends Entity {
     this._numberOfPersonsJoined = payload.numberOfPersonsJoined;
     this._numberOfPersonsToInvite = payload.numberOfPersonsToInvite;
     this._participationInfo = payload.participationInfo;
+    this._user = payload.user;
+    this._comments = payload.comments || new Array<Comment>();
     this._category = payload.category;
     this._isClosed = payload.isClosed || false;
     this._deadline = payload.deadline;
@@ -56,6 +64,14 @@ export class Gathering extends Entity {
 
   public get participationInfo() {
     return this._participationInfo;
+  }
+
+  public get user() {
+    return this._user;
+  }
+
+  public get comments() {
+    return this._comments;
   }
 
   public get category() {

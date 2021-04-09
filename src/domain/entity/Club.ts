@@ -1,5 +1,6 @@
 import { Entity } from '@/common/entity/Entity';
 import { IsArray, IsInstance, IsOptional, IsString } from 'class-validator';
+import { Admin } from './Admin';
 import { ApplicationInfo } from './ApplicationInfo';
 import { Category } from './Category';
 import { Image } from './Image';
@@ -12,22 +13,18 @@ import { ClubEntityPayload, EditClubEntityPayload } from './types/payloads/ClubE
 export class Club extends Entity {
   @IsString()
   private _clubName: string;
-
   @IsInstance(Category)
   private _category: Category;
-
   @IsString()
   private _location: string;
-
   @IsString()
   private _summary: string;
-
+  @IsInstance(Admin)
+  private _admin: Admin;
   @IsArray()
   private _images: Image[];
-
   @IsInstance(ApplicationInfo)
   private _applicationInfo: ApplicationInfo;
-
   @IsString()
   @IsOptional()
   private _keywords: string;
@@ -40,6 +37,7 @@ export class Club extends Entity {
     this._location = payload.location;
     this._category = payload.category;
     this._summary = payload.summary;
+    this._admin = payload.admin;
     this._images = payload.images;
     this._applicationInfo = payload.applicationInfo;
     this._keywords = payload.keywords || '';
@@ -59,6 +57,10 @@ export class Club extends Entity {
 
   public get images() {
     return this._images;
+  }
+
+  public get admin() {
+    return this._admin;
   }
 
   public get category() {

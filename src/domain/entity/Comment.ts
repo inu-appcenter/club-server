@@ -1,6 +1,7 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsNumber, IsString } from 'class-validator';
+import { IsArray, IsInstance, IsNumber, IsString } from 'class-validator';
 import { CommentEntityPayload, EditCommentEntityPayload } from './types/payloads/CommentEntityPayload';
+import { User } from './User';
 
 /**
  * @description 소모임 댓글
@@ -8,24 +9,29 @@ import { CommentEntityPayload, EditCommentEntityPayload } from './types/payloads
 export class Comment extends Entity {
   @IsString()
   private _content: string;
-
-  @IsNumber()
-  private _level: number;
+  @IsInstance(User)
+  private _user: User;
+  @IsArray()
+  private _replies?: Comment[];
 
   constructor(payload: CommentEntityPayload) {
     super();
     this._id = payload.id || -1;
-
+    this._user = payload.user;
+    this._replies = payload.replies || new Array<Comment>();
     this._content = payload.content;
-    this._level = payload.level;
   }
 
   public get content() {
     return this._content;
   }
 
-  public get level() {
-    return this._level;
+  public get user() {
+    return this._user;
+  }
+
+  public get replies() {
+    return this._replies;
   }
 
   public async edit(payload: EditCommentEntityPayload): Promise<void> {

@@ -1,3 +1,4 @@
+import { Club } from '../../Club';
 import { Image } from '../../Image';
 
 export type ClubTodayEntityPayload = {
@@ -5,6 +6,7 @@ export type ClubTodayEntityPayload = {
   headerImage: Image;
   title: string;
   body: string;
+  club: Club;
 };
 
 export type EditClubTodayEntityPayload = {

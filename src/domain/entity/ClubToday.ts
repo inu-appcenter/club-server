@@ -1,21 +1,21 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsArray, IsInstance, IsString } from 'class-validator';
+import { IsInstance, IsString } from 'class-validator';
+import { Club } from './Club';
 import { Image } from './Image';
 import { ClubTodayEntityPayload, EditClubTodayEntityPayload } from './types/payloads/ClubTodayEntityPayload';
 
 /**
  * @description 클럽 투데이
- * todo: headerImage는 최상단 이미지로?
  */
 export class ClubToday extends Entity {
   @IsInstance(Image)
   private _headerImage: Image;
-
   @IsString()
   private _title: string;
-
   @IsString()
   private _body: string;
+  @IsInstance(Club)
+  private _club: Club;
 
   constructor(payload: ClubTodayEntityPayload) {
     super();
@@ -23,6 +23,7 @@ export class ClubToday extends Entity {
     this._headerImage = payload.headerImage;
     this._title = payload.title;
     this._body = payload.body;
+    this._club = payload.club;
   }
 
   public get headerImage() {
@@ -35,6 +36,10 @@ export class ClubToday extends Entity {
 
   public get body() {
     return this._body;
+  }
+
+  public get club() {
+    return this._club;
   }
 
   public async edit(payload: EditClubTodayEntityPayload): Promise<void> {

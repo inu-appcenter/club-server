@@ -1,4 +1,6 @@
 import { Category } from '@/domain/entity/Category';
+import { Comment } from '../../Comment';
+import { User } from '../../User';
 import { ParticipationInfo } from '../aliases';
 
 export type GatheringEntityPayload = {
@@ -8,6 +10,8 @@ export type GatheringEntityPayload = {
   numberOfPersonsJoined: number;
   numberOfPersonsToInvite: number;
   participationInfo: ParticipationInfo;
+  user: User;
+  comments: Comment[];
   category: Category;
   isClosed?: boolean;
   deadline: Date;
