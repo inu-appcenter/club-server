@@ -38,7 +38,13 @@ export interface IClubRepository {
   getClubsByKeyword(keyword: string): Promise<Club[]>;
 
   /**
-   * todo: 동아리 수정 시 이미지는 어떻게?
+   * 동아리 이름으로 동아리 조회
+   * @param name 동아리 이름
+   * @description 저장된 동아라 이름에서 일치하는 동아리들을 조회
+   */
+  getClubsByName(name: string): Promise<Club[]>;
+
+  /**
    * 동아리 수정
    * @param club 클럽 엔티티
    * @description 동아리 정보를 모두 수정
@@ -55,7 +61,7 @@ export interface IClubRepository {
   removeClubById(clubId: number): Promise<void>;
 
   /**
-   * todo: 동아리 추천 (나는 보류)
+   * todo: 동아리 추천
    */
   recommendClubs(): Promise<void>;
 }

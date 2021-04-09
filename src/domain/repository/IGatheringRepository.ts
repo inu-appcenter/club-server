@@ -3,9 +3,10 @@ import { Gathering } from '../entity/Gathering';
 export interface IGatheringRepository {
   /**
    * 소모임 모두 조회
-   * @description 모집 중인 소모임 모두 조회
+   * @param isClosed 모집 여부
+   * @description 모집 중 또는 마감한 소모임 모두 조회
    */
-  getGatherings(): Promise<Gathering[]>;
+  getGatherings(isClosed: boolean): Promise<Gathering[]>;
 
   /**
    * 소모임 생성

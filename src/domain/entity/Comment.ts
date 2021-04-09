@@ -1,5 +1,5 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsArray, IsInstance, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsInstance, IsString } from 'class-validator';
 import { CommentEntityPayload, EditCommentEntityPayload } from './types/payloads/CommentEntityPayload';
 import { User } from './User';
 

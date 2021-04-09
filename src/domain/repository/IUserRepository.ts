@@ -5,13 +5,14 @@ export interface IUserRepository {
    * 사용자 생성
    * @param user 유저 엔티티
    * @description 첫 서비스 사용자일 때 사용자 생성
+   * @permission 사용자
    */
   createUser(user: User): Promise<User>;
 
   /**
-   * todo: offset, limit
    * 사용자 모두 조회
    * @description 사용자 모두 조회
+   * @permission 슈퍼관리자
    */
   getUsers(): Promise<User[]>;
 
@@ -19,6 +20,7 @@ export interface IUserRepository {
    * 사용자 조회
    * @param userId 유저 pk
    * @description pk값으로 특정 사용자 조회
+   * @permission 슈퍼관리자, 사용자
    */
   getUserById(userId: number): Promise<User>;
 
@@ -37,9 +39,4 @@ export interface IUserRepository {
    * @permission 슈퍼관리자, 사용자
    */
   removeUserById(userId: number): Promise<void>;
-
-  /**
-   * todo: 관리자 승격 요청?
-   */
-  requestAdmin(): Promise<void>;
 }

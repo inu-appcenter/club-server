@@ -1,5 +1,5 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsMobilePhone, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 import { EditSuperAdminEntityPayload, SuperAdminEntityPayload } from './types/payloads/SuperAdminEntityPayload';
 import { hash, genSalt } from 'bcryptjs';
 
