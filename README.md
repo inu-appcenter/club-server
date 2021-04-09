@@ -28,6 +28,8 @@
 
 ## 프로젝트 구조
 
+(DDD는 전문가와 함께..) clean-architecture 를 참고했습니다.
+
 ```
 src
 ├── common
