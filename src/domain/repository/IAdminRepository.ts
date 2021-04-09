@@ -35,15 +35,15 @@ export interface IAdminRepository {
 
   /**
    * 관리자 수정
-   * @param admin 어드민 엔티티
+   * @param admin 관리자
    * @description 관리자 정보를 모두 수정
    * @permission 관리자
    */
-  updateAdminById(admin: Admin): Promise<void>;
+  updateAdmin(admin): Promise<void>;
 
   /**
    * 관리자 탈퇴 또는 삭제
-   * @param adminId 어드민 pk
+   * @param adminId 관리자 pk
    * @description 관리자 데이터 제거
    * @permission 슈퍼관리자, 관리자
    */

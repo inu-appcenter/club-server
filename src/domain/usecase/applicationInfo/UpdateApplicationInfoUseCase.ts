@@ -8,6 +8,6 @@ export class UpdateApplicationInfoUseCase implements IUseCase<IUpdateApplication
   async execute(port?: IUpdateApplicationInfoPort): Promise<void> {
     const info = await this.applicationInfoRepository.getApplicationInfoById(port.id);
     await info.edit(port);
-    await this.applicationInfoRepository.updateApplicationInfoById(info);
+    await this.applicationInfoRepository.updateApplicationInfo(info);
   }
 }

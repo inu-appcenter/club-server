@@ -12,7 +12,7 @@ export type ClubEntityPayload = {
   admin: Admin;
   images: Image[];
   applicationInfo: ApplicationInfo;
-  keywords?: string;
+  keywords?: string[];
 };
 
 export type EditClubEntityPayload = {
@@ -22,5 +22,5 @@ export type EditClubEntityPayload = {
   summary?: string;
   images?: Image[];
   applicationInfo?: ApplicationInfo;
-  keywords?: string;
+  keywords?: string[];
 };

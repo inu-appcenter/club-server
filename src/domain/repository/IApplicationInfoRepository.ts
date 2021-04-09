@@ -23,5 +23,5 @@ export interface IApplicationInfoRepository {
    * @description 지원 정보를 모두 수정
    * @permission 관리자
    */
-  updateApplicationInfoById(applicationInfo: ApplicationInfo): Promise<void>;
+  updateApplicationInfo(applicationInfo: ApplicationInfo): Promise<void>;
 }

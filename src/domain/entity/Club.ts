@@ -8,7 +8,7 @@ import { ClubEntityPayload, EditClubEntityPayload } from './types/payloads/ClubE
 
 /**
  * @description 동아리
- * 쉼표로 키워드 구분
+ * 쉼표로 키워드를 split
  */
 export class Club extends Entity {
   @IsString()
@@ -25,9 +25,9 @@ export class Club extends Entity {
   private _images: Image[];
   @IsInstance(ApplicationInfo)
   private _applicationInfo: ApplicationInfo;
-  @IsString()
+  @IsArray()
   @IsOptional()
-  private _keywords: string;
+  private _keywords: string[];
 
   constructor(payload: ClubEntityPayload) {
     super();
@@ -40,7 +40,7 @@ export class Club extends Entity {
     this._admin = payload.admin;
     this._images = payload.images;
     this._applicationInfo = payload.applicationInfo;
-    this._keywords = payload.keywords || '';
+    this._keywords = payload.keywords || new Array<string>();
   }
 
   public get clubName() {

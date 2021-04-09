@@ -25,12 +25,20 @@ export interface IUserRepository {
   getUserById(userId: number): Promise<User>;
 
   /**
+   * 사용자 조회
+   * @param nickname 유저 닉네임
+   * @description 닉네임으로 특정 사용자 조회
+   * @permission 모두
+   */
+  getUserByNickname(nickname: string): Promise<User>;
+
+  /**
    * 사용자 수정
    * @param user 유저 엔티티
    * @description 사용자 정보를 모두 수정
    * @permission 사용자
    */
-  updateUserById(user: User): Promise<void>;
+  updateUser(user: User): Promise<void>;
 
   /**
    * 사용자 탈퇴

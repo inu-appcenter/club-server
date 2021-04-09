@@ -1,5 +1,5 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsBoolean, IsInt, IsString } from 'class-validator';
+import { IsInt, IsString } from 'class-validator';
 import { AdminEntityPayload, EditAdminEntityPayload } from './types/payloads/AdminEntityPayload';
 
 /**
