@@ -8,7 +8,6 @@ import { EditUserEntityPayload, UserEntityPayload } from './types/payloads/UserE
 export class User extends Entity {
   @IsInt()
   private _studentId: number;
-
   @IsString()
   private _nickname: string;
 

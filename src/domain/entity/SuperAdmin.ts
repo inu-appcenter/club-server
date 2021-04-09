@@ -9,13 +9,10 @@ import { hash, genSalt } from 'bcryptjs';
 export class SuperAdmin extends Entity {
   @IsString()
   private _superAdminId: string;
-
   @IsString()
   private _name: string;
-
-  @IsMobilePhone('ko-KR')
+  @IsString()
   private _phoneNumber: string;
-
   @IsString()
   private _password: string;
 

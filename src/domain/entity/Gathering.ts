@@ -1,5 +1,5 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsBoolean, IsDate, IsInt, IsString } from 'class-validator';
+import { IsBoolean, IsDate, IsInstance, IsInt, IsString } from 'class-validator';
 import { Category } from './Category';
 import { ParticipationInfo } from './types/aliases';
 import { EditGatheringEntityPayload, GatheringEntityPayload } from './types/payloads/GatheringEntityPayload';
@@ -10,24 +10,17 @@ import { EditGatheringEntityPayload, GatheringEntityPayload } from './types/payl
 export class Gathering extends Entity {
   @IsString()
   private _title: string;
-
   @IsString()
   private _body: string;
-
   @IsInt()
   private _numberOfPersonsJoined: number;
-
   @IsInt()
   private _numberOfPersonsToInvite: number;
-
-  
   private _participationInfo: ParticipationInfo;
-
+  @IsInstance(Category)
   private _category: Category;
-
   @IsDate()
   private _deadline: Date;
-
   @IsBoolean()
   private _isClosed: boolean;
 

@@ -1,5 +1,6 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsArray, IsString } from 'class-validator';
+import { IsArray, IsInstance, IsString } from 'class-validator';
+import { Image } from './Image';
 import { ClubTodayEntityPayload, EditClubTodayEntityPayload } from './types/payloads/ClubTodayEntityPayload';
 
 /**
@@ -7,8 +8,8 @@ import { ClubTodayEntityPayload, EditClubTodayEntityPayload } from './types/payl
  * todo: headerImage는 최상단 이미지로?
  */
 export class ClubToday extends Entity {
-  @IsString()
-  private _headerImage: string;
+  @IsInstance(Image)
+  private _headerImage: Image;
 
   @IsString()
   private _title: string;
