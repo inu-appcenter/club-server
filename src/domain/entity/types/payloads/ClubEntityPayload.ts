@@ -17,10 +17,11 @@ export type ClubEntityPayload = {
 
 export type EditClubEntityPayload = {
   clubName?: string;
-  category?: Category;
+  category: Category;
   location?: string;
   summary?: string;
-  images?: Image[];
-  applicationInfo?: ApplicationInfo;
+  images: Image[];
+  applicationInfo: ApplicationInfo;
   keywords?: string[];
+  admin: Admin;
 };

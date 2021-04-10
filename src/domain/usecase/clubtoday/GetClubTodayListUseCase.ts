@@ -5,7 +5,7 @@ import { IClubTodayRepository } from '@/domain/repository/IClubTodayRepository';
 export class GetClubTodayListUseCase implements IUseCase<any, ClubToday[]> {
   constructor(private readonly clubTodayRepository: IClubTodayRepository) {}
 
-  execute(port?: any): Promise<ClubToday[]> {
+  execute(): Promise<ClubToday[]> {
     return this.clubTodayRepository.getClubTodayList();
   }
 }

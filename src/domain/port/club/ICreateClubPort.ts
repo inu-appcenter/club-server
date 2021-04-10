@@ -1,13 +1,10 @@
-import { Category } from '@/domain/entity/Category';
-import { ApplicationInfo } from '@/domain/entity/types/aliases';
-
 export interface ICreateClubPort {
   clubName: string;
-  category: Category;
+  categoryId: number;
   location: string;
   summary: string;
-  images: string[];
-  applicationInfo: ApplicationInfo;
-  keywords?: string;
+  imageIds: number[];
+  applicationInfoId: number;
+  keywords?: string[];
   adminId: number;
 }
