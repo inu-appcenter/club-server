@@ -17,6 +17,14 @@ export interface IClubRepository {
   getClubById(clubId: number): Promise<Club>;
 
   /**
+   * 동아리 상세 조회
+   * @param adminId 관리자 pk
+   * @param clubId 클럽 pk
+   * @description 클럽 pk, 관리자 pk값으로 특정 동아리 상세 조회
+   */
+  getClubByIdAndAdminId(clubId: number, adminId: number): Promise<Club>;
+
+  /**
    * 동아리 모두 조회
    * @description 동아리 모두 조회
    */

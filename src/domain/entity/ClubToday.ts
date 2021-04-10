@@ -9,7 +9,7 @@ import { ClubTodayEntityPayload, EditClubTodayEntityPayload } from './types/payl
  */
 export class ClubToday extends Entity {
   @IsInstance(Image)
-  private _headerImage: Image;
+  private _headerImage?: Image;
   @IsString()
   private _title: string;
   @IsString()
@@ -20,7 +20,7 @@ export class ClubToday extends Entity {
   constructor(payload: ClubTodayEntityPayload) {
     super();
     this._id = payload.id || -1;
-    this._headerImage = payload.headerImage;
+    this._headerImage = payload.headerImage || null;
     this._title = payload.title;
     this._body = payload.body;
     this._club = payload.club;

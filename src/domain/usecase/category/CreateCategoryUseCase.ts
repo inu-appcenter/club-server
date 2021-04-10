@@ -11,6 +11,7 @@ export class CreateCategoryUseCase implements IUseCase<ICreateCategoryPort, Cate
   async execute(port?: ICreateCategoryPort): Promise<Category> {
     const categoryExist = await this.categoryRepository.getCategoryByName(port.name);
     if (categoryExist) throw Exception.new({ code: Code.CONFLICT, data: port.name, overrideMessage: '이름 중복' });
-    return this.categoryRepository.createCategory(await Category.new(port));
+    const category = await Category.new(port);
+    return this.categoryRepository.createCategory(category);
   }
 }

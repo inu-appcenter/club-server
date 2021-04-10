@@ -8,6 +8,13 @@ export interface IClubTodayRepository {
   getClubTodayList(): Promise<ClubToday[]>;
 
   /**
+   * 최근 클럽투데이 날짜 조회
+   * @param clubId 클럽 pk
+   * @description 동아리 pk값으로 최근 클럽투데이 날짜 조회
+   */
+  getLatelyDateByClubId(clubId: number): Promise<Date>;
+
+  /**
    * 특정 동아리의 클럽투데이 모두 조회
    * @param clubId 클럽 pk
    * @description 특정 동아리의 클럽투데이 모두 조회
@@ -24,19 +31,18 @@ export interface IClubTodayRepository {
   /**
    * 클럽투데이 생성
    * @param clubToday 클럽투데이 엔티티
-   * @param adminId 관리자 pk
    * @description 클럽투데이 생성
    * @permission 관리자
    */
-  createClubToday(clubToday: ClubToday, adminId: number): Promise<ClubToday>;
+  createClubToday(clubToday: ClubToday): Promise<ClubToday>;
 
   /**
    * 클럽투데이 수정
-   * @param clubTodayId 클럽투데이 pk
+   * @param clubToday 클럽투데이
    * @description pk값으로 특정 클럽투데이 수정
    * @permission 관리자
    */
-  updateClubTodayById(clubTodayId: number): Promise<void>;
+  updateClubToday(clubToday: ClubToday): Promise<void>;
 
   /**
    * 클럽투데이 삭제
