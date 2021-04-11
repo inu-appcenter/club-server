@@ -4,7 +4,7 @@ import { OrmCategory } from '@/infrastructure/repositories/entities/category.ent
 import { OrmClub } from '@/infrastructure/repositories/entities/club.entity';
 import { OrmClubImage } from '@/infrastructure/repositories/entities/club-image.entity';
 import { OrmClubToday } from '@/infrastructure/repositories/entities/clubtoday.entity';
-import { OrmClubTodayHeaderImage } from '@/infrastructure/repositories/entities/clubtoday-header-image.entity';
+import { OrmClubTodayImage } from '@/infrastructure/repositories/entities/clubtoday-image.entity';
 import { OrmComment } from '@/infrastructure/repositories/entities/comment.entity';
 import { OrmGathering } from '@/infrastructure/repositories/entities/gathering.entity';
 import { OrmReComment } from '@/infrastructure/repositories/entities/re-comment.entity';
@@ -36,7 +36,7 @@ export const getTypeOrmModuleOptions = (environmentConfigService: EnvironmentCon
       OrmClub,
       OrmClubImage,
       OrmClubToday,
-      OrmClubTodayHeaderImage,
+      OrmClubTodayImage,
       OrmComment,
       OrmReComment,
       OrmSuperAdmin,

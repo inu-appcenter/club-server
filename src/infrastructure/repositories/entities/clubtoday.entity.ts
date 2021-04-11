@@ -1,6 +1,5 @@
-import { Column, Entity as OrmEntity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
-import { OrmAdmin } from './admin.entity';
-import { OrmClubTodayHeaderImage } from './clubtoday-header-image.entity';
+import { Column, Entity as OrmEntity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { OrmClubTodayImage } from './clubtoday-image.entity';
 import { OrmClub } from './club.entity';
 import { CommonTypeOrm } from './common/common';
 
@@ -9,16 +8,13 @@ export class OrmClubToday extends CommonTypeOrm {
   @Column()
   title!: string;
 
-  @Column({ type: 'text' })
+  @Column()
   body!: string;
 
-  @OneToOne((type) => OrmClubTodayHeaderImage, (clubTodayImage) => clubTodayImage.clubToday, { cascade: true })
+  @OneToOne(() => OrmClubTodayImage, { cascade: true })
   @JoinColumn()
-  headerImage: OrmClubTodayHeaderImage;
+  headerImage: OrmClubTodayImage;
 
-  @ManyToOne((type) => OrmAdmin, (admin) => admin.clubTodays)
-  admin: OrmAdmin;
-
-  @ManyToOne((type) => OrmClub, (club) => club.clubTodays, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+  @ManyToOne(() => OrmClub, (club) => club.clubTodays, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   club: OrmClub;
 }

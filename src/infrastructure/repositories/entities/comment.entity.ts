@@ -1,6 +1,6 @@
 import { Column, Entity as OrmEntity, ManyToOne, OneToMany } from 'typeorm';
 import { CommonTypeOrm } from './common/common';
-import { OrmReComment } from './re-comment.entity';
+import { OrmGathering } from './gathering.entity';
 import { OrmReportComment } from './report-comment.entity';
 import { OrmUser } from './user.entity';
 
@@ -9,12 +9,15 @@ export class OrmComment extends CommonTypeOrm {
   @Column({ type: 'text' })
   content!: string;
 
-  @ManyToOne((type) => OrmUser, (user) => user.comments, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+  @Column({ nullable: true })
+  parentCommentId?: number;
+
+  @ManyToOne(() => OrmUser, (user) => user.comments, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   user: OrmUser;
 
-  @OneToMany((type) => OrmReComment, (reComment) => reComment.comment)
-  reComments: OrmReComment[];
+  @ManyToOne(() => OrmGathering, (gathering) => gathering.comments, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+  gathering: OrmGathering;
 
-  @OneToMany((_) => OrmReportComment, (report) => report.comment, { cascade: true })
+  @OneToMany(() => OrmReportComment, (report) => report.comment, { cascade: true })
   reports: OrmReportComment[];
 }

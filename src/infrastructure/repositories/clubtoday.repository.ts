@@ -4,15 +4,15 @@ import { IClubTodayRepository } from '@/domain/repository/IClubTodayRepository';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { OrmClubTodayHeaderImage } from './entities/clubtoday-header-image.entity';
+import { OrmClubTodayImage } from './entities/clubtoday-image.entity';
 import { OrmClubToday } from './entities/clubtoday.entity';
 
 @Injectable()
 export class ClubTodayRepository implements IClubTodayRepository {
   constructor(
     @InjectRepository(OrmClubToday) private readonly ormClubTodayRepository: Repository<OrmClubToday>,
-    @InjectRepository(OrmClubTodayHeaderImage)
-    private readonly ormClubTodayImageRepository: Repository<OrmClubTodayHeaderImage>,
+    @InjectRepository(OrmClubTodayImage)
+    private readonly ormClubTodayImageRepository: Repository<OrmClubTodayImage>,
   ) {}
 
   private toClubToday(ormClubToday: OrmClubToday): ClubToday {
@@ -28,7 +28,7 @@ export class ClubTodayRepository implements IClubTodayRepository {
 
   private toOrmClubToday(clubToday: ClubToday): OrmClubToday {
     const ormClubToday = new OrmClubToday();
-    const ormClubTodayImage = new OrmClubTodayHeaderImage();
+    const ormClubTodayImage = new OrmClubTodayImage();
     const { id, headerImage, title, body } = clubToday;
     if (id != -1) ormClubToday.id = id;
     ormClubTodayImage.url = headerImage;

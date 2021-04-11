@@ -20,20 +20,20 @@ export class OrmClub extends CommonTypeOrm {
   @Column({ nullable: true })
   keywords: string;
 
-  @OneToOne((type) => OrmAdmin, (admin) => admin.club, { nullable: true })
+  @OneToOne(() => OrmAdmin, (admin) => admin.club, { nullable: true })
   @JoinColumn()
   admin: OrmAdmin;
 
-  @OneToOne((type) => OrmApplicationInfo, { cascade: true })
+  @OneToOne(() => OrmApplicationInfo, { cascade: true })
   @JoinColumn()
   applicationInfo: OrmApplicationInfo;
 
-  @ManyToOne((type) => OrmCategory, (category) => category.clubs)
+  @ManyToOne(() => OrmCategory, (category) => category.clubs)
   category: OrmCategory;
 
-  @OneToMany((type) => OrmClubImage, (image) => image.club, { cascade: true })
+  @OneToMany(() => OrmClubImage, (image) => image.club, { cascade: true })
   images: OrmClubImage[];
 
-  @OneToMany((type) => OrmClubToday, (clubToday) => clubToday.club, { cascade: true })
+  @OneToMany(() => OrmClubToday, (clubToday) => clubToday.club, { cascade: true })
   clubTodays: OrmClubToday[];
 }

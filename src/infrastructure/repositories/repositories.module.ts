@@ -7,7 +7,7 @@ import { OrmCategory } from './entities/category.entity';
 import { OrmClub } from './entities/club.entity';
 import { OrmClubImage } from './entities/club-image.entity';
 import { OrmClubToday } from './entities/clubtoday.entity';
-import { OrmClubTodayHeaderImage } from './entities/clubtoday-header-image.entity';
+import { OrmClubTodayImage } from './entities/clubtoday-image.entity';
 import { OrmComment } from './entities/comment.entity';
 import { OrmGathering } from './entities/gathering.entity';
 import { OrmReComment } from './entities/re-comment.entity';
@@ -33,7 +33,7 @@ import { AdminRepository } from './admin.repository';
       OrmClub,
       OrmClubImage,
       OrmClubToday,
-      OrmClubTodayHeaderImage,
+      OrmClubTodayImage,
       OrmComment,
       OrmGathering,
       OrmReComment,
