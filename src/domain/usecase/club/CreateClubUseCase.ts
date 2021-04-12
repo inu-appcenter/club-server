@@ -27,9 +27,6 @@ export class CreateClubUseCase implements IUseCase<ICreateClubPort, Club> {
 
     if (clubExist)
       throw Exception.new({ code: Code.CONFLICT, data: port.clubName, overrideMessage: '동아리 이름 중복' });
-    if (!admin) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '관리자 없음' });
-    if (images.length == 0) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '이미지 없음' });
-    if (!category) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '카테고리 없음' });
 
     const applicationInfo = await ApplicationInfo.new(port.applicationInfoPort);
     const club = await Club.new({ admin, applicationInfo, category, images, ...port });
