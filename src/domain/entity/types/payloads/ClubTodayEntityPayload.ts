@@ -1,16 +1,16 @@
 import { Club } from '../../Club';
-import { Image } from '../../Image';
+import { ClubImage } from '../../ClubImage';
 
 export type ClubTodayEntityPayload = {
   id?: number;
-  headerImage: Image;
+  headerImage: ClubImage;
   title: string;
   body: string;
   club: Club;
 };
 
 export type EditClubTodayEntityPayload = {
-  headerImage?: Image;
+  headerImage?: ClubImage;
   title?: string;
   body?: string;
 };

@@ -1,17 +1,22 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 import { ApplicationInfoPayload, EditApplicationInfoPayload } from './types/payloads/ApplicationInfoPayLoad';
 
 export class ApplicationInfo extends Entity {
   @IsString()
+  @IsOptional()
   private _kakaoId?: string;
   @IsString()
+  @IsOptional()
   private _openChatUrl?: string;
   @IsString()
+  @IsOptional()
   private _websiteUrl?: string;
   @IsString()
+  @IsOptional()
   private _contact?: string;
   @IsString()
+  @IsOptional()
   private _etc?: string;
 
   constructor(payload: ApplicationInfoPayload) {

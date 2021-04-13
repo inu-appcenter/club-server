@@ -1,5 +1,6 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsArray, IsBoolean, IsDate, IsInstance, IsInt, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsArray, IsBoolean, IsDate, IsInstance, IsInt, IsString, NotEquals } from 'class-validator';
 import { Category } from './Category';
 import { Comment } from './Comment';
 import { ParticipationInfo } from './types/aliases';
@@ -18,12 +19,22 @@ export class Gathering extends Entity {
   private _numberOfPersonsJoined: number;
   @IsInt()
   private _numberOfPersonsToInvite: number;
+  @NotEquals(null)
+  @NotEquals(undefined)
+  @Type(() => Object)
   private _participationInfo: ParticipationInfo;
   @IsInstance(User)
+  @NotEquals(null)
+  @NotEquals(undefined)
   private _user: User;
   @IsInstance(Category)
+  @NotEquals(null)
+  @NotEquals(undefined)
   private _category: Category;
   @IsArray()
+  @NotEquals(null)
+  @NotEquals(undefined)
+  @Type(() => Comment)
   private _comments?: Comment[];
   @IsDate()
   private _deadline: Date;

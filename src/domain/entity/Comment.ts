@@ -1,5 +1,6 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsArray, IsInstance, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsArray, IsInstance, IsString, NotEquals } from 'class-validator';
 import { CommentEntityPayload, EditCommentEntityPayload } from './types/payloads/CommentEntityPayload';
 import { User } from './User';
 
@@ -10,8 +11,13 @@ export class Comment extends Entity {
   @IsString()
   private _content: string;
   @IsInstance(User)
+  @NotEquals(null)
+  @NotEquals(undefined)
   private _user: User;
   @IsArray()
+  @NotEquals(null)
+  @NotEquals(undefined)
+  @Type(() => Comment)
   private _replies?: Comment[];
 
   constructor(payload: CommentEntityPayload) {

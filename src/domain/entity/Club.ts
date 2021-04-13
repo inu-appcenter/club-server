@@ -1,11 +1,10 @@
-import { Code } from '@/common/code/Code';
 import { Entity } from '@/common/entity/Entity';
-import { Exception } from '@/common/exception/Exception';
-import { IsArray, IsInstance, IsOptional, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ArrayMaxSize, ArrayMinSize, IsArray, IsInstance, IsOptional, IsString, NotEquals } from 'class-validator';
 import { Admin } from './Admin';
 import { ApplicationInfo } from './ApplicationInfo';
 import { Category } from './Category';
-import { Image } from './Image';
+import { ClubImage } from './ClubImage';
 import { ClubEntityPayload, EditClubEntityPayload } from './types/payloads/ClubEntityPayload';
 
 /**
@@ -22,16 +21,25 @@ export class Club extends Entity {
   @IsString()
   private _summary: string;
   @IsInstance(Admin)
+  @NotEquals(null)
+  @NotEquals(undefined)
   private _admin: Admin;
   @IsArray()
-  private _images: Image[];
+  @ArrayMinSize(1)
+  @ArrayMaxSize(10)
+  @Type(() => ClubImage)
+  @NotEquals(null)
+  @NotEquals(undefined)
+  private _images: ClubImage[];
   @IsInstance(ApplicationInfo)
+  @NotEquals(null)
+  @NotEquals(undefined)
   private _applicationInfo: ApplicationInfo;
   @IsArray()
   @IsOptional()
   private _keywords: string[];
 
-  private constructor(payload: ClubEntityPayload) {
+  constructor(payload: ClubEntityPayload) {
     super();
     this._id = payload.id || -1;
 
@@ -75,13 +83,6 @@ export class Club extends Entity {
 
   public get keywords() {
     return this._keywords;
-  }
-
-  public async validate(): Promise<void> {
-    if (!this._admin) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '관리자 없음' });
-    if (!this._category) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '카테고리 없음' });
-    super.validate();
-    if (this._images.length < 1) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '이미지 없음' });
   }
 
   public async edit(payload: EditClubEntityPayload): Promise<void> {

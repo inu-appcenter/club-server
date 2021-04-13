@@ -1,12 +1,12 @@
 import { Entity } from '@/common/entity/Entity';
 import { IsString } from 'class-validator';
-import { ImagePayload } from './types/payloads/ClubImagePayload';
+import { ClubImagePayload } from './types/payloads/ClubImagePayload';
 
-export class Image extends Entity {
+export class ClubImage extends Entity {
   @IsString()
   private _url: string;
 
-  constructor(payload: ImagePayload) {
+  constructor(payload: ClubImagePayload) {
     super();
     this._id = payload.id || -1;
 
@@ -17,8 +17,8 @@ export class Image extends Entity {
     return this._url;
   }
 
-  public static async new(payload: ImagePayload): Promise<Image> {
-    const clubImage = new Image(payload);
+  public static async new(payload: ClubImagePayload): Promise<ClubImage> {
+    const clubImage = new ClubImage(payload);
     await clubImage.validate();
     return clubImage;
   }

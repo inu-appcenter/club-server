@@ -1,15 +1,16 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsInstance, IsString } from 'class-validator';
+import { IsInstance, IsOptional, IsString } from 'class-validator';
 import { Club } from './Club';
-import { Image } from './Image';
+import { ClubImage } from './ClubImage';
 import { ClubTodayEntityPayload, EditClubTodayEntityPayload } from './types/payloads/ClubTodayEntityPayload';
 
 /**
  * @description 클럽 투데이
  */
 export class ClubToday extends Entity {
-  @IsInstance(Image)
-  private _headerImage?: Image;
+  @IsInstance(ClubImage)
+  @IsOptional()
+  private _headerImage?: ClubImage;
   @IsString()
   private _title: string;
   @IsString()
