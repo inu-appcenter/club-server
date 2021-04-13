@@ -12,7 +12,7 @@ export class Exception<TData> extends Error {
 
   public readonly data: Optional<TData>;
 
-  private constructor(codeDescription: CodeDescription, overrideMessage?: string, data?: TData) {
+  constructor(codeDescription: CodeDescription, overrideMessage?: string, data?: TData) {
     super();
 
     this.name = this.constructor.name;
