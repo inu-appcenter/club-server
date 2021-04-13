@@ -40,10 +40,10 @@ export class UserService {
 
   async updateUser(updateUserDto: UpdateUserDTO, userId: number): Promise<void> {
     const { nickname } = updateUserDto;
-    await this.updateUserProxyService.getInstance().execute({ nickname, userId });
+    await this.updateUserProxyService.getInstance().execute({ nickname, id: userId });
   }
 
   async removeUser(userId: number): Promise<void> {
-    await this.removeUserProxyService.getInstance().execute({ userId });
+    await this.removeUserProxyService.getInstance().execute({ id: userId });
   }
 }

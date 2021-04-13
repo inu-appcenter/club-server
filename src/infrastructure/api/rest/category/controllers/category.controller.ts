@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Put } from '@nestjs/common';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { SWAGGER_TAG_CATEGORY } from '@/common/swagger/SwaggerTags';
 import { CategoryService } from '../services/category.service';
-import { CategoryDTO } from '../dto/category.dto';
+import { CategoryDTO } from '../models/dto/category.dto';
 import { CategoryRes } from '../../club/models/res/club.res';
 
 @ApiTags(SWAGGER_TAG_CATEGORY.tag)

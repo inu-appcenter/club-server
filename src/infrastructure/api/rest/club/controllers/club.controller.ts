@@ -16,9 +16,9 @@ export class ClubController {
   @ApiBody({ type: CreateClubDTO })
   @Post()
   async createClub(@Body() createClubDto: CreateClubDTO) {
-    // todo: 관리자 id가 있다고 가정
-    const adminId = 2;
-    await this.clubService.createClub(createClubDto, adminId);
+    // // todo: 관리자 id가 있다고 가정
+    // const adminId = 2;
+    // await this.clubService.createClub(createClubDto, adminId);
     return;
   }
 
