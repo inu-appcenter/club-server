@@ -1,7 +1,9 @@
-import { Image } from '../entity/Image';
+import { ClubImage } from '../entity/ClubImage';
 
-export interface IImageRepository {
-  createImage(image: Image): Promise<Image>;
-  getImageById(imageId: number): Promise<Image>;
-  removeImageById(image: Image): Promise<void>;
+export interface IClubImageRepository {
+  createImage(image: ClubImage): Promise<ClubImage>;
+  getImageById(imageId: number): Promise<ClubImage>;
+  getImagesByClubId(imageId: number): Promise<ClubImage[]>;
+  removeImageById(imageId: number): Promise<void>;
+  removeImagesByClubId(imageId: number): Promise<void>;
 }

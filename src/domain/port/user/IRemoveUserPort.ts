@@ -1,3 +1,3 @@
 export interface IRemoveUserPort {
-  userId: number;
+  id: number;
 }

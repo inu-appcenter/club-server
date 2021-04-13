@@ -5,7 +5,6 @@ import { ClubToday } from '@/domain/entity/ClubToday';
 import { ICreateClubTodayPort } from '@/domain/port/clubtoday/ICreateClubTodayPort';
 import { IClubRepository } from '@/domain/repository/IClubRepository';
 import { IClubTodayRepository } from '@/domain/repository/IClubTodayRepository';
-import { IClubImageRepository } from '@/domain/repository/IImageRepository';
 
 export class CreateClubTodayUseCase implements IUseCase<ICreateClubTodayPort, ClubToday> {
   constructor(

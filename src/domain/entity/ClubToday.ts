@@ -1,34 +1,34 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsInstance, IsOptional, IsString } from 'class-validator';
+import { IsInstance, IsString, NotEquals } from 'class-validator';
 import { Club } from './Club';
-import { ClubImage } from './ClubImage';
 import { ClubTodayEntityPayload, EditClubTodayEntityPayload } from './types/payloads/ClubTodayEntityPayload';
 
 /**
  * @description 클럽 투데이
  */
 export class ClubToday extends Entity {
-  @IsInstance(ClubImage)
-  @IsOptional()
-  private _headerImage?: ClubImage;
+  @IsString()
+  private _headerImageUrl?: string;
   @IsString()
   private _title: string;
   @IsString()
   private _body: string;
   @IsInstance(Club)
+  @NotEquals(null)
+  @NotEquals(undefined)
   private _club: Club;
 
   constructor(payload: ClubTodayEntityPayload) {
     super();
     this._id = payload.id || -1;
-    this._headerImage = payload.headerImage || null;
+    this._headerImageUrl = payload.headerImageUrl;
     this._title = payload.title;
     this._body = payload.body;
     this._club = payload.club;
   }
 
-  public get headerImage() {
-    return this._headerImage;
+  public get headerImageUrl() {
+    return this._headerImageUrl;
   }
 
   public get title() {
@@ -44,9 +44,9 @@ export class ClubToday extends Entity {
   }
 
   public async edit(payload: EditClubTodayEntityPayload): Promise<void> {
-    const { body, headerImage, title } = payload;
+    const { body, headerImageUrl, title } = payload;
     if (body) this._body = body;
-    if (headerImage) this._headerImage = headerImage;
+    if (headerImageUrl) this._headerImageUrl = headerImageUrl;
     if (title) this._title = title;
     await this.validate();
   }

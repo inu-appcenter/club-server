@@ -1,3 +1,3 @@
 export interface IGetClubByCategoryPort {
-  id: number;
+  categoryId: number;
 }

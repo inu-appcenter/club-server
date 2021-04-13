@@ -1,6 +1,6 @@
 export interface IUpdateClubTodayPort {
   id: number;
-  headerImageId?: number;
+  headerImageUrl?: string;
   title?: string;
   body?: string;
 }

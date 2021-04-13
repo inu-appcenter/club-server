@@ -1,4 +1,4 @@
 export interface IUpdateUserPort {
-  userId: number;
+  id: number;
   nickname: string;
 }

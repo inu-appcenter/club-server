@@ -5,7 +5,7 @@ export interface ICreateClubPort {
   categoryId: number;
   location: string;
   summary: string;
-  imageIds: number[];
+  imageUrls: string[];
   applicationInfoPort: ICreateApplicationInfoPort;
   keywords?: string[];
   adminId: number;
