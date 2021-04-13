@@ -1,6 +1,6 @@
 import { User } from '@/domain/entity/User';
 import { IUserRepository } from '@/domain/repository/IUserRepository';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrmUser } from './entities/user.entity';
@@ -10,6 +10,7 @@ export class UserRepository implements IUserRepository {
   constructor(@InjectRepository(OrmUser) private readonly ormUserRepository: Repository<OrmUser>) {}
 
   private toUser(ormUser: OrmUser): User {
+    if (!ormUser) return null;
     const { nickname, studentId, id } = ormUser;
     const user = new User({ id, nickname, studentId });
     return user;
@@ -29,19 +30,10 @@ export class UserRepository implements IUserRepository {
     return ormUsers.map((ormUser) => this.toUser(ormUser));
   }
 
-  // * save 메서드가 생성과 수정 모두 해준다. 나중에 통합 시킬지 고민
-  async updateUserById(user: User): Promise<void> {
-    await this.getUserById(user.id);
-    const ormUser = this.toOrmUser(user);
-    await this.ormUserRepository.save(ormUser, { transaction: false });
-  }
-
   async createUser(user: User): Promise<User> {
-    const users = await this.ormUserRepository.find({ where: { nickname: user.nickname } });
-    if (users.length != 0) throw new HttpException('닉네임 중복', HttpStatus.CONFLICT);
     const ormUser = this.toOrmUser(user); // id값이 없는 유저엔티티
-    const saved = await this.ormUserRepository.save(ormUser);
-    return this.toUser(saved);
+    const newUser = await this.ormUserRepository.save(ormUser);
+    return this.toUser(newUser);
   }
 
   // todo: 괸리자 요청
@@ -51,12 +43,19 @@ export class UserRepository implements IUserRepository {
 
   async getUserById(userId: number): Promise<User> {
     const user = await this.ormUserRepository.findOne(userId);
-    if (!user) throw new HttpException('없는 유저', HttpStatus.NOT_FOUND);
     return this.toUser(user);
   }
 
   async removeUserById(userId: number): Promise<void> {
-    await this.getUserById(userId);
     await this.ormUserRepository.delete({ id: userId });
+  }
+
+  async getUserByNickname(nickname: string): Promise<User> {
+    const user = await this.ormUserRepository.findOne({ nickname });
+    return this.toUser(user);
+  }
+  async updateUser(user: User): Promise<void> {
+    const ormUser = this.toOrmUser(user);
+    await this.ormUserRepository.save(ormUser);
   }
 }

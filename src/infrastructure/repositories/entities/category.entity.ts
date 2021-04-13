@@ -8,9 +8,9 @@ export class OrmCategory extends CommonTypeOrm {
   @Column()
   name!: string;
 
-  @OneToMany((type) => OrmClub, (club) => club.category)
+  @OneToMany(() => OrmClub, (club) => club.category)
   clubs: OrmClub[];
 
-  @OneToMany((type) => OrmGathering, (gathering) => gathering.category)
+  @OneToMany(() => OrmGathering, (gathering) => gathering.category)
   gatherings: OrmGathering[];
 }

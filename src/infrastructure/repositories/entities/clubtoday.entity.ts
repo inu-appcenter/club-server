@@ -1,5 +1,4 @@
-import { Column, Entity as OrmEntity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
-import { OrmClubTodayImage } from './clubtoday-image.entity';
+import { Column, Entity as OrmEntity, ManyToOne } from 'typeorm';
 import { OrmClub } from './club.entity';
 import { CommonTypeOrm } from './common/common';
 
@@ -11,9 +10,8 @@ export class OrmClubToday extends CommonTypeOrm {
   @Column()
   body!: string;
 
-  @OneToOne(() => OrmClubTodayImage, { cascade: true })
-  @JoinColumn()
-  headerImage: OrmClubTodayImage;
+  @Column({ nullable: true })
+  headerImageUrl?: string;
 
   @ManyToOne(() => OrmClub, (club) => club.clubTodays, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   club: OrmClub;

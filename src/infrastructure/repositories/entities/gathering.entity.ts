@@ -24,7 +24,7 @@ export class OrmGathering extends CommonTypeOrm {
   deadline: Date;
 
   @Column({ type: 'boolean', default: false })
-  isClosed: boolean;
+  closed: boolean;
 
   @Column(() => EmParticipationInfo)
   participationInfo!: EmParticipationInfo;

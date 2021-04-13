@@ -32,7 +32,7 @@ export class OrmClub extends CommonTypeOrm {
   category: OrmCategory;
 
   @OneToMany(() => OrmClubImage, (image) => image.club, { cascade: true })
-  images: OrmClubImage[];
+  clubImages: OrmClubImage[];
 
   @OneToMany(() => OrmClubToday, (clubToday) => clubToday.club, { cascade: true })
   clubTodays: OrmClubToday[];

@@ -1,9 +1,9 @@
-import { Column, Entity as OrmEntity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity as OrmEntity, JoinColumn, OneToOne, Unique } from 'typeorm';
 import { OrmClub } from './club.entity';
-import { OrmClubToday } from './clubtoday.entity';
 import { CommonTypeOrm } from './common/common';
 
 @OrmEntity()
+@Unique(['studentId'])
 export class OrmAdmin extends CommonTypeOrm {
   @Column()
   studentId!: number;
@@ -14,10 +14,7 @@ export class OrmAdmin extends CommonTypeOrm {
   @Column()
   phoneNumber!: string;
 
-  @OneToOne((type) => OrmClub, (club) => club.admin, { nullable: true })
+  @OneToOne(() => OrmClub, (club) => club.admin, { nullable: true })
   @JoinColumn()
   club: OrmClub;
-
-  @OneToMany((type) => OrmClubToday, (clubToday) => clubToday.admin)
-  clubTodays: OrmClubToday[];
 }
