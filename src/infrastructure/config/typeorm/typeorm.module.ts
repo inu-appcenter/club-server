@@ -4,20 +4,17 @@ import { OrmCategory } from '@/infrastructure/repositories/entities/category.ent
 import { OrmClub } from '@/infrastructure/repositories/entities/club.entity';
 import { OrmClubImage } from '@/infrastructure/repositories/entities/club-image.entity';
 import { OrmClubToday } from '@/infrastructure/repositories/entities/clubtoday.entity';
-import { OrmClubTodayImage } from '@/infrastructure/repositories/entities/clubtoday-image.entity';
 import { OrmComment } from '@/infrastructure/repositories/entities/comment.entity';
 import { OrmGathering } from '@/infrastructure/repositories/entities/gathering.entity';
-import { OrmReComment } from '@/infrastructure/repositories/entities/re-comment.entity';
 import { OrmSuperAdmin } from '@/infrastructure/repositories/entities/superadmin.entity';
 import { OrmUser } from '@/infrastructure/repositories/entities/user.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { EnvironmentConfigModule } from '../environment/env.module';
 import { EnvironmentConfigService } from '../environment/env.service';
-import { OrmDemand } from '@/infrastructure/repositories/entities/demand.entity';
 import { OrmReportComment } from '@/infrastructure/repositories/entities/report-comment.entity';
 import { OrmReportGathering } from '@/infrastructure/repositories/entities/report-gathering.entity';
-import { OrmReportReComment } from '@/infrastructure/repositories/entities/report-recomment.entity';
+import { OrmKeyword } from '@/infrastructure/repositories/entities/keyword.entity';
 
 export const getTypeOrmModuleOptions = (environmentConfigService: EnvironmentConfigService): TypeOrmModuleOptions =>
   ({
@@ -36,14 +33,11 @@ export const getTypeOrmModuleOptions = (environmentConfigService: EnvironmentCon
       OrmClub,
       OrmClubImage,
       OrmClubToday,
-      OrmClubTodayImage,
       OrmComment,
-      OrmReComment,
       OrmSuperAdmin,
-      OrmDemand,
       OrmReportComment,
       OrmReportGathering,
-      OrmReportReComment,
+      OrmKeyword,
     ],
     logging: false,
     synchronize: true,
