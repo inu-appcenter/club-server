@@ -1,3 +1,4 @@
+import { Exception } from '@/common/exception/Exception';
 import { UseCaseProxy } from '@/common/usecase/UseCaseProxy';
 import { User } from '@/domain/entity/User';
 import { CreateUserUseCase } from '@/domain/usecase/user/CreateUserUseCase';
@@ -6,7 +7,7 @@ import { GetUserUseCase } from '@/domain/usecase/user/GetUserUseCase';
 import { RemoveUserUseCase } from '@/domain/usecase/user/RemoveUserUseCase';
 import { UpdateUserUseCase } from '@/domain/usecase/user/UpdateUserUseCase';
 import { UserProvides } from '@/infrastructure/di/providers/provides/user.provide';
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDTO } from '../models/dto/create-user.dto';
 import { UpdateUserDTO } from '../models/dto/update-user.dto';
 

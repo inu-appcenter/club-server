@@ -8,6 +8,8 @@ import { AdminModule } from './admin/admin.module';
 import { SuperAdminModule } from './superadmin/superadmin.module';
 import { UploadTestModule } from './upload/upload.module';
 import { CategoryModule } from './category/category.module';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionFilter } from '../exception-filter/nest-http-exception.filter';
 
 @Module({
   imports: [
@@ -20,6 +22,12 @@ import { CategoryModule } from './category/category.module';
     SuperAdminModule,
     UploadTestModule,
     CategoryModule,
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
   ],
 })
 export class RestModule {}
