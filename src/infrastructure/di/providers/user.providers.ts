@@ -3,7 +3,6 @@ import { CreateUserUseCase } from '@/domain/usecase/user/CreateUserUseCase';
 import { GetUserListUseCase } from '@/domain/usecase/user/GetUserListUseCase';
 import { GetUserUseCase } from '@/domain/usecase/user/GetUserUseCase';
 import { RemoveUserUseCase } from '@/domain/usecase/user/RemoveUserUseCase';
-import { RequestAdminUseCase } from '@/domain/usecase/user/RequestAdminUseCase';
 import { UpdateUserUseCase } from '@/domain/usecase/user/UpdateUserUseCase';
 import { Provider } from '@nestjs/common';
 import { UserRepository } from '../../repositories/user.repository';
@@ -39,17 +38,10 @@ const RemoveUserProvider: Provider = {
   useFactory: (userRepository: UserRepository) => new UseCaseProxy(new RemoveUserUseCase(userRepository)),
 };
 
-const RequestUserProvider: Provider = {
-  inject: [UserRepository],
-  provide: UserProvides.REQUEST_ADMIN_PROXY_SERVICE,
-  useFactory: (userRepository: UserRepository) => new UseCaseProxy(new RequestAdminUseCase(userRepository)),
-};
-
 export const UserProviders = [
   GetUserProvider,
   GetUserListProvider,
   CreateUserProvider,
   UpdateUserProvider,
   RemoveUserProvider,
-  RequestUserProvider,
 ];
