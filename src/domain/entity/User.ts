@@ -1,5 +1,5 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsInt, IsString } from 'class-validator';
+import { IsInt, IsString, NotEquals } from 'class-validator';
 import { EditUserEntityPayload, UserEntityPayload } from './types/payloads/UserEntityPayload';
 
 /**
@@ -9,6 +9,7 @@ export class User extends Entity {
   @IsInt()
   private _studentId: number;
   @IsString()
+  @NotEquals('')
   private _nickname: string;
 
   constructor(payload: UserEntityPayload) {
