@@ -39,7 +39,7 @@ export class Gathering extends Entity {
   @IsDate()
   private _deadline: Date;
   @IsBoolean()
-  private _isClosed: boolean;
+  private _closed: boolean;
 
   constructor(payload: GatheringEntityPayload) {
     super();
@@ -53,7 +53,7 @@ export class Gathering extends Entity {
     this._user = payload.user;
     this._comments = payload.comments || new Array<Comment>();
     this._category = payload.category;
-    this._isClosed = payload.isClosed || false;
+    this._closed = payload.closed || false;
     this._deadline = payload.deadline;
   }
 
@@ -89,8 +89,8 @@ export class Gathering extends Entity {
     return this._category;
   }
 
-  public get isClosed() {
-    return this._isClosed;
+  public get closed() {
+    return this._closed;
   }
 
   public get deadline() {
@@ -98,11 +98,11 @@ export class Gathering extends Entity {
   }
 
   public async edit(payload: EditGatheringEntityPayload): Promise<void> {
-    const { body, category, deadline, isClosed, numberOfPersonsToInvite, participationInfo, title } = payload;
+    const { body, category, deadline, closed, numberOfPersonsToInvite, participationInfo, title } = payload;
     if (body) this._body = body;
     if (category) this._category = category;
     if (deadline) this._deadline = deadline;
-    if (isClosed) this._isClosed = isClosed;
+    if (closed) this._closed = closed;
     if (numberOfPersonsToInvite) this._numberOfPersonsToInvite = numberOfPersonsToInvite;
     if (participationInfo) this._participationInfo = participationInfo;
     if (title) this._title = title;

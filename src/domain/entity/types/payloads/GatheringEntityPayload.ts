@@ -13,7 +13,7 @@ export type GatheringEntityPayload = {
   user: User;
   comments: Comment[];
   category: Category;
-  isClosed?: boolean;
+  closed?: boolean;
   deadline: Date;
 };
 
@@ -23,6 +23,6 @@ export type EditGatheringEntityPayload = {
   numberOfPersonsToInvite?: number;
   participationInfo?: ParticipationInfo;
   category?: Category;
-  isClosed?: boolean;
+  closed?: boolean;
   deadline?: Date;
 };
