@@ -1,5 +1,6 @@
 import { Exception } from '@/common/exception/Exception';
 import { IErrorResponse } from '@/common/exception/IErrorResponse';
+import { formatDate } from '@/common/utils/format/formatDate';
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
 
@@ -16,7 +17,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const errorRes: IErrorResponse = {
       errors: [],
       path: '',
-      timestamp: new Date().toISOString(),
+      timestamp: formatDate(new Date()),
     };
     let status: number;
     // Common Exception 타입의 에러일 때
@@ -40,6 +41,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     // 최종 에러 응답 객체
     errorRes.path = request.path;
     response.status(status).json(errorRes);
-    Logger.error(`[${errorRes.timestamp}][${request.ip}] ${errorRes.errors}`);
+    Logger.error(`[${errorRes.timestamp}][${request.ip}][${errorRes.path}] ${errorRes.errors}`);
   }
 }
