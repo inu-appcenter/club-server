@@ -15,6 +15,7 @@ import { UserRepository } from './user.repository';
 import { OrmReportComment } from './entities/report-comment.entity';
 import { OrmReportGathering } from './entities/report-gathering.entity';
 import { OrmKeyword } from './entities/keyword.entity';
+import { AdminRepository } from './admin.repository';
 
 // todo: 레포지토리 구현체 exports and providers
 @Module({
@@ -36,7 +37,7 @@ import { OrmKeyword } from './entities/keyword.entity';
       OrmKeyword,
     ]),
   ],
-  providers: [UserRepository],
-  exports: [UserRepository],
+  providers: [UserRepository, AdminRepository],
+  exports: [UserRepository, AdminRepository],
 })
 export class RepositoriesModule {}
