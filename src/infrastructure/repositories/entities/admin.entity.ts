@@ -14,6 +14,9 @@ export class OrmAdmin extends CommonTypeOrm {
   @Column()
   phoneNumber!: string;
 
+  @Column({ default: 0 })
+  role!: number;
+
   @OneToOne(() => OrmClub, (club) => club.admin, { nullable: true })
   @JoinColumn()
   club: OrmClub;
