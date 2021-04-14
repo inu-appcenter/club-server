@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
-export class DemandAdminDTO {
+export class CreateAdminDTO {
   @ApiProperty({ type: 'string', description: '이름', example: '킹병준' })
   @IsString()
   name: string;
