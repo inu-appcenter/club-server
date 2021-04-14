@@ -36,7 +36,6 @@ export class UserRepository implements IUserRepository {
     return this.toUser(newUser);
   }
 
-  // todo: 괸리자 요청
   requestAdmin(): Promise<any> {
     throw new Error('Method not implemented.');
   }

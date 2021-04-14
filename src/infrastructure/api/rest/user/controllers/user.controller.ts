@@ -1,5 +1,5 @@
 import { SWAGGER_TAG_USER } from '@/common/swagger/SwaggerTags';
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBody,
@@ -11,11 +11,11 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CreateUserDTO } from '../models/dto/create-user.dto';
+import { DeleteUserDTO } from '../models/dto/delete-user.dto';
 import { UpdateUserDTO } from '../models/dto/update-user.dto';
 import { UserRes } from '../models/res/user.res';
 import { UserService } from '../services/user.service';
 
-// todo: 에러핸들링 공부하자~
 @ApiTags(SWAGGER_TAG_USER.tag)
 @Controller('users')
 export class UserController {
@@ -38,14 +38,15 @@ export class UserController {
   @Get(':userId')
   async getUser(@Param('userId') userId: number): Promise<UserRes> {
     const user = await this.userService.getUser(userId);
-    return new UserRes(user.id, user.studentId, user.nickname);
+    const { id, nickname, studentId } = user;
+    return { id, nickname, studentId };
   }
 
   @ApiOperation({ summary: '사용자 모두 조회 ' })
   @ApiOkResponse({ description: '성공', isArray: true, type: UserRes })
   @Get()
   async getUsers(): Promise<UserRes[]> {
-    return (await this.userService.getUsers()).map((user) => new UserRes(user.id, user.studentId, user.nickname));
+    return (await this.userService.getUsers()).map(({ id, nickname, studentId }) => ({ id, nickname, studentId }));
   }
 
   @ApiOperation({ summary: '사용자 정보 수정' })
@@ -61,8 +62,9 @@ export class UserController {
   @ApiOperation({ summary: '사용자 탈퇴' })
   @ApiOkResponse({ description: '성공', type: Object })
   @ApiNotFoundResponse({ description: 'User Not Found' })
-  @Delete(':userId')
-  async removeUserById(@Param('userId') userId: number) {
-    await this.userService.removeUser(userId);
+  @ApiBody({ type: DeleteUserDTO })
+  @Post(':userId')
+  async removeUserById(@Param('userId') userId: number, @Body() deleteUserDto: DeleteUserDTO) {
+    await this.userService.removeUser(userId, deleteUserDto);
   }
 }
