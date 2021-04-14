@@ -10,12 +10,20 @@ export interface IAdminRepository {
   createAdmin(admin: Admin): Promise<Admin>;
 
   /**
+   * 실제 관리자로 등록
+   * @param adminId 어드민 pk
+   * @description 슈퍼관리자가 관리자 요청을 확인한 후 실제 관리자로 등록
+   * @permission 슈퍼관리자
+   */
+  registerAdmin(adminId: number): Promise<void>;
+
+  /**
    * 관리자 모두 조회
-   * @param demand 실제 관리자인지 관리자 요청인지 판별
+   * @param role 실제 관리자인지 관리자 요청인지 판별
    * @description 실제 관리자들을 조회하거나 관리자 요청들을 조회
    * @permission 슈퍼관리자
    */
-  getAdmins(demand: boolean): Promise<Admin[]>;
+  getAdmins(role: number): Promise<Admin[]>;
 
   /**
    * 관리자, 요청자 조회

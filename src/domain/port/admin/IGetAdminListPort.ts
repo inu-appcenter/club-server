@@ -1,3 +1,3 @@
 export interface IGetAdminListPort {
-  demand: boolean;
+  role: number;
 }

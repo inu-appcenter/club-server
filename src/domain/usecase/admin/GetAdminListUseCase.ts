@@ -13,6 +13,6 @@ export class GetAdminListUseCase implements IUseCase<IGetAdminListPort, Admin[]>
    * @returns Admin[]
    */
   execute(port?: IGetAdminListPort): Promise<Admin[]> {
-    return this.adminRepository.getAdmins(port.demand);
+    return this.adminRepository.getAdmins(port.role);
   }
 }
