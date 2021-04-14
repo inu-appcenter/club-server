@@ -23,7 +23,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     // Common Exception 타입의 에러일 때
     if (exception instanceof Exception) {
       const data = exception.data;
-      if (data.errors) errorRes.errors = data.errors.map((e) => e.message).flat();
+      if (data !== undefined && data.errors !== undefined) errorRes.errors = data.errors.map((e) => e.message).flat();
       else errorRes.errors = [exception.message];
       if (exception.code >= 600) status = 400;
       else status = exception.code;

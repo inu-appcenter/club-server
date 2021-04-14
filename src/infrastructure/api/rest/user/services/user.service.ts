@@ -9,6 +9,7 @@ import { UpdateUserUseCase } from '@/domain/usecase/user/UpdateUserUseCase';
 import { UserProvides } from '@/infrastructure/di/providers/provides/user.provide';
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDTO } from '../models/dto/create-user.dto';
+import { DeleteUserDTO } from '../models/dto/delete-user.dto';
 import { UpdateUserDTO } from '../models/dto/update-user.dto';
 
 @Injectable()
@@ -44,7 +45,8 @@ export class UserService {
     await this.updateUserProxyService.getInstance().execute({ nickname, id: userId });
   }
 
-  async removeUser(userId: number): Promise<void> {
+  async removeUser(userId: number, deleteUserDto: DeleteUserDTO): Promise<void> {
+    // todo: 비밀번호를 입력받아서 무언가 해야함
     await this.removeUserProxyService.getInstance().execute({ id: userId });
   }
 }
