@@ -97,6 +97,7 @@ src
 | **[2021-03-11]** |   Parameter, Query, Body 예제 데이터 추가   | [bbaktaeho](https://github.com/bbaktaeho) |
 | **[2021-03-12]** |        URL 수정, 오타 수정, DTO 수정        | [bbaktaeho](https://github.com/bbaktaeho) |
 | **[2021-03-21]** |         전체적으로 많은 변경 사항..         | [bbaktaeho](https://github.com/bbaktaeho) |
+| **[2021-04-16]** | 관리자 API 수정 | [bbaktaeho](https://github.com/bbaktaeho) |
 
 ## 더 알고싶다면?
 
