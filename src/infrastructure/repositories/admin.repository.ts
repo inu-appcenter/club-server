@@ -1,25 +1,30 @@
 import { Admin } from '@/domain/entity/Admin';
-import { Club } from '@/domain/entity/Club';
 import { IAdminRepository } from '@/domain/repository/IAdminRepository';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrmAdmin } from './entities/admin.entity';
+import { OrmClub } from './entities/club.entity';
 
 @Injectable()
 export class AdminRepository implements IAdminRepository {
-  constructor(@InjectRepository(OrmAdmin) private readonly ormAdminRepository: Repository<OrmAdmin>) {}
+  constructor(
+    @InjectRepository(OrmAdmin) private readonly ormAdminRepository: Repository<OrmAdmin>,
+    @InjectRepository(OrmClub) private readonly ormClubRepository: Repository<OrmClub>,
+  ) {}
 
   private toAdmin(ormAdmin: OrmAdmin): Admin {
-    const { id, name, phoneNumber, studentId } = ormAdmin;
-    const admin = new Admin({ id, name, studentId, phoneNumber });
+    if (!ormAdmin) return null;
+    const { id, name, phoneNumber, studentId, club } = ormAdmin;
+    const admin = new Admin({ id, name, studentId, phoneNumber, clubId: club?.id });
     return admin;
   }
 
-  private toOrmAdmin(admin: Admin): OrmAdmin {
+  private async toOrmAdmin(admin: Admin): Promise<OrmAdmin> {
     const ormAdmin = new OrmAdmin();
-    const { id, name, studentId, phoneNumber } = admin;
+    const { id, name, studentId, phoneNumber, clubId } = admin;
     if (id != -1) ormAdmin.id = id;
+    if (clubId) ormAdmin.club = await this.ormClubRepository.findOne(clubId);
     ormAdmin.name = name;
     ormAdmin.studentId = studentId;
     ormAdmin.phoneNumber = phoneNumber;
@@ -27,25 +32,25 @@ export class AdminRepository implements IAdminRepository {
   }
 
   async createAdmin(admin: Admin): Promise<Admin> {
-    const ormAdmin = this.toOrmAdmin(admin);
+    const ormAdmin = await this.toOrmAdmin(admin);
     const newAdmin = await this.ormAdminRepository.save(ormAdmin);
     return this.toAdmin(newAdmin);
   }
 
-  async registerAdmin(adminId: number): Promise<void> {
+  async registerAdminById(adminId: number): Promise<void> {
     await this.ormAdminRepository.update({ id: adminId }, { role: 1 });
   }
 
   async getAdmins(role: number): Promise<Admin[]> {
     const ormAdmins = await this.ormAdminRepository.find({
-      select: ['id', 'studentId', 'name', 'phoneNumber'],
       where: { role },
+      relations: ['club'],
     });
     return ormAdmins.map((ormAdmin) => this.toAdmin(ormAdmin));
   }
+
   async getAdminById(adminId: number): Promise<Admin> {
-    const admin = await this.ormAdminRepository.findOne(adminId);
-    if (!admin) throw new HttpException('없는 관리자', HttpStatus.NOT_FOUND);
+    const admin = await this.ormAdminRepository.findOne(adminId, { relations: ['club'] });
     return this.toAdmin(admin);
   }
 
@@ -59,7 +64,7 @@ export class AdminRepository implements IAdminRepository {
   }
 
   async updateAdmin(admin: any): Promise<void> {
-    const ormAdmin = this.toOrmAdmin(admin);
+    const ormAdmin = await this.toOrmAdmin(admin);
     await this.ormAdminRepository.save(ormAdmin);
   }
 }

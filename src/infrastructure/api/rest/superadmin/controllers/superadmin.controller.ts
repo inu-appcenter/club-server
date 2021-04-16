@@ -8,17 +8,16 @@ import { DemandAdminRes } from '../../admin/models/res/demand-admin.res';
 @ApiTags(SWAGGER_TAG_SUPERADMIN.tag)
 @Controller('superadmin')
 export class SuperAdminController {
-  @ApiOperation({ summary: '관리자 등록 허가' })
-  @ApiCreatedResponse({ description: '성공', type: Object })
-  @Post('demand/:demandId')
-  async registerAdmin(@Param('demandId') demandId: number): Promise<any> {
-    return;
-  }
-
-  @ApiOperation({ summary: '관리자 등록 요청 조회' })
-  @ApiOkResponse({ description: '성공', isArray: true, type: DemandAdminRes })
-  @Get('demand')
-  async getDemandAdmin(): Promise<DemandAdminRes[]> {
-    return;
-  }
+  // @ApiOperation({ summary: '관리자 등록 허가' })
+  // @ApiCreatedResponse({ description: '성공', type: Object })
+  // @Post('demand/:demandId')
+  // async registerAdmin(@Param('demandId') demandId: number): Promise<any> {
+  //   return;
+  // }
+  // @ApiOperation({ summary: '관리자 등록 요청 조회' })
+  // @ApiOkResponse({ description: '성공', isArray: true, type: DemandAdminRes })
+  // @Get('demand')
+  // async getDemandAdmin(): Promise<DemandAdminRes[]> {
+  //   return;
+  // }
 }

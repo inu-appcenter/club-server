@@ -3,6 +3,7 @@ import { Admin } from '@/domain/entity/Admin';
 import { CreateAdminUseCase } from '@/domain/usecase/admin/CreateAdminUseCase';
 import { GetAdminListUseCase } from '@/domain/usecase/admin/GetAdminListUseCase';
 import { GetAdminUseCase } from '@/domain/usecase/admin/GetAdminUseCase';
+import { RegisterAdminUseCase } from '@/domain/usecase/admin/RegsiterAdminUseCase';
 import { RemoveAdminUseCase } from '@/domain/usecase/admin/RemoveAdminUseCase';
 import { UpdateAdminUseCase } from '@/domain/usecase/admin/UpdateAdminUseCase';
 import { AdminProvides } from '@/infrastructure/di/providers/provides/admin.provide';
@@ -24,6 +25,8 @@ export class AdminService {
     private readonly updateAdminProxyService: UseCaseProxy<UpdateAdminUseCase>,
     @Inject(AdminProvides.REMOVE_ADMIN_PROXY_SERVICE)
     private readonly removeAdminProxyService: UseCaseProxy<RemoveAdminUseCase>,
+    @Inject(AdminProvides.REGISTER_ADMIN_PROXY_SERVICE)
+    private readonly registerAdminProxyService: UseCaseProxy<RegisterAdminUseCase>,
   ) {}
 
   async createAdmin(studentId: number, createAdminDto: CreateAdminDTO) {
@@ -50,9 +53,13 @@ export class AdminService {
     });
   }
 
+  async registerAdminById(id: number) {
+    await this.registerAdminProxyService.getInstance().execute({ id });
+  }
+
   async removeAdminById(id: number, removeAdminDto: RemoveAdminDTO) {
     // todo: 비밀번호로 인증 받자
     await this.removeAdminProxyService.getInstance().execute({ id });
-    throw new Error();
+    // throw new Error();
   }
 }

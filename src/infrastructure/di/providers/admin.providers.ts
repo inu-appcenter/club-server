@@ -2,6 +2,7 @@ import { UseCaseProxy } from '@/common/usecase/UseCaseProxy';
 import { CreateAdminUseCase } from '@/domain/usecase/admin/CreateAdminUseCase';
 import { GetAdminListUseCase } from '@/domain/usecase/admin/GetAdminListUseCase';
 import { GetAdminUseCase } from '@/domain/usecase/admin/GetAdminUseCase';
+import { RegisterAdminUseCase } from '@/domain/usecase/admin/RegsiterAdminUseCase';
 import { RemoveAdminUseCase } from '@/domain/usecase/admin/RemoveAdminUseCase';
 import { UpdateAdminUseCase } from '@/domain/usecase/admin/UpdateAdminUseCase';
 import { AdminRepository } from '@/infrastructure/repositories/admin.repository';
@@ -38,10 +39,17 @@ const RemoveAdminProvider: Provider = {
   useFactory: (adminRepository: AdminRepository) => new UseCaseProxy(new RemoveAdminUseCase(adminRepository)),
 };
 
+const RegisterAdminProvider: Provider = {
+  inject: [AdminRepository],
+  provide: AdminProvides.REGISTER_ADMIN_PROXY_SERVICE,
+  useFactory: (adminRepository: AdminRepository) => new UseCaseProxy(new RegisterAdminUseCase(adminRepository)),
+};
+
 export const AdminProviders = [
   GetAdminProvider,
   GetAdminListProvider,
   CreateAdminProvider,
   UpdateAdminProvider,
   RemoveAdminProvider,
+  RegisterAdminProvider,
 ];
