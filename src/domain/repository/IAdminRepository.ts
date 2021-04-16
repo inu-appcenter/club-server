@@ -15,7 +15,7 @@ export interface IAdminRepository {
    * @description 슈퍼관리자가 관리자 요청을 확인한 후 실제 관리자로 등록
    * @permission 슈퍼관리자
    */
-  registerAdmin(adminId: number): Promise<void>;
+  registerAdminById(adminId: number): Promise<void>;
 
   /**
    * 관리자 모두 조회

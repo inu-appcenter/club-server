@@ -1,3 +1,5 @@
+import { Code } from '@/common/code/Code';
+import { Exception } from '@/common/exception/Exception';
 import { IUseCase } from '@/common/usecase/IUseCase';
 import { Admin } from '@/domain/entity/Admin';
 import { IGetAdminPort } from '@/domain/port/admin/IGetAdminPort';
@@ -12,7 +14,9 @@ export class GetAdminUseCase implements IUseCase<IGetAdminPort, Admin> {
    * @step_1 port로 받아온 id값으로 특정 관리자를 조회한다.
    * @returns Admin
    */
-  execute(port?: IGetAdminPort): Promise<Admin> {
-    return this.adminRepository.getAdminById(port.id);
+  async execute(port?: IGetAdminPort): Promise<Admin> {
+    const admin = await this.adminRepository.getAdminById(port.id);
+    if (!admin) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 관리자' });
+    return admin;
   }
 }
