@@ -21,8 +21,8 @@ export class AdminRes {
   @IsString()
   phoneNumber: string;
 
-  // @ApiProperty({ type: Number, description: '동아리 pk', example: 1, nullable: true })
-  // @IsNumber()
-  // @Type(() => Number)
-  // clubId: number;
+  @ApiProperty({ type: Number, description: '동아리 pk', example: 1, nullable: true })
+  @IsNumber()
+  @Type(() => Number)
+  clubId?: number;
 }

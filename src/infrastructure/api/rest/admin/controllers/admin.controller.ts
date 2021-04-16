@@ -1,6 +1,6 @@
 import { SWAGGER_TAG_ADMIN } from '@/common/swagger/SwaggerTags';
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
+import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateAdminDTO } from '../models/dto/create-admin.dto';
 import { RemoveAdminDTO } from '../models/dto/remove-admin.dto';
 import { UpdateAdminDTO } from '../models/dto/update-admin.dto';
@@ -25,10 +25,11 @@ export class AdminController {
 
   @ApiOperation({ summary: '관리자 모두 조회' })
   @ApiOkResponse({ description: '성공', isArray: true, type: AdminRes })
+  @ApiQuery({ name: 'role', type: Number, description: '1은 실제 관리자 리스트, 0은 관리자 요청 리스트 (default=1)' })
   @Get()
   async getAdmins(@Query('role') role = 1): Promise<AdminRes[]> {
     const admins = await this.adminService.getAdmins(role);
-    return admins.map(({ id, name, phoneNumber, studentId }) => ({ id, name, phoneNumber, studentId }));
+    return admins.map(({ id, name, phoneNumber, studentId, clubId }) => ({ id, name, phoneNumber, studentId, clubId }));
   }
 
   @ApiOperation({ summary: '관리자 정보 조회' })
@@ -36,8 +37,8 @@ export class AdminController {
   @Get(':adminId')
   async getAdminById(@Param('adminId') adminId: number): Promise<AdminRes> {
     const admin = await this.adminService.getAdminById(adminId);
-    const { id, name, phoneNumber, studentId } = admin;
-    return { id, name, phoneNumber, studentId };
+    const { id, name, phoneNumber, studentId, clubId } = admin;
+    return { id, name, phoneNumber, studentId, clubId };
   }
 
   @ApiOperation({ summary: '관리자 정보 수정' })
@@ -55,6 +56,14 @@ export class AdminController {
   @Post(':adminId')
   async removeAdminById(@Param('adminId') adminId: number, @Body() removeAdminDto: RemoveAdminDTO) {
     await this.adminService.removeAdminById(adminId, removeAdminDto);
+    return {};
+  }
+
+  @ApiOperation({ summary: '관리자 등록 허가' })
+  @ApiCreatedResponse({ description: '성공', type: Object })
+  @Patch(':adminId')
+  async registerAdmin(@Param('adminId') adminId: number) {
+    await this.adminService.registerAdminById(adminId);
     return {};
   }
 
