@@ -68,9 +68,9 @@ export class AdminController {
   }
 
   // todo: 이거 한다는건지 만다는건지?
-  @ApiOperation({ summary: '관리자 권한 위임' })
-  @Post(':adminId/delegation')
-  async delegateAdmin(@Param('adminId') adminId: number) {
-    return '뭘 눌러보냐';
-  }
+  // @ApiOperation({ summary: '관리자 권한 위임' })
+  // @Post(':adminId/delegation')
+  // async delegateAdmin(@Param('adminId') adminId: number) {
+  //   return '뭘 눌러보냐';
+  // }
 }
