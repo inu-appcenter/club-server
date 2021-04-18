@@ -6,6 +6,7 @@ import { RegisterAdminUseCase } from '@/domain/usecase/admin/RegsiterAdminUseCas
 import { RemoveAdminUseCase } from '@/domain/usecase/admin/RemoveAdminUseCase';
 import { UpdateAdminUseCase } from '@/domain/usecase/admin/UpdateAdminUseCase';
 import { AdminRepository } from '@/infrastructure/repositories/admin.repository';
+import { ClubRepository } from '@/infrastructure/repositories/club.repository';
 import { Provider } from '@nestjs/common';
 import { AdminProvides } from './provides/admin.provide';
 
@@ -36,7 +37,8 @@ const UpdateAdminProvider: Provider = {
 const RemoveAdminProvider: Provider = {
   inject: [AdminRepository],
   provide: AdminProvides.REMOVE_ADMIN_PROXY_SERVICE,
-  useFactory: (adminRepository: AdminRepository) => new UseCaseProxy(new RemoveAdminUseCase(adminRepository)),
+  useFactory: (adminRepository: AdminRepository, clubRepository: ClubRepository) =>
+    new UseCaseProxy(new RemoveAdminUseCase(adminRepository, clubRepository)),
 };
 
 const RegisterAdminProvider: Provider = {
