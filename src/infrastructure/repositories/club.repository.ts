@@ -4,6 +4,9 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ClubRepository implements IClubRepository {
+  getClubByClubName(name: string): Promise<Club> {
+    throw new Error('Method not implemented.');
+  }
   createClub(club: Club): Promise<Club> {
     throw new Error('Method not implemented.');
   }

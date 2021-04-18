@@ -9,10 +9,10 @@ import { OrmUser } from './entities/user.entity';
 export class UserRepository implements IUserRepository {
   constructor(@InjectRepository(OrmUser) private readonly ormUserRepository: Repository<OrmUser>) {}
 
-  private toUser(ormUser: OrmUser): User {
+  private async toUser(ormUser: OrmUser): Promise<User> {
     if (!ormUser) return null;
     const { nickname, studentId, id } = ormUser;
-    const user = new User({ id, nickname, studentId });
+    const user = await User.new({ id, nickname, studentId });
     return user;
   }
 
@@ -27,7 +27,7 @@ export class UserRepository implements IUserRepository {
 
   async getUsers(): Promise<User[]> {
     const ormUsers = await this.ormUserRepository.find({ select: ['id', 'nickname', 'studentId'] });
-    return ormUsers.map((ormUser) => this.toUser(ormUser));
+    return await Promise.all(ormUsers.map((ormUser) => this.toUser(ormUser)));
   }
 
   async createUser(user: User): Promise<User> {
