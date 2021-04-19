@@ -1,27 +1,25 @@
-import { Category } from '@/domain/entity/Category';
-import { Admin } from '../../Admin';
 import { ApplicationInfo } from '../../ApplicationInfo';
 import { ClubImage } from '../../ClubImage';
 
 export type ClubEntityPayload = {
   id?: number;
   clubName: string;
-  category: Category;
+  categoryId: number;
   location: string;
   summary: string;
-  admin: Admin;
-  images: ClubImage[];
+  adminId: number;
+  clubImages: ClubImage[];
   applicationInfo: ApplicationInfo;
-  keywords?: string[];
+  keywordIds?: number[];
 };
 
 export type EditClubEntityPayload = {
   clubName?: string;
-  category: Category;
+  categoryId: number;
   location?: string;
   summary?: string;
-  images: ClubImage[];
+  clubImages: ClubImage[];
   applicationInfo: ApplicationInfo;
-  keywords?: string[];
-  admin: Admin;
+  keywordIds?: number[];
+  adminId: number;
 };

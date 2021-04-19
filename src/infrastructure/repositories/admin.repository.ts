@@ -13,10 +13,10 @@ export class AdminRepository implements IAdminRepository {
     @InjectRepository(OrmClub) private readonly ormClubRepository: Repository<OrmClub>,
   ) {}
 
-  private toAdmin(ormAdmin: OrmAdmin): Admin {
+  private async toAdmin(ormAdmin: OrmAdmin): Promise<Admin> {
     if (!ormAdmin) return null;
     const { id, name, phoneNumber, studentId, club } = ormAdmin;
-    const admin = new Admin({ id, name, studentId, phoneNumber, clubId: club?.id });
+    const admin = await Admin.new({ id, name, studentId, phoneNumber, clubId: club?.id });
     return admin;
   }
 
@@ -46,12 +46,13 @@ export class AdminRepository implements IAdminRepository {
       where: { role },
       relations: ['club'],
     });
-    return ormAdmins.map((ormAdmin) => this.toAdmin(ormAdmin));
+
+    return await Promise.all(ormAdmins.map((ormAdmin) => this.toAdmin(ormAdmin)));
   }
 
   async getAdminById(adminId: number): Promise<Admin> {
     const admin = await this.ormAdminRepository.findOne(adminId, { relations: ['club'] });
-    return this.toAdmin(admin);
+    return await this.toAdmin(admin);
   }
 
   async removeAdminById(adminId: number): Promise<void> {

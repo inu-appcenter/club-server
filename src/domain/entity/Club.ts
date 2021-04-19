@@ -1,9 +1,16 @@
 import { Entity } from '@/common/entity/Entity';
 import { Type } from 'class-transformer';
-import { ArrayMaxSize, ArrayMinSize, IsArray, IsInstance, IsOptional, IsString, NotEquals } from 'class-validator';
-import { Admin } from './Admin';
+import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
+  IsInstance,
+  IsInt,
+  IsOptional,
+  IsString,
+  NotEquals,
+} from 'class-validator';
 import { ApplicationInfo } from './ApplicationInfo';
-import { Category } from './Category';
 import { ClubImage } from './ClubImage';
 import { ClubEntityPayload, EditClubEntityPayload } from './types/payloads/ClubEntityPayload';
 
@@ -14,30 +21,28 @@ import { ClubEntityPayload, EditClubEntityPayload } from './types/payloads/ClubE
 export class Club extends Entity {
   @IsString()
   private _clubName: string;
-  @IsInstance(Category)
-  private _category: Category;
+  @IsInt()
+  private _categoryId: number;
   @IsString()
   private _location: string;
   @IsString()
   private _summary: string;
-  @IsInstance(Admin)
-  @NotEquals(null)
-  @NotEquals(undefined)
-  private _admin: Admin;
+  @IsInt()
+  private _adminId: number;
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(10)
-  @Type(() => ClubImage)
   @NotEquals(null)
   @NotEquals(undefined)
-  private _images: ClubImage[];
+  @Type(() => ClubImage)
+  private _clubImages: ClubImage[];
   @IsInstance(ApplicationInfo)
   @NotEquals(null)
   @NotEquals(undefined)
   private _applicationInfo: ApplicationInfo;
   @IsArray()
   @IsOptional()
-  private _keywords: string[];
+  private _keywordIds: number[];
 
   constructor(payload: ClubEntityPayload) {
     super();
@@ -45,12 +50,12 @@ export class Club extends Entity {
 
     this._clubName = payload.clubName;
     this._location = payload.location;
-    this._category = payload.category;
+    this._categoryId = payload.categoryId;
     this._summary = payload.summary;
-    this._admin = payload.admin;
-    this._images = payload.images;
+    this._adminId = payload.adminId;
+    this._clubImages = payload.clubImages;
     this._applicationInfo = payload.applicationInfo;
-    this._keywords = payload.keywords || new Array<string>();
+    this._keywordIds = payload.keywordIds;
   }
 
   public get clubName() {
@@ -65,32 +70,32 @@ export class Club extends Entity {
     return this._applicationInfo;
   }
 
-  public get images() {
-    return this._images;
+  public get clubImages() {
+    return this._clubImages;
   }
 
-  public get admin() {
-    return this._admin;
+  public get adminId() {
+    return this._adminId;
   }
 
-  public get category() {
-    return this._category;
+  public get categoryId() {
+    return this._categoryId;
   }
 
   public get summary() {
     return this._summary;
   }
 
-  public get keywords() {
-    return this._keywords;
+  public get keywordIds() {
+    return this._keywordIds;
   }
 
   public async edit(payload: EditClubEntityPayload): Promise<void> {
-    const { applicationInfo, category, images, keywords, location, clubName, summary } = payload;
+    const { applicationInfo, categoryId, clubImages, keywordIds, location, clubName, summary } = payload;
     if (applicationInfo) this._applicationInfo = applicationInfo;
-    if (category) this._category = category;
-    if (images) this._images = images;
-    if (keywords) this._keywords = keywords;
+    if (categoryId) this._categoryId = categoryId;
+    if (clubImages) this._clubImages = clubImages;
+    if (keywordIds) this._keywordIds = keywordIds;
     if (location) this._location = location;
     if (clubName) this._clubName = clubName;
     if (summary) this._summary = summary;

@@ -49,7 +49,7 @@ export interface IClubRepository {
    * @param name 동아리 이름
    * @description 저장된 동아라 이름에서 일치하는 동아리들을 조회
    */
-  getClubsByName(name: string): Promise<Club[]>;
+  getClubByClubName(name: string): Promise<Club>;
 
   /**
    * 동아리 수정
