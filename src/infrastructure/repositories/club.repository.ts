@@ -1,15 +1,18 @@
+import { Code } from '@/common/code/Code';
+import { Exception } from '@/common/exception/Exception';
 import { ApplicationInfo } from '@/domain/entity/ApplicationInfo';
 import { Club } from '@/domain/entity/Club';
 import { ClubImage } from '@/domain/entity/ClubImage';
 import { IClubRepository } from '@/domain/repository/IClubRepository';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { getManager, Repository } from 'typeorm';
+import { getConnection, Repository } from 'typeorm';
 import { OrmAdmin } from './entities/admin.entity';
 import { OrmApplicationInfo } from './entities/application-info.entity';
 import { OrmCategory } from './entities/category.entity';
 import { OrmClubImage } from './entities/club-image.entity';
 import { OrmClub } from './entities/club.entity';
+import { OrmKeyword } from './entities/keyword.entity';
 
 @Injectable()
 export class ClubRepository implements IClubRepository {
@@ -18,6 +21,7 @@ export class ClubRepository implements IClubRepository {
     @InjectRepository(OrmAdmin) private readonly ormAdminRepository: Repository<OrmAdmin>,
     @InjectRepository(OrmCategory) private readonly ormCategoryRepository: Repository<OrmCategory>,
     @InjectRepository(OrmClubImage) private readonly ormClubImageRepository: Repository<OrmClubImage>,
+    @InjectRepository(OrmKeyword) private readonly ormKeywordRepository: Repository<OrmKeyword>,
   ) {}
 
   private toOrmClubImage(clubImage: ClubImage): OrmClubImage {
@@ -69,9 +73,15 @@ export class ClubRepository implements IClubRepository {
   private async toOrmClub(club: Club): Promise<OrmClub> {
     const ormClub = new OrmClub();
     if (club.id != -1) ormClub.id = club.id;
-    ormClub.admin = await this.ormAdminRepository.findOne(club.adminId);
+    const [admin, category, keywords] = await Promise.all([
+      this.ormAdminRepository.findOne(club.adminId),
+      await this.ormCategoryRepository.findOne(club.categoryId),
+      await this.ormKeywordRepository.findByIds(club.keywordIds),
+    ]);
+    ormClub.admin = admin;
+    ormClub.category = category;
+    ormClub.keywords = keywords;
     ormClub.applicationInfo = this.toOrmApplicationInfo(club.applicationInfo);
-    ormClub.category = await this.ormCategoryRepository.findOne(club.categoryId);
     ormClub.clubImages = club.clubImages.map((image) => this.toOrmClubImage(image));
     ormClub.clubName = club.clubName;
     ormClub.location = club.location;
@@ -86,16 +96,24 @@ export class ClubRepository implements IClubRepository {
     );
     return await this.toClub(ormClub);
   }
+
   async createClub(club: Club): Promise<Club> {
     const ormClub = await this.toOrmClub(club);
-    // todo: 트랜젝션
-    // todo: 관리자 테이블에도 동아리 pk 업데이트
-    // todo: 키워드 save
-    await getManager().transaction(async (transactionManager) => {
-      // await this.
-    });
-    const realClub = await this.ormClubRepository.save(ormClub);
-    return await this.toClub(await this.ormClubRepository.save(ormClub));
+    const queryRunner = await getConnection().createQueryRunner();
+    await queryRunner.startTransaction();
+    try {
+      // ? 아니 이게 관련된 지원 정보와 이미지까지 싹다 생성해줬잖아????
+      // ? ormClub으로 save하고 리턴을 받지 않아도 참조를 계속 하고 있다구!
+      await this.toClub(await this.ormClubRepository.save(ormClub));
+      await this.ormAdminRepository.update({ id: ormClub.admin.id }, { club: ormClub });
+      await queryRunner.commitTransaction();
+      await queryRunner.release();
+      return await this.toClub(ormClub);
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      await queryRunner.release();
+      throw Exception.new({ code: Code.INTERNAL, overrideMessage: error.message });
+    }
   }
   getClubById(clubId: number): Promise<Club> {
     throw new Error('Method not implemented.');

@@ -52,8 +52,6 @@ export class AdminRepository implements IAdminRepository {
 
   async getAdminById(adminId: number): Promise<Admin> {
     const admin = await this.ormAdminRepository.findOne(adminId, { relations: ['club'] });
-    console.log(admin);
-
     return await this.toAdmin(admin);
   }
 
