@@ -11,9 +11,9 @@ export class KeywordRepository implements IKeywordRepository {
 
   private async toKeyword(ormKeyword: OrmKeyword): Promise<Keyword> {
     if (!ormKeyword) return null;
-    const { id, keyword } = ormKeyword;
-    const Ekeyword = await Keyword.new({ id, keyword });
-    return Ekeyword;
+    const { id, keyword: keywordName } = ormKeyword;
+    const keyword = await Keyword.new({ id, keyword: keywordName });
+    return keyword;
   }
 
   private toOrmKeyword(keyword: Keyword): OrmKeyword {
@@ -25,13 +25,19 @@ export class KeywordRepository implements IKeywordRepository {
 
   async createKeywords(keywords: Keyword[]): Promise<Keyword[]> {
     const ormKeywords = keywords.map((keyword) => this.toOrmKeyword(keyword));
+    // const realKeywords = await this.ormKeywordRepository.save(ormKeywords);
+
     const realKeywords = await Promise.all(
       ormKeywords.map((orm) => this.ormKeywordRepository.findOne({ keyword: orm.keyword })),
     );
+    console.table(realKeywords);
+
     // todo: 병렬 수행
     for (const i in realKeywords) {
       if (!realKeywords[i]) realKeywords[i] = await this.ormKeywordRepository.save(ormKeywords[i]);
     }
+    console.table(realKeywords);
+
     return Promise.all(realKeywords.map((ormKeyword) => this.toKeyword(ormKeyword)));
   }
   getKeywordById(keywordId: number): Promise<Keyword> {

@@ -1,10 +1,20 @@
-import { Column, Entity as OrmEntity, OneToOne, JoinColumn, OneToMany, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity as OrmEntity,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { OrmAdmin } from './admin.entity';
 import { OrmApplicationInfo } from './application-info.entity';
 import { OrmCategory } from './category.entity';
 import { CommonTypeOrm } from './common/common';
 import { OrmClubToday } from './clubtoday.entity';
 import { OrmClubImage } from './club-image.entity';
+import { OrmKeyword } from './keyword.entity';
 
 @OrmEntity()
 export class OrmClub extends CommonTypeOrm {
@@ -33,4 +43,8 @@ export class OrmClub extends CommonTypeOrm {
 
   @OneToMany(() => OrmClubToday, (clubToday) => clubToday.club, { cascade: true })
   clubTodays: OrmClubToday[];
+
+  @ManyToMany(() => OrmKeyword)
+  @JoinTable({ name: 'orm_club_keyword' })
+  keywords: OrmKeyword[];
 }

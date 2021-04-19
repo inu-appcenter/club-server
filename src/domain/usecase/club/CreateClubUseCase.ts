@@ -3,7 +3,6 @@ import { Exception } from '@/common/exception/Exception';
 import { IUseCase } from '@/common/usecase/IUseCase';
 import { ApplicationInfo } from '@/domain/entity/ApplicationInfo';
 import { Club } from '@/domain/entity/Club';
-import { ClubImage } from '@/domain/entity/ClubImage';
 import { Keyword } from '@/domain/entity/Keyword';
 import { ICreateClubPort } from '@/domain/port/club/ICreateClubPort';
 import { IAdminRepository } from '@/domain/repository/IAdminRepository';
@@ -46,11 +45,12 @@ export class CreateClubUseCase implements IUseCase<ICreateClubPort, Club> {
     ]);
     const keywordIds = (await this.keywordRepository.createKeywords(keywords)).map((keyword) => keyword.id);
 
-    const club = await Club.new({
-      applicationInfo,
-      keywordIds,
-      ...port,
-    });
-    return this.clubRepository.createClub(club);
+    throw new Error('잠시만 기다려봐');
+    // const club = await Club.new({
+    //   applicationInfo,
+    //   keywordIds,
+    //   ...port,
+    // });
+    // return this.clubRepository.createClub(club);
   }
 }
