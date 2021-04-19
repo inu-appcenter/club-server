@@ -46,11 +46,14 @@ export class AdminRepository implements IAdminRepository {
       where: { role },
       relations: ['club'],
     });
+
     return await Promise.all(ormAdmins.map((ormAdmin) => this.toAdmin(ormAdmin)));
   }
 
   async getAdminById(adminId: number): Promise<Admin> {
     const admin = await this.ormAdminRepository.findOne(adminId, { relations: ['club'] });
+    console.log(admin);
+
     return await this.toAdmin(admin);
   }
 

@@ -1,4 +1,5 @@
 import { Entity } from '@/common/entity/Entity';
+import { Type } from 'class-transformer';
 import {
   ArrayMaxSize,
   ArrayMinSize,
@@ -10,6 +11,7 @@ import {
   NotEquals,
 } from 'class-validator';
 import { ApplicationInfo } from './ApplicationInfo';
+import { ClubImage } from './ClubImage';
 import { ClubEntityPayload, EditClubEntityPayload } from './types/payloads/ClubEntityPayload';
 
 /**
@@ -32,7 +34,8 @@ export class Club extends Entity {
   @ArrayMaxSize(10)
   @NotEquals(null)
   @NotEquals(undefined)
-  private _imageUrls: string[];
+  @Type(() => ClubImage)
+  private _clubImages: ClubImage[];
   @IsInstance(ApplicationInfo)
   @NotEquals(null)
   @NotEquals(undefined)
@@ -50,7 +53,7 @@ export class Club extends Entity {
     this._categoryId = payload.categoryId;
     this._summary = payload.summary;
     this._adminId = payload.adminId;
-    this._imageUrls = payload.imageUrls;
+    this._clubImages = payload.clubImages;
     this._applicationInfo = payload.applicationInfo;
     this._keywordIds = payload.keywordIds;
   }
@@ -67,8 +70,8 @@ export class Club extends Entity {
     return this._applicationInfo;
   }
 
-  public get imageUrls() {
-    return this._imageUrls;
+  public get clubImages() {
+    return this._clubImages;
   }
 
   public get adminId() {
@@ -88,10 +91,10 @@ export class Club extends Entity {
   }
 
   public async edit(payload: EditClubEntityPayload): Promise<void> {
-    const { applicationInfo, categoryId, imageUrls, keywordIds, location, clubName, summary } = payload;
+    const { applicationInfo, categoryId, clubImages, keywordIds, location, clubName, summary } = payload;
     if (applicationInfo) this._applicationInfo = applicationInfo;
     if (categoryId) this._categoryId = categoryId;
-    if (imageUrls) this._imageUrls = imageUrls;
+    if (clubImages) this._clubImages = clubImages;
     if (keywordIds) this._keywordIds = keywordIds;
     if (location) this._location = location;
     if (clubName) this._clubName = clubName;
