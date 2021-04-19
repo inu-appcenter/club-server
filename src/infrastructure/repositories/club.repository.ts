@@ -89,7 +89,8 @@ export class ClubRepository implements IClubRepository {
   async createClub(club: Club): Promise<Club> {
     const ormClub = await this.toOrmClub(club);
     // todo: 트랜젝션
-
+    // todo: 관리자 테이블에도 동아리 pk 업데이트
+    // todo: 키워드 save
     await getManager().transaction(async (transactionManager) => {
       // await this.
     });
