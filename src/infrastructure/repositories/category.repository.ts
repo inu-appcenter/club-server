@@ -17,10 +17,12 @@ export class CategoryRepository implements ICategoryRepository {
   createCategory(category: Category): Promise<Category> {
     throw new Error('Method not implemented.');
   }
+
   async getCategoryById(categoryId: number): Promise<Category> {
     const ormCategory = await this.ormCategoryRepository.findOne(categoryId);
     return await this.toCategory(ormCategory);
   }
+
   getCategoryByName(name: string): Promise<Category> {
     throw new Error('Method not implemented.');
   }

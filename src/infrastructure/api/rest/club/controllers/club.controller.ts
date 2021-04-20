@@ -41,7 +41,10 @@ export class ClubController {
   @ApiBody({ type: UpdateClubDTO })
   @Put(':clubId')
   async updateClubById(@Param('clubId') clubId: number, @Body() updateClubDto: UpdateClubDTO) {
-    return;
+    // todo: 임시 id
+    const adminId = 5;
+    await this.clubService.updateClub(updateClubDto, clubId, adminId);
+    return {};
   }
 
   @ApiOperation({ summary: '동아리 삭제' })

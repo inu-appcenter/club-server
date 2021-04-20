@@ -7,14 +7,12 @@ import { IUpdateClubPort } from '@/domain/port/club/IUpdateClubPort';
 import { IAdminRepository } from '@/domain/repository/IAdminRepository';
 import { ICategoryRepository } from '@/domain/repository/ICategoryRepository';
 import { IClubRepository } from '@/domain/repository/IClubRepository';
-import { IClubImageRepository } from '@/domain/repository/IImageRepository';
 import { IKeywordRepository } from '@/domain/repository/IKeywordRepository';
 
 export class UpdateClubUseCase implements IUseCase<IUpdateClubPort, void> {
   constructor(
     private readonly clubRepository: IClubRepository,
     private readonly adminRepository: IAdminRepository,
-    private readonly clubImageRepository: IClubImageRepository,
     private readonly categoryRepository: ICategoryRepository,
     private readonly keywordRepository: IKeywordRepository,
   ) {}
@@ -32,10 +30,11 @@ export class UpdateClubUseCase implements IUseCase<IUpdateClubPort, void> {
    * @returns void
    */
   async execute(port?: IUpdateClubPort): Promise<void> {
-    const [clubExist, adminExist, categoryExist] = await Promise.all([
+    const [clubExist, adminExist, categoryExist, clubNameExist] = await Promise.all([
       this.clubRepository.getClubById(port.id),
       this.adminRepository.getAdminById(port.adminId),
       this.categoryRepository.getCategoryById(port.categoryId),
+      this.clubRepository.getClubByClubName(port.clubName),
     ]);
 
     if (!clubExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '동아리 없음' });
@@ -43,14 +42,14 @@ export class UpdateClubUseCase implements IUseCase<IUpdateClubPort, void> {
     else if (adminExist.clubId !== clubExist.id)
       throw Exception.new({ code: Code.ACCESS_DENIED, overrideMessage: '권한 없음' });
     if (!categoryExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 카테고리' });
-    if (port.clubName && (await this.clubRepository.getClubByClubName(port.clubName)))
+    if (clubNameExist && clubNameExist.id !== port.id)
       throw Exception.new({ code: Code.CONFLICT, overrideMessage: '동아리 이름 중복' });
 
-    const [_, images, keywords] = await Promise.all([
-      this.clubImageRepository.removeImagesByClubId(port.id),
+    const [images, keywords] = await Promise.all([
       Promise.all(port.imageUrls.map((url) => ClubImage.new({ url }))),
       Promise.all(port.keywords.map((keyword) => Keyword.new({ keyword }))),
     ]);
+
     const keywordIds = (await this.keywordRepository.createKeywords(keywords)).map((keyword) => keyword.id);
     const applicationInfo = clubExist.applicationInfo;
     await applicationInfo.edit(port.applicationInfoPort);
@@ -62,6 +61,7 @@ export class UpdateClubUseCase implements IUseCase<IUpdateClubPort, void> {
       keywordIds,
       ...port,
     });
+
     await this.clubRepository.updateClub(clubExist);
   }
 }

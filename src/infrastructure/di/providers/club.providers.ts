@@ -9,6 +9,7 @@ import { KeywordRepository } from '@/infrastructure/repositories/keyword.reposit
 import { UpdateClubUseCase } from '@/domain/usecase/club/UpdateClubUseCase';
 import { ClubImageRepository } from '@/infrastructure/repositories/club-image.repository';
 
+// ! inject 리스트와 useFactory 파라미터의 순서를 지켜야함!!!!!!!!
 const CreateClubProvider: Provider = {
   inject: [ClubRepository, AdminRepository, CategoryRepository, KeywordRepository],
   provide: ClubProvides.CREATE_CLUB_PROXY_SERVICE,
@@ -21,24 +22,14 @@ const CreateClubProvider: Provider = {
 };
 
 const UpdateClubProvider: Provider = {
-  inject: [ClubRepository, AdminRepository, CategoryRepository, KeywordRepository, ClubImageRepository],
+  inject: [ClubRepository, AdminRepository, CategoryRepository, KeywordRepository],
   provide: ClubProvides.UPDATE_CLUB_PROXY_SERVICE,
   useFactory: (
     clubRepository: ClubRepository,
     adminRepository: AdminRepository,
-    clubImageRepository: ClubImageRepository,
     categoryRepository: CategoryRepository,
     keywordRepository: KeywordRepository,
-  ) =>
-    new UseCaseProxy(
-      new UpdateClubUseCase(
-        clubRepository,
-        adminRepository,
-        clubImageRepository,
-        categoryRepository,
-        keywordRepository,
-      ),
-    ),
+  ) => new UseCaseProxy(new UpdateClubUseCase(clubRepository, adminRepository, categoryRepository, keywordRepository)),
 };
 
 export const ClubProviders = [CreateClubProvider, UpdateClubProvider];

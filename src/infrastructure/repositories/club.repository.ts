@@ -21,6 +21,7 @@ export class ClubRepository implements IClubRepository {
     @InjectRepository(OrmAdmin) private readonly ormAdminRepository: Repository<OrmAdmin>,
     @InjectRepository(OrmCategory) private readonly ormCategoryRepository: Repository<OrmCategory>,
     @InjectRepository(OrmKeyword) private readonly ormKeywordRepository: Repository<OrmKeyword>,
+    @InjectRepository(OrmClubImage) private readonly ormClubImageRepository: Repository<OrmClubImage>,
   ) {}
 
   private toOrmClubImage(clubImage: ClubImage): OrmClubImage {
@@ -116,7 +117,9 @@ export class ClubRepository implements IClubRepository {
   }
 
   async getClubById(clubId: number): Promise<Club> {
-    const ormClub = await this.ormClubRepository.findOne(clubId);
+    const ormClub = await this.ormClubRepository.findOne(clubId, {
+      relations: ['applicationInfo', 'keywords', 'admin', 'category', 'clubImages'],
+    });
     return await this.toClub(ormClub);
   }
   getClubByIdAndAdminId(clubId: number, adminId: number): Promise<Club> {
@@ -143,8 +146,20 @@ export class ClubRepository implements IClubRepository {
   }
 
   async updateClub(club: Club): Promise<void> {
-    const ormClub = await this.toOrmClub(club);
-    await this.ormClubRepository.save(ormClub);
+    const queryRunner = await getConnection().createQueryRunner();
+    await queryRunner.startTransaction();
+    try {
+      const ormClub = await this.toOrmClub(club);
+      const ormImages = await this.ormClubImageRepository.find({ where: { club: { id: club.id } } });
+      await this.ormClubImageRepository.remove(ormImages);
+      await this.ormClubRepository.save(ormClub);
+      await queryRunner.commitTransaction();
+      await queryRunner.release();
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      await queryRunner.release();
+      throw Exception.new({ code: Code.INTERNAL, overrideMessage: error.message });
+    }
   }
 
   removeClubById(clubId: number): Promise<void> {
