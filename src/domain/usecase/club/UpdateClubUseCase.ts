@@ -2,12 +2,13 @@ import { Code } from '@/common/code/Code';
 import { Exception } from '@/common/exception/Exception';
 import { IUseCase } from '@/common/usecase/IUseCase';
 import { ClubImage } from '@/domain/entity/ClubImage';
+import { Keyword } from '@/domain/entity/Keyword';
 import { IUpdateClubPort } from '@/domain/port/club/IUpdateClubPort';
 import { IAdminRepository } from '@/domain/repository/IAdminRepository';
-import { IApplicationInfoRepository } from '@/domain/repository/IApplicationInfoRepository';
 import { ICategoryRepository } from '@/domain/repository/ICategoryRepository';
 import { IClubRepository } from '@/domain/repository/IClubRepository';
 import { IClubImageRepository } from '@/domain/repository/IImageRepository';
+import { IKeywordRepository } from '@/domain/repository/IKeywordRepository';
 
 export class UpdateClubUseCase implements IUseCase<IUpdateClubPort, void> {
   constructor(
@@ -15,7 +16,7 @@ export class UpdateClubUseCase implements IUseCase<IUpdateClubPort, void> {
     private readonly adminRepository: IAdminRepository,
     private readonly clubImageRepository: IClubImageRepository,
     private readonly categoryRepository: ICategoryRepository,
-    private readonly applicationInfoRepository: IApplicationInfoRepository,
+    private readonly keywordRepository: IKeywordRepository,
   ) {}
 
   /**
@@ -31,25 +32,32 @@ export class UpdateClubUseCase implements IUseCase<IUpdateClubPort, void> {
    * @returns void
    */
   async execute(port?: IUpdateClubPort): Promise<void> {
-    const [clubExist, admin, category, applicationInfo] = await Promise.all([
+    const [clubExist, adminExist, categoryExist] = await Promise.all([
       this.clubRepository.getClubById(port.id),
       this.adminRepository.getAdminById(port.adminId),
       this.categoryRepository.getCategoryById(port.categoryId),
-      this.applicationInfoRepository.getApplicationInfoById(port.applicationInfoPort.id),
     ]);
 
     if (!clubExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '동아리 없음' });
-    if (port.clubName && (await this.clubRepository.getClubsByName(port.clubName)))
-      throw Exception.new({ code: Code.CONFLICT, data: port.clubName, overrideMessage: '동아리 이름 중복' });
+    if (!adminExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 관리자' });
+    if (!categoryExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 카테고리' });
+    if (port.clubName && (await this.clubRepository.getClubByClubName(port.clubName)))
+      throw Exception.new({ code: Code.CONFLICT, overrideMessage: '동아리 이름 중복' });
 
-    await this.clubImageRepository.removeImagesByClubId(port.id);
-    const images = await Promise.all(port.imageUrls.map((url) => ClubImage.new({ url })));
+    const [_, images, keywords] = await Promise.all([
+      this.clubImageRepository.removeImagesByClubId(port.id),
+      Promise.all(port.imageUrls.map((url) => ClubImage.new({ url }))),
+      Promise.all(port.keywords.map((keyword) => Keyword.new({ keyword }))),
+    ]);
+    const keywordIds = (await this.keywordRepository.createKeywords(keywords)).map((keyword) => keyword.id);
+    const applicationInfo = clubExist.applicationInfo;
     await applicationInfo.edit(port.applicationInfoPort);
     await clubExist.edit({
+      categoryId: categoryExist.id,
+      adminId: adminExist.id,
+      clubImages: images,
       applicationInfo,
-      category,
-      admin,
-      images,
+      keywordIds,
       ...port,
     });
     await this.clubRepository.updateClub(clubExist);
