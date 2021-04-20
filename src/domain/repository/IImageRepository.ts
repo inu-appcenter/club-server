@@ -5,5 +5,5 @@ export interface IClubImageRepository {
   getImageById(imageId: number): Promise<ClubImage>;
   getImagesByClubId(imageId: number): Promise<ClubImage[]>;
   removeImageById(imageId: number): Promise<void>;
-  removeImagesByClubId(imageId: number): Promise<void>;
+  removeImagesByClubId(clubId: number): Promise<void>;
 }

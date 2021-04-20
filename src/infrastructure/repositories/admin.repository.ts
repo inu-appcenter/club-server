@@ -15,8 +15,15 @@ export class AdminRepository implements IAdminRepository {
 
   private async toAdmin(ormAdmin: OrmAdmin): Promise<Admin> {
     if (!ormAdmin) return null;
-    const { id, name, phoneNumber, studentId, club } = ormAdmin;
-    const admin = await Admin.new({ id, name, studentId, phoneNumber, clubId: club?.id });
+    const { id, name, phoneNumber, studentId, club, role } = ormAdmin;
+    const admin = await Admin.new({
+      id,
+      name,
+      studentId,
+      phoneNumber,
+      clubId: club?.id,
+      role: role ? false : true,
+    });
     return admin;
   }
 
@@ -33,8 +40,8 @@ export class AdminRepository implements IAdminRepository {
 
   async createAdmin(admin: Admin): Promise<Admin> {
     const ormAdmin = await this.toOrmAdmin(admin);
-    const newAdmin = await this.ormAdminRepository.save(ormAdmin);
-    return this.toAdmin(newAdmin);
+    await this.ormAdminRepository.save(ormAdmin);
+    return this.toAdmin(ormAdmin);
   }
 
   async registerAdminById(adminId: number): Promise<void> {
@@ -46,7 +53,6 @@ export class AdminRepository implements IAdminRepository {
       where: { role },
       relations: ['club'],
     });
-
     return await Promise.all(ormAdmins.map((ormAdmin) => this.toAdmin(ormAdmin)));
   }
 

@@ -30,8 +30,8 @@ export class Club extends Entity {
   @IsInt()
   private _adminId: number;
   @IsArray()
-  @ArrayMinSize(1)
-  @ArrayMaxSize(10)
+  @ArrayMinSize(1, { message: '1장 이상 필요' })
+  @ArrayMaxSize(10, { message: '10장 초과 불가' })
   @NotEquals(null)
   @NotEquals(undefined)
   @Type(() => ClubImage)

@@ -1,5 +1,5 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
 import { AdminEntityPayload, EditAdminEntityPayload } from './types/payloads/AdminEntityPayload';
 
 /**
@@ -15,6 +15,8 @@ export class Admin extends Entity {
   @IsInt()
   @IsOptional()
   private _clubId: number;
+  @IsBoolean()
+  private _role: boolean;
 
   constructor(payload: AdminEntityPayload) {
     super();
@@ -24,6 +26,7 @@ export class Admin extends Entity {
     this._name = payload.name;
     this._phoneNumber = payload.phoneNumber;
     this._clubId = payload.clubId;
+    this._role = payload.role;
   }
 
   public get studentId() {
@@ -42,11 +45,16 @@ export class Admin extends Entity {
     return this._clubId;
   }
 
+  public get role() {
+    return this._role;
+  }
+
   public async edit(payload: EditAdminEntityPayload): Promise<void> {
-    const { name, phoneNumber, clubId } = payload;
+    const { name, phoneNumber, clubId, role } = payload;
     if (name) this._name = name;
     if (phoneNumber) this._phoneNumber = phoneNumber;
     if (clubId) this._clubId = clubId;
+    if (role) this._role = role;
     await this.validate();
   }
 

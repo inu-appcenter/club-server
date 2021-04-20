@@ -10,7 +10,7 @@ export class ClubDTO {
     items: { type: 'string', example: 'http://...' },
   })
   @IsArray()
-  images: string[];
+  imageUrls: string[];
 
   @ApiProperty({ type: Number, description: '카테고리 pk', example: 1 })
   @IsNumber()
