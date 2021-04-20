@@ -17,6 +17,10 @@ export class ApplicationInfoRes {
   contact: string;
   @ApiProperty({ type: String, description: '기타', example: '~~~' })
   etc: string;
+
+  constructor(model?: Partial<any>) {
+    Object.assign(this, model);
+  }
 }
 
 export class CategoryRes {
@@ -28,6 +32,10 @@ export class CategoryRes {
   @ApiProperty({ type: String, description: '카테고리 이름', example: '교양학술' })
   @IsString()
   name: string;
+
+  constructor(model?: Partial<any>) {
+    Object.assign(this, model);
+  }
 }
 
 export class ClubRes {
@@ -35,6 +43,11 @@ export class ClubRes {
   @IsNumber()
   @Type(() => Number)
   id: number;
+
+  @ApiProperty({ type: Number, description: '관리자 pk', example: 1 })
+  @IsNumber()
+  @Type(() => Number)
+  adminId: number;
 
   @ApiProperty({ type: String, description: '동아리 이름', example: '앱센터' })
   @IsString()
@@ -63,10 +76,12 @@ export class ClubRes {
     description: '이미지들',
     example: ['http://...', 'http://...'],
   })
-  images?: string[];
-}
+  imageUrls?: string[];
 
-export class AllClubsRes {
-  @ApiProperty({ isArray: true, type: ClubRes })
-  clubs: ClubRes[];
+  @ApiProperty({ isArray: true, type: Number, description: '키워드 id 리스트', example: [1, 2, 3] })
+  keywordIds: number[];
+
+  constructor(model?: Partial<any>) {
+    Object.assign(this, model);
+  }
 }

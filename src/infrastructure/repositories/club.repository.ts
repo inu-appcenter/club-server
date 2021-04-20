@@ -122,6 +122,7 @@ export class ClubRepository implements IClubRepository {
     });
     return await this.toClub(ormClub);
   }
+
   getClubByIdAndAdminId(clubId: number, adminId: number): Promise<Club> {
     throw new Error('Method not implemented.');
   }
@@ -134,7 +135,10 @@ export class ClubRepository implements IClubRepository {
   }
 
   async getClubsByCategoryId(categoryId: number): Promise<Club[]> {
-    const ormClubs = await this.ormClubRepository.find({ where: { category: { id: categoryId } } });
+    const ormClubs = await this.ormClubRepository.find({
+      where: { category: { id: categoryId } },
+      relations: ['keywords', 'admin', 'category', 'clubImages', 'applicationInfo'],
+    });
     return await Promise.all(ormClubs.map((orm) => this.toClub(orm)));
   }
 

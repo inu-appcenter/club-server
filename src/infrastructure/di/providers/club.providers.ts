@@ -7,7 +7,9 @@ import { AdminRepository } from '@/infrastructure/repositories/admin.repository'
 import { CategoryRepository } from '@/infrastructure/repositories/category.repository';
 import { KeywordRepository } from '@/infrastructure/repositories/keyword.repository';
 import { UpdateClubUseCase } from '@/domain/usecase/club/UpdateClubUseCase';
-import { ClubImageRepository } from '@/infrastructure/repositories/club-image.repository';
+import { GetClubUseCase } from '@/domain/usecase/club/GetClubUseCase';
+import { GetClubListUseCase } from '@/domain/usecase/club/GetClubListUseCase';
+import { GetClubByCategoryUseCase } from '@/domain/usecase/club/GetClubByCategoryUseCase';
 
 // ! inject 리스트와 useFactory 파라미터의 순서를 지켜야함!!!!!!!!
 const CreateClubProvider: Provider = {
@@ -32,4 +34,29 @@ const UpdateClubProvider: Provider = {
   ) => new UseCaseProxy(new UpdateClubUseCase(clubRepository, adminRepository, categoryRepository, keywordRepository)),
 };
 
-export const ClubProviders = [CreateClubProvider, UpdateClubProvider];
+const GetClubProvider: Provider = {
+  inject: [ClubRepository],
+  provide: ClubProvides.GET_CLUB_PROXY_SERVICE,
+  useFactory: (clubRepository: ClubRepository) => new UseCaseProxy(new GetClubUseCase(clubRepository)),
+};
+
+const GetAllClubProvider: Provider = {
+  inject: [ClubRepository],
+  provide: ClubProvides.GET_ALL_CLUB_PROXY_SERVICE,
+  useFactory: (clubRepository: ClubRepository) => new UseCaseProxy(new GetClubListUseCase(clubRepository)),
+};
+
+const GetAllClubByCategoryProvider: Provider = {
+  inject: [ClubRepository, CategoryRepository],
+  provide: ClubProvides.GET_ALL_CLUB_CATEGORY_PROXY_SERVICE,
+  useFactory: (clubRepository: ClubRepository, categoryRepository: CategoryRepository) =>
+    new UseCaseProxy(new GetClubByCategoryUseCase(clubRepository, categoryRepository)),
+};
+
+export const ClubProviders = [
+  CreateClubProvider,
+  UpdateClubProvider,
+  GetClubProvider,
+  GetAllClubProvider,
+  GetAllClubByCategoryProvider,
+];
