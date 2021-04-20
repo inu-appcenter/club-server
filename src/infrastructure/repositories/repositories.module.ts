@@ -19,6 +19,7 @@ import { AdminRepository } from './admin.repository';
 import { ClubRepository } from './club.repository';
 import { KeywordRepository } from './keyword.repository';
 import { CategoryRepository } from './category.repository';
+import { ClubImageRepository } from './club-image.repository';
 
 // todo: 레포지토리 구현체 exports and providers
 @Module({
@@ -40,7 +41,21 @@ import { CategoryRepository } from './category.repository';
       OrmKeyword,
     ]),
   ],
-  providers: [UserRepository, AdminRepository, ClubRepository, KeywordRepository, CategoryRepository],
-  exports: [UserRepository, AdminRepository, ClubRepository, KeywordRepository, CategoryRepository],
+  providers: [
+    UserRepository,
+    AdminRepository,
+    ClubRepository,
+    KeywordRepository,
+    CategoryRepository,
+    ClubImageRepository,
+  ],
+  exports: [
+    UserRepository,
+    AdminRepository,
+    ClubRepository,
+    KeywordRepository,
+    CategoryRepository,
+    ClubImageRepository,
+  ],
 })
 export class RepositoriesModule {}
