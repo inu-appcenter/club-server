@@ -20,7 +20,7 @@ export class UpdateClubUseCase implements IUseCase<IUpdateClubPort, void> {
   ) {}
 
   /**
-   * 동아리 수정
+   * 동아리 수정 (관리자는 변하지 않음)
    * @param port IUpdateClubPort
    * @step_1 port로 받아온 id, adminId, categoryId, applicationInfoPort.id 값으로 관계된 데이터를 조회한다.
    * @step_2 동아리가 존재하지 않을 때 예외를 발생시킨다.
@@ -40,6 +40,8 @@ export class UpdateClubUseCase implements IUseCase<IUpdateClubPort, void> {
 
     if (!clubExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '동아리 없음' });
     if (!adminExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 관리자' });
+    else if (adminExist.clubId !== clubExist.id)
+      throw Exception.new({ code: Code.ACCESS_DENIED, overrideMessage: '권한 없음' });
     if (!categoryExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 카테고리' });
     if (port.clubName && (await this.clubRepository.getClubByClubName(port.clubName)))
       throw Exception.new({ code: Code.CONFLICT, overrideMessage: '동아리 이름 중복' });

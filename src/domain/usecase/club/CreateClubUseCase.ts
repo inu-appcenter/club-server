@@ -36,7 +36,8 @@ export class CreateClubUseCase implements IUseCase<ICreateClubPort, Club> {
     ]);
 
     if (!adminExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 관리자' });
-    else if (adminExist.clubId) throw Exception.new({ code: Code.ACCESS_DENIED, overrideMessage: '이미 동아리 있음' });
+    else if (!adminExist.role || adminExist.clubId)
+      throw Exception.new({ code: Code.ACCESS_DENIED, overrideMessage: '이미 동아리가 있거나 생성 권한이 없음' });
     if (!categoryExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 카테고리' });
     if (clubExist) throw Exception.new({ code: Code.CONFLICT, overrideMessage: '동아리 이름 중복' });
 
