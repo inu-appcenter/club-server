@@ -28,17 +28,14 @@ export class AdminController {
   @ApiQuery({ name: 'role', type: Number, description: '1은 실제 관리자 리스트, 0은 관리자 요청 리스트 (default=1)' })
   @Get()
   async getAdmins(@Query('role') role = 1): Promise<AdminRes[]> {
-    const admins = await this.adminService.getAdmins(role);
-    return admins.map(({ id, name, phoneNumber, studentId, clubId }) => ({ id, name, phoneNumber, studentId, clubId }));
+    return await this.adminService.getAdmins(role);
   }
 
   @ApiOperation({ summary: '관리자 정보 조회' })
   @ApiOkResponse({ description: '성공', type: AdminRes })
   @Get(':adminId')
   async getAdminById(@Param('adminId') adminId: number): Promise<AdminRes> {
-    const admin = await this.adminService.getAdminById(adminId);
-    const { id, name, phoneNumber, studentId, clubId } = admin;
-    return { id, name, phoneNumber, studentId, clubId };
+    return await this.adminService.getAdminById(adminId);
   }
 
   @ApiOperation({ summary: '관리자 정보 수정' })
