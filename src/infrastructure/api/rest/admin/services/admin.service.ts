@@ -11,6 +11,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateAdminDTO } from '../models/dto/create-admin.dto';
 import { RemoveAdminDTO } from '../models/dto/remove-admin.dto';
 import { UpdateAdminDTO } from '../models/dto/update-admin.dto';
+import { AdminRes } from '../models/res/admin.res';
 
 @Injectable()
 export class AdminService {
@@ -36,21 +37,18 @@ export class AdminService {
     });
   }
 
-  async getAdmins(role: number): Promise<Admin[]> {
-    return await this.getAdminListProxyService.getInstance().execute({
-      role,
-    });
+  async getAdmins(role: number): Promise<AdminRes[]> {
+    const admins = await this.getAdminListProxyService.getInstance().execute({ role });
+    return admins.map((admin) => new AdminRes(admin));
   }
 
-  async getAdminById(id: number): Promise<Admin> {
-    return await this.getAdminProxyService.getInstance().execute({ id });
+  async getAdminById(id: number): Promise<AdminRes> {
+    const admin = await this.getAdminProxyService.getInstance().execute({ id });
+    return new AdminRes(admin);
   }
 
   async updateAdmin(id: number, updateAdminDto: UpdateAdminDTO): Promise<void> {
-    await this.updateAdminProxyService.getInstance().execute({
-      id,
-      ...updateAdminDto,
-    });
+    await this.updateAdminProxyService.getInstance().execute({ id, ...updateAdminDto });
   }
 
   async registerAdminById(id: number) {
