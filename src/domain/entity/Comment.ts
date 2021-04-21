@@ -9,40 +9,40 @@ import { User } from './User';
  */
 export class Comment extends Entity {
   @IsString()
-  private _content: string;
+  private content: string;
   @IsInstance(User)
   @NotEquals(null)
   @NotEquals(undefined)
-  private _user: User;
+  private user: User;
   @IsArray()
   @NotEquals(null)
   @NotEquals(undefined)
   @Type(() => Comment)
-  private _replies?: Comment[];
+  private replies: Comment[];
+
+  public getContent(): string {
+    return this.content;
+  }
+
+  public getUser(): User {
+    return this.user;
+  }
+
+  public getReplies(): Comment[] {
+    return this.replies;
+  }
 
   constructor(payload: CommentEntityPayload) {
     super();
-    this._id = payload.id || -1;
-    this._user = payload.user;
-    this._replies = payload.replies || new Array<Comment>();
-    this._content = payload.content;
-  }
-
-  public get content() {
-    return this._content;
-  }
-
-  public get user() {
-    return this._user;
-  }
-
-  public get replies() {
-    return this._replies;
+    this.id = payload.id || -1;
+    this.user = payload.user;
+    this.replies = payload.replies || new Array<Comment>();
+    this.content = payload.content;
   }
 
   public async edit(payload: EditCommentEntityPayload): Promise<void> {
     const { content } = payload;
-    if (content) this._content = content;
+    if (content) this.content = content;
     await this.validate();
   }
 

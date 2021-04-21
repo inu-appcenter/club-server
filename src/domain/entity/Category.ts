@@ -4,22 +4,22 @@ import { CategoryEntityPayload, EditCategoryEntityPayload } from './types/payloa
 
 export class Category extends Entity {
   @IsString()
-  private _name: string;
+  private name: string;
 
   constructor(payload: CategoryEntityPayload) {
     super();
-    this._id = payload.id || -1;
+    this.id = payload.id || -1;
 
-    this._name = payload.name;
+    this.name = payload.name;
   }
 
-  public get name() {
-    return this._name;
+  public getName(): string {
+    return this.name;
   }
 
   public async edit(payload: EditCategoryEntityPayload): Promise<void> {
     const { name } = payload;
-    if (name) this._name = name;
+    if (name) this.name = name;
     await this.validate();
   }
 

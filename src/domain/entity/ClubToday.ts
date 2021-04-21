@@ -1,5 +1,5 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsInstance, IsString, NotEquals } from 'class-validator';
+import { IsInstance, IsOptional, IsString, NotEquals } from 'class-validator';
 import { Club } from './Club';
 import { ClubTodayEntityPayload, EditClubTodayEntityPayload } from './types/payloads/ClubTodayEntityPayload';
 
@@ -8,46 +8,47 @@ import { ClubTodayEntityPayload, EditClubTodayEntityPayload } from './types/payl
  */
 export class ClubToday extends Entity {
   @IsString()
-  private _headerImageUrl?: string;
+  @IsOptional()
+  private headerImageUrl: string;
   @IsString()
-  private _title: string;
+  private title: string;
   @IsString()
-  private _body: string;
+  private body: string;
   @IsInstance(Club)
   @NotEquals(null)
   @NotEquals(undefined)
-  private _club: Club;
+  private club: Club;
 
   constructor(payload: ClubTodayEntityPayload) {
     super();
-    this._id = payload.id || -1;
-    this._headerImageUrl = payload.headerImageUrl;
-    this._title = payload.title;
-    this._body = payload.body;
-    this._club = payload.club;
+    this.id = payload.id || -1;
+    this.headerImageUrl = payload.headerImageUrl;
+    this.title = payload.title;
+    this.body = payload.body;
+    this.club = payload.club;
   }
 
-  public get headerImageUrl() {
-    return this._headerImageUrl;
+  public getHeaderImageUrl(): string {
+    return this.headerImageUrl;
   }
 
-  public get title() {
-    return this._title;
+  public getTitle(): string {
+    return this.title;
   }
 
-  public get body() {
-    return this._body;
+  public getBody(): string {
+    return this.body;
   }
 
-  public get club() {
-    return this._club;
+  public getClub(): Club {
+    return this.club;
   }
 
   public async edit(payload: EditClubTodayEntityPayload): Promise<void> {
     const { body, headerImageUrl, title } = payload;
-    if (body) this._body = body;
-    if (headerImageUrl) this._headerImageUrl = headerImageUrl;
-    if (title) this._title = title;
+    if (body) this.body = body;
+    if (headerImageUrl) this.headerImageUrl = headerImageUrl;
+    if (title) this.title = title;
     await this.validate();
   }
 

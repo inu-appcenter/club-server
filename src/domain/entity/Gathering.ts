@@ -1,6 +1,6 @@
 import { Entity } from '@/common/entity/Entity';
 import { Type } from 'class-transformer';
-import { IsArray, IsBoolean, IsDate, IsInstance, IsInt, IsString, NotEquals } from 'class-validator';
+import { IsArray, IsBoolean, IsDate, IsInstance, IsInt, IsOptional, IsString, NotEquals } from 'class-validator';
 import { Category } from './Category';
 import { Comment } from './Comment';
 import { ParticipationInfo } from './types/aliases';
@@ -12,100 +12,100 @@ import { User } from './User';
  */
 export class Gathering extends Entity {
   @IsString()
-  private _title: string;
-  @IsString()
-  private _body: string;
+  private body: string;
   @IsInt()
-  private _numberOfPersonsJoined: number;
+  private numberOfPersonsJoined: number;
   @IsInt()
-  private _numberOfPersonsToInvite: number;
+  private numberOfPersonsToInvite: number;
   @NotEquals(null)
   @NotEquals(undefined)
   @Type(() => Object)
-  private _participationInfo: ParticipationInfo;
+  private participationInfo: ParticipationInfo;
   @IsInstance(User)
   @NotEquals(null)
   @NotEquals(undefined)
-  private _user: User;
+  private user: User;
   @IsInstance(Category)
   @NotEquals(null)
   @NotEquals(undefined)
-  private _category: Category;
+  private category: Category;
   @IsArray()
+  @IsOptional()
   @NotEquals(null)
   @NotEquals(undefined)
   @Type(() => Comment)
-  private _comments?: Comment[];
+  private comments: Comment[];
   @IsDate()
-  private _deadline: Date;
+  private deadline: Date;
   @IsBoolean()
-  private _closed: boolean;
+  private closed: boolean;
+  @IsString()
+  private title: string;
 
   constructor(payload: GatheringEntityPayload) {
     super();
-    this._id = payload.id || -1;
+    this.id = payload.id || -1;
 
-    this._title = payload.title;
-    this._body = payload.body;
-    this._numberOfPersonsJoined = payload.numberOfPersonsJoined;
-    this._numberOfPersonsToInvite = payload.numberOfPersonsToInvite;
-    this._participationInfo = payload.participationInfo;
-    this._user = payload.user;
-    this._comments = payload.comments || new Array<Comment>();
-    this._category = payload.category;
-    this._closed = payload.closed || false;
-    this._deadline = payload.deadline;
+    this.title = payload.title;
+    this.body = payload.body;
+    this.numberOfPersonsJoined = payload.numberOfPersonsJoined;
+    this.numberOfPersonsToInvite = payload.numberOfPersonsToInvite;
+    this.participationInfo = payload.participationInfo;
+    this.user = payload.user;
+    this.comments = payload.comments || new Array<Comment>();
+    this.category = payload.category;
+    this.closed = payload.closed || false;
+    this.deadline = payload.deadline;
   }
 
-  public get title() {
-    return this._title;
+  public isClosed(): boolean {
+    return this.closed;
   }
 
-  public get body() {
-    return this._body;
+  public getDeadline(): Date {
+    return this.deadline;
   }
 
-  public get numberOfPersonsJoined() {
-    return this._numberOfPersonsJoined;
+  public getComments(): Comment[] {
+    return this.comments;
   }
 
-  public get numberOfPersonsToInvite() {
-    return this._numberOfPersonsToInvite;
+  public getCategory(): Category {
+    return this.category;
   }
 
-  public get participationInfo() {
-    return this._participationInfo;
+  public getUser(): User {
+    return this.user;
   }
 
-  public get user() {
-    return this._user;
+  public getParticipationInfo(): ParticipationInfo {
+    return this.participationInfo;
   }
 
-  public get comments() {
-    return this._comments;
+  public getNumberOfPersonsToInvite(): number {
+    return this.numberOfPersonsToInvite;
   }
 
-  public get category() {
-    return this._category;
+  public getNumberOfPersonsJoined(): number {
+    return this.numberOfPersonsJoined;
   }
 
-  public get closed() {
-    return this._closed;
+  public getBody(): string {
+    return this.body;
   }
 
-  public get deadline() {
-    return this._deadline;
+  public getTitle(): string {
+    return this.title;
   }
-
   public async edit(payload: EditGatheringEntityPayload): Promise<void> {
     const { body, category, deadline, closed, numberOfPersonsToInvite, participationInfo, title } = payload;
-    if (body) this._body = body;
-    if (category) this._category = category;
-    if (deadline) this._deadline = deadline;
-    if (closed) this._closed = closed;
-    if (numberOfPersonsToInvite) this._numberOfPersonsToInvite = numberOfPersonsToInvite;
-    if (participationInfo) this._participationInfo = participationInfo;
-    if (title) this._title = title;
+    if (body) this.body = body;
+    if (category) this.category = category;
+    if (deadline) this.deadline = deadline;
+    if (closed) this.closed = closed;
+    if (numberOfPersonsToInvite) this.numberOfPersonsToInvite = numberOfPersonsToInvite;
+    if (participationInfo) this.participationInfo = participationInfo;
+    if (title) this.title = title;
     await this.validate();
   }
 

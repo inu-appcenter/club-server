@@ -6,24 +6,24 @@ import { EditKeywordEntityPayload, KeywordEntityPayload } from './types/payloads
  * @description 키워드
  */
 export class Keyword extends Entity {
-  @IsString({ message: '문자열이 아님' })
-  @NotEquals('', { message: '빈 문자열임' })
-  private _keyword: string;
+  @IsString()
+  @NotEquals('')
+  private keyword: string;
 
   constructor(payload: KeywordEntityPayload) {
     super();
-    this._id = payload.id || -1;
+    this.id = payload.id || -1;
 
-    this._keyword = payload.keyword;
+    this.keyword = payload.keyword;
   }
 
-  public get keyword() {
-    return this._keyword;
+  public getKeyword(): string {
+    return this.keyword;
   }
 
   public async edit(payload: EditKeywordEntityPayload): Promise<void> {
     const { keyword } = payload;
-    if (keyword) this._keyword = keyword;
+    if (keyword) this.keyword = keyword;
     await this.validate();
   }
 

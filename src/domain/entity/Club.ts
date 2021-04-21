@@ -20,85 +20,85 @@ import { ClubEntityPayload, EditClubEntityPayload } from './types/payloads/ClubE
  */
 export class Club extends Entity {
   @IsString()
-  private _clubName: string;
+  private clubName: string;
   @IsInt()
-  private _categoryId: number;
+  private categoryId: number;
   @IsString()
-  private _location: string;
+  private location: string;
   @IsString()
-  private _summary: string;
+  private summary: string;
   @IsInt()
-  private _adminId: number;
+  private adminId: number;
   @IsArray()
   @ArrayMinSize(1, { message: '1장 이상 필요' })
   @ArrayMaxSize(10, { message: '10장 초과 불가' })
   @NotEquals(null)
   @NotEquals(undefined)
   @Type(() => ClubImage)
-  private _clubImages: ClubImage[];
+  private clubImages: ClubImage[];
   @IsInstance(ApplicationInfo)
   @NotEquals(null)
   @NotEquals(undefined)
-  private _applicationInfo: ApplicationInfo;
+  private applicationInfo: ApplicationInfo;
   @IsArray()
   @IsOptional()
-  private _keywordIds: number[];
+  private keywordIds: number[];
 
   constructor(payload: ClubEntityPayload) {
     super();
-    this._id = payload.id || -1;
+    this.id = payload.id || -1;
 
-    this._clubName = payload.clubName;
-    this._location = payload.location;
-    this._categoryId = payload.categoryId;
-    this._summary = payload.summary;
-    this._adminId = payload.adminId;
-    this._clubImages = payload.clubImages;
-    this._applicationInfo = payload.applicationInfo;
-    this._keywordIds = payload.keywordIds;
+    this.clubName = payload.clubName;
+    this.location = payload.location;
+    this.categoryId = payload.categoryId;
+    this.summary = payload.summary;
+    this.adminId = payload.adminId;
+    this.clubImages = payload.clubImages;
+    this.applicationInfo = payload.applicationInfo;
+    this.keywordIds = payload.keywordIds;
   }
 
-  public get clubName() {
-    return this._clubName;
+  public getClubName(): string {
+    return this.clubName;
   }
 
-  public get location() {
-    return this._location;
+  public getCategoryId(): number {
+    return this.categoryId;
   }
 
-  public get applicationInfo() {
-    return this._applicationInfo;
+  public getLocation(): string {
+    return this.location;
   }
 
-  public get clubImages() {
-    return this._clubImages;
+  public getSummary(): string {
+    return this.summary;
   }
 
-  public get adminId() {
-    return this._adminId;
+  public getAdminId(): number {
+    return this.adminId;
   }
 
-  public get categoryId() {
-    return this._categoryId;
+  public getClubImages(): ClubImage[] {
+    return this.clubImages;
   }
 
-  public get summary() {
-    return this._summary;
+  public getApplicationInfo(): ApplicationInfo {
+    return this.applicationInfo;
   }
 
-  public get keywordIds() {
-    return this._keywordIds;
+  public getKeywordIds(): number[] {
+    return this.keywordIds;
   }
 
   public async edit(payload: EditClubEntityPayload): Promise<void> {
     const { applicationInfo, categoryId, clubImages, keywordIds, location, clubName, summary } = payload;
-    if (applicationInfo) this._applicationInfo = applicationInfo;
-    if (categoryId) this._categoryId = categoryId;
-    if (clubImages) this._clubImages = clubImages;
-    if (keywordIds) this._keywordIds = keywordIds;
-    if (location) this._location = location;
-    if (clubName) this._clubName = clubName;
-    if (summary) this._summary = summary;
+    if (applicationInfo) this.applicationInfo = applicationInfo;
+    if (categoryId) this.categoryId = categoryId;
+    if (clubImages) this.clubImages = clubImages;
+    if (keywordIds) this.keywordIds = keywordIds;
+    if (location) this.location = location;
+    if (clubName) this.clubName = clubName;
+    if (summary) this.summary = summary;
     await this.validate();
   }
 
