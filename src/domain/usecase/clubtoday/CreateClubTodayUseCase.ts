@@ -21,7 +21,7 @@ export class CreateClubTodayUseCase implements IUseCase<ICreateClubTodayPort, Cl
   async execute(port?: ICreateClubTodayPort): Promise<ClubToday> {
     const club = await this.clubRepository.getClubByIdAndAdminId(port.clubId, port.adminId);
 
-    const latelyDate = await this.clubTodayRepository.getLatelyDateByClubId(club.id);
+    const latelyDate = await this.clubTodayRepository.getLatelyDateByClubId(club.getId());
     // todo: 날짜 비교
     console.log(latelyDate);
 
