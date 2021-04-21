@@ -14,8 +14,9 @@ export class Admin extends Entity {
   private phoneNumber: string;
   @IsInt()
   @IsOptional()
-  private clubId: number;
+  private clubId: number | null;
   @IsBoolean()
+  @IsOptional()
   private role: boolean;
 
   constructor(payload: AdminEntityPayload) {
@@ -33,8 +34,8 @@ export class Admin extends Entity {
     return this.phoneNumber;
   }
 
-  public getClubId(): number {
-    return this.clubId;
+  public getClubId(): number | null {
+    return this.clubId || null;
   }
 
   public isRole(): boolean {

@@ -3,37 +3,31 @@ import { IUserRepository } from '@/domain/repository/IUserRepository';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { toUser } from './converters/user.converter';
 import { OrmUser } from './entities/user.entity';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(@InjectRepository(OrmUser) private readonly ormUserRepository: Repository<OrmUser>) {}
 
-  private async toUser(ormUser: OrmUser): Promise<User> {
-    if (!ormUser) return null;
-    const { nickname, studentId, id } = ormUser;
-    const user = await User.new({ id, nickname, studentId });
-    return user;
-  }
-
   private toOrmUser(user: User): OrmUser {
     const ormUser = new OrmUser();
-    const { id, nickname, studentId } = user;
+    const id = user.getId();
     if (id != -1) ormUser.id = id;
-    ormUser.nickname = nickname;
-    ormUser.studentId = studentId;
+    ormUser.nickname = user.getNickname();
+    ormUser.studentId = user.getStudentId();
     return ormUser;
   }
 
   async getUsers(): Promise<User[]> {
     const ormUsers = await this.ormUserRepository.find({ select: ['id', 'nickname', 'studentId'] });
-    return await Promise.all(ormUsers.map((ormUser) => this.toUser(ormUser)));
+    return await Promise.all(ormUsers.map((ormUser) => toUser(ormUser)));
   }
 
   async createUser(user: User): Promise<User> {
     const ormUser = this.toOrmUser(user); // id값이 없는 유저엔티티
     const newUser = await this.ormUserRepository.save(ormUser);
-    return this.toUser(newUser);
+    return toUser(newUser);
   }
 
   requestAdmin(): Promise<any> {
@@ -42,7 +36,7 @@ export class UserRepository implements IUserRepository {
 
   async getUserById(userId: number): Promise<User> {
     const user = await this.ormUserRepository.findOne(userId);
-    return this.toUser(user);
+    return toUser(user);
   }
 
   async removeUserById(userId: number): Promise<void> {
@@ -51,7 +45,7 @@ export class UserRepository implements IUserRepository {
 
   async getUserByNickname(nickname: string): Promise<User> {
     const user = await this.ormUserRepository.findOne({ nickname });
-    return this.toUser(user);
+    return toUser(user);
   }
   async updateUser(user: User): Promise<void> {
     const ormUser = this.toOrmUser(user);

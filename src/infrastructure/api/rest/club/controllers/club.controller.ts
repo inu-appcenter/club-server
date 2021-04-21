@@ -17,7 +17,7 @@ export class ClubController {
   @Post()
   async createClub(@Body() createClubDto: CreateClubDTO) {
     // todo: 관리자 id가 있다고 가정
-    const adminId = 4;
+    const adminId = 6;
     return await this.clubService.createClub(createClubDto, adminId);
   }
 
@@ -41,7 +41,7 @@ export class ClubController {
   @Put(':clubId')
   async updateClubById(@Param('clubId') clubId: number, @Body() updateClubDto: UpdateClubDTO) {
     // todo: 임시 id
-    const adminId = 5;
+    const adminId = 3;
     await this.clubService.updateClub(updateClubDto, clubId, adminId);
     return {};
   }

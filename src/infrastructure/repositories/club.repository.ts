@@ -7,6 +7,7 @@ import { IClubRepository } from '@/domain/repository/IClubRepository';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { getConnection, Repository } from 'typeorm';
+import { toClub } from './converters/club.converter';
 import { OrmAdmin } from './entities/admin.entity';
 import { OrmApplicationInfo } from './entities/application-info.entity';
 import { OrmCategory } from './entities/category.entity';
@@ -24,69 +25,44 @@ export class ClubRepository implements IClubRepository {
     @InjectRepository(OrmClubImage) private readonly ormClubImageRepository: Repository<OrmClubImage>,
   ) {}
 
-  private toOrmClubImage(clubImage: ClubImage): OrmClubImage {
-    const ormClubImage = new OrmClubImage();
-    if (clubImage.id != -1) ormClubImage.id = clubImage.id;
-    ormClubImage.url = clubImage.url;
-    return ormClubImage;
-  }
-
-  private async toClubImage(ormClubImage: OrmClubImage): Promise<ClubImage> {
-    if (!ormClubImage) return null;
-    return await ClubImage.new({ id: ormClubImage.id, url: ormClubImage.url });
-  }
-
-  private async toApplicationInfo(ormApplicationInfo: OrmApplicationInfo): Promise<ApplicationInfo> {
-    if (!ormApplicationInfo) return null;
-    const { contact, etc, id, kakaoId, openChatUrl, websiteUrl } = ormApplicationInfo;
-    const applicationInfo = await ApplicationInfo.new({ id, contact, etc, kakaoId, openChatUrl, websiteUrl });
-    return applicationInfo;
-  }
-
-  private toOrmApplicationInfo(applicationInfo: ApplicationInfo): OrmApplicationInfo {
-    const ormAppInfo = new OrmApplicationInfo();
-    if (applicationInfo.id != -1) ormAppInfo.id = applicationInfo.id;
-    ormAppInfo.contact = applicationInfo.contact;
-    ormAppInfo.etc = applicationInfo.etc;
-    ormAppInfo.kakaoId = applicationInfo.kakaoId;
-    ormAppInfo.openChatUrl = applicationInfo.openChatUrl;
-    ormAppInfo.websiteUrl = applicationInfo.websiteUrl;
-    return ormAppInfo;
-  }
-
-  private async toClub(ormClub: OrmClub): Promise<Club> {
-    if (!ormClub) return null;
-    const applicationInfo = await this.toApplicationInfo(ormClub.applicationInfo);
-    return await Club.new({
-      id: ormClub.id,
-      adminId: ormClub.admin.id,
-      applicationInfo,
-      categoryId: ormClub.category.id,
-      clubName: ormClub.clubName,
-      clubImages: await Promise.all(ormClub.clubImages.map((image) => this.toClubImage(image))),
-      location: ormClub.location,
-      summary: ormClub.summary,
-      keywordIds: ormClub.keywords.map((keyword) => keyword.id),
-    });
-  }
-
   private async toOrmClub(club: Club): Promise<OrmClub> {
     const ormClub = new OrmClub();
-    if (club.id != -1) ormClub.id = club.id;
+    const id = club.getId();
+    if (id != -1) ormClub.id = id;
     const [admin, category, keywords] = await Promise.all([
-      this.ormAdminRepository.findOne(club.adminId),
-      await this.ormCategoryRepository.findOne(club.categoryId),
-      await this.ormKeywordRepository.findByIds(club.keywordIds),
+      this.ormAdminRepository.findOne(club.getAdminId()),
+      await this.ormCategoryRepository.findOne(club.getCategoryId()),
+      await this.ormKeywordRepository.findByIds(club.getKeywordIds()),
     ]);
     ormClub.admin = admin;
     ormClub.category = category;
     ormClub.keywords = keywords;
-    ormClub.applicationInfo = this.toOrmApplicationInfo(club.applicationInfo);
-    ormClub.clubImages = club.clubImages.map((image) => this.toOrmClubImage(image));
-    ormClub.clubName = club.clubName;
-    ormClub.location = club.location;
-    ormClub.summary = club.summary;
+    ormClub.applicationInfo = this.toOrmApplicationInfo(club.getApplicationInfo());
+    ormClub.clubImages = club.getClubImages().map((image) => this.toOrmClubImage(image));
+    ormClub.clubName = club.getClubName();
+    ormClub.location = club.getLocation();
+    ormClub.summary = club.getSummary();
     return ormClub;
+  }
+
+  private toOrmClubImage(clubImage: ClubImage): OrmClubImage {
+    const ormClubImage = new OrmClubImage();
+    const id = clubImage.getId();
+    if (id != -1) ormClubImage.id = id;
+    ormClubImage.url = clubImage.getUrl();
+    return ormClubImage;
+  }
+
+  private toOrmApplicationInfo(applicationInfo: ApplicationInfo): OrmApplicationInfo {
+    const ormAppInfo = new OrmApplicationInfo();
+    const id = applicationInfo.getId();
+    if (id != -1) ormAppInfo.id = id;
+    ormAppInfo.contact = applicationInfo.getContact();
+    ormAppInfo.etc = applicationInfo.getEtc();
+    ormAppInfo.kakaoId = applicationInfo.getKakaoId();
+    ormAppInfo.openChatUrl = applicationInfo.getOpenChatUrl();
+    ormAppInfo.websiteUrl = applicationInfo.getWebsiteUrl();
+    return ormAppInfo;
   }
 
   async getClubByClubName(name: string): Promise<Club> {
@@ -94,7 +70,7 @@ export class ClubRepository implements IClubRepository {
       { clubName: name },
       { relations: ['keywords', 'admin', 'category', 'clubImages', 'applicationInfo'] },
     );
-    return await this.toClub(ormClub);
+    return await toClub(ormClub);
   }
 
   async createClub(club: Club): Promise<Club> {
@@ -102,13 +78,11 @@ export class ClubRepository implements IClubRepository {
     const queryRunner = await getConnection().createQueryRunner();
     await queryRunner.startTransaction();
     try {
-      // ? 아니 이게 관련된 지원 정보와 이미지까지 싹다 생성해줬잖아????
-      // ? ormClub으로 save하고 리턴을 받지 않아도 참조를 계속 하고 있다구!
       await this.ormClubRepository.save(ormClub);
       await this.ormAdminRepository.update({ id: ormClub.admin.id }, { club: ormClub });
       await queryRunner.commitTransaction();
       await queryRunner.release();
-      return await this.toClub(ormClub);
+      return await toClub(ormClub);
     } catch (error) {
       await queryRunner.rollbackTransaction();
       await queryRunner.release();
@@ -120,7 +94,7 @@ export class ClubRepository implements IClubRepository {
     const ormClub = await this.ormClubRepository.findOne(clubId, {
       relations: ['applicationInfo', 'keywords', 'admin', 'category', 'clubImages'],
     });
-    return await this.toClub(ormClub);
+    return await toClub(ormClub);
   }
 
   getClubByIdAndAdminId(clubId: number, adminId: number): Promise<Club> {
@@ -131,7 +105,7 @@ export class ClubRepository implements IClubRepository {
     const ormClubs = await this.ormClubRepository.find({
       relations: ['keywords', 'admin', 'category', 'clubImages', 'applicationInfo'],
     });
-    return await Promise.all(ormClubs.map((orm) => this.toClub(orm)));
+    return await Promise.all(ormClubs.map((orm) => toClub(orm)));
   }
 
   async getClubsByCategoryId(categoryId: number): Promise<Club[]> {
@@ -139,7 +113,7 @@ export class ClubRepository implements IClubRepository {
       where: { category: { id: categoryId } },
       relations: ['keywords', 'admin', 'category', 'clubImages', 'applicationInfo'],
     });
-    return await Promise.all(ormClubs.map((orm) => this.toClub(orm)));
+    return await Promise.all(ormClubs.map((orm) => toClub(orm)));
   }
 
   async getClubsByKeyword(keyword: string): Promise<Club[]> {
@@ -154,7 +128,7 @@ export class ClubRepository implements IClubRepository {
     await queryRunner.startTransaction();
     try {
       const ormClub = await this.toOrmClub(club);
-      const ormImages = await this.ormClubImageRepository.find({ where: { club: { id: club.id } } });
+      const ormImages = await this.ormClubImageRepository.find({ where: { club: { id: club.getId() } } });
       await this.ormClubImageRepository.remove(ormImages);
       await this.ormClubRepository.save(ormClub);
       await queryRunner.commitTransaction();

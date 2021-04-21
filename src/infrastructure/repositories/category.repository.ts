@@ -3,16 +3,12 @@ import { ICategoryRepository } from '@/domain/repository/ICategoryRepository';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { toCategory } from './converters/category.converter';
 import { OrmCategory } from './entities/category.entity';
 
 @Injectable()
 export class CategoryRepository implements ICategoryRepository {
   constructor(@InjectRepository(OrmCategory) private readonly ormCategoryRepository: Repository<OrmCategory>) {}
-
-  private async toCategory(ormCategory: OrmCategory): Promise<Category> {
-    if (!ormCategory) return null;
-    return await Category.new({ id: ormCategory.id, name: ormCategory.name });
-  }
 
   createCategory(category: Category): Promise<Category> {
     throw new Error('Method not implemented.');
@@ -20,7 +16,7 @@ export class CategoryRepository implements ICategoryRepository {
 
   async getCategoryById(categoryId: number): Promise<Category> {
     const ormCategory = await this.ormCategoryRepository.findOne(categoryId);
-    return await this.toCategory(ormCategory);
+    return await toCategory(ormCategory);
   }
 
   getCategoryByName(name: string): Promise<Category> {
