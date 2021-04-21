@@ -22,7 +22,8 @@ export class UpdateUserUseCase implements IUseCase<IUpdateUserPort, void> {
       this.userRepository.getUserByNickname(port.nickname),
     ]);
     if (!userExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '사용자 없음' });
-    if (userConflict) throw Exception.new({ code: Code.CONFLICT, data: port.nickname, overrideMessage: '닉네임 중복' });
+    if (userConflict && userConflict.getId() !== port.id)
+      throw Exception.new({ code: Code.CONFLICT, data: port.nickname, overrideMessage: '닉네임 중복' });
     await userExist.edit(port);
     await this.userRepository.updateUser(userExist);
   }
