@@ -39,10 +39,10 @@ export class UpdateClubUseCase implements IUseCase<IUpdateClubPort, void> {
 
     if (!clubExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '동아리 없음' });
     if (!adminExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 관리자' });
-    else if (adminExist.clubId !== clubExist.id)
+    else if (adminExist.getClubId() !== clubExist.getId())
       throw Exception.new({ code: Code.ACCESS_DENIED, overrideMessage: '권한 없음' });
     if (!categoryExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 카테고리' });
-    if (clubNameExist && clubNameExist.id !== port.id)
+    if (clubNameExist && clubNameExist.getId() !== port.id)
       throw Exception.new({ code: Code.CONFLICT, overrideMessage: '동아리 이름 중복' });
 
     const [images, keywords] = await Promise.all([
@@ -50,12 +50,12 @@ export class UpdateClubUseCase implements IUseCase<IUpdateClubPort, void> {
       Promise.all(port.keywords.map((keyword) => Keyword.new({ keyword }))),
     ]);
 
-    const keywordIds = (await this.keywordRepository.createKeywords(keywords)).map((keyword) => keyword.id);
-    const applicationInfo = clubExist.applicationInfo;
+    const keywordIds = (await this.keywordRepository.createKeywords(keywords)).map((keyword) => keyword.getId());
+    const applicationInfo = clubExist.getApplicationInfo();
     await applicationInfo.edit(port.applicationInfoPort);
     await clubExist.edit({
-      categoryId: categoryExist.id,
-      adminId: adminExist.id,
+      categoryId: categoryExist.getId(),
+      adminId: adminExist.getId(),
       clubImages: images,
       applicationInfo,
       keywordIds,

@@ -36,7 +36,7 @@ export class CreateClubUseCase implements IUseCase<ICreateClubPort, Club> {
     ]);
 
     if (!adminExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 관리자' });
-    else if (!adminExist.role || adminExist.clubId)
+    else if (!adminExist.isRole() || adminExist.getClubId())
       throw Exception.new({ code: Code.ACCESS_DENIED, overrideMessage: '이미 동아리가 있거나 생성 권한이 없음' });
     if (!categoryExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 카테고리' });
     if (clubExist) throw Exception.new({ code: Code.CONFLICT, overrideMessage: '동아리 이름 중복' });
@@ -46,7 +46,7 @@ export class CreateClubUseCase implements IUseCase<ICreateClubPort, Club> {
       Promise.all(port.imageUrls.map((url) => ClubImage.new({ url }))),
       Promise.all(port.keywords.map((keyword) => Keyword.new({ keyword }))),
     ]);
-    const keywordIds = (await this.keywordRepository.createKeywords(keywords)).map((keyword) => keyword.id);
+    const keywordIds = (await this.keywordRepository.createKeywords(keywords)).map((keyword) => keyword.getId());
 
     const club = await Club.new({ applicationInfo, clubImages, keywordIds, ...port });
     return this.clubRepository.createClub(club);
