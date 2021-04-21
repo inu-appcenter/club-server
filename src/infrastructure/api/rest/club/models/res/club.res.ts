@@ -76,7 +76,7 @@ export class ClubRes {
     description: '이미지들',
     example: ['http://...', 'http://...'],
   })
-  imageUrls?: string[];
+  imageUrls: string[];
 
   @ApiProperty({ isArray: true, type: Number, description: '키워드 id 리스트', example: [1, 2, 3] })
   keywordIds: number[];

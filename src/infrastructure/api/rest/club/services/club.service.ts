@@ -29,19 +29,17 @@ export class ClubService {
 
   async getClubById(clubId: number): Promise<ClubRes> {
     const club = await this.getClubProxyService.getInstance().execute({ id: clubId });
-    const resClub = new ClubRes(club);
-    console.log(resClub);
-
-    return club;
+    return new ClubRes(club);
   }
 
   async getClubs(): Promise<ClubRes[]> {
     const clubs = await this.getClubsProxyService.getInstance().execute();
-    return clubs;
+    return clubs.map((club) => new ClubRes(club));
   }
 
   async getClubsByCategory(categoryId: number): Promise<ClubRes[]> {
-    return await this.getClubsByCategoryProxyService.getInstance().execute({ categoryId });
+    const clubs = await this.getClubsByCategoryProxyService.getInstance().execute({ categoryId });
+    return clubs.map((club) => new ClubRes(club));
   }
 
   async createClub(createClubDto: CreateClubDTO, adminId: number) {
