@@ -22,14 +22,15 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ApiOperation({ summary: '사용자 등록' })
-  @ApiCreatedResponse({ description: '성공', type: Object })
+  @ApiCreatedResponse({ description: '성공', type: UserRes })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiConflictResponse({ description: 'Conflict' })
   @ApiBody({ type: CreateUserDTO })
   @Post()
-  async createUser(@Body() createUserDto: CreateUserDTO) {
-    await this.userService.createUser(createUserDto, Math.floor(Date.now() / 1000));
-    return {};
+  async createUser(@Body() createUserDto: CreateUserDTO): Promise<UserRes> {
+    // todo: 학번
+    const studentId = Math.floor(Date.now() / 1000);
+    return await this.userService.createUser(createUserDto, studentId);
   }
 
   @ApiOperation({ summary: '사용자 정보 조회 ' })
@@ -37,16 +38,14 @@ export class UserController {
   @ApiNotFoundResponse({ description: 'User Not Found' })
   @Get(':userId')
   async getUser(@Param('userId') userId: number): Promise<UserRes> {
-    const user = await this.userService.getUser(userId);
-    const { id, nickname, studentId } = user;
-    return { id, nickname, studentId };
+    return await this.userService.getUser(userId);
   }
 
   @ApiOperation({ summary: '사용자 모두 조회 ' })
   @ApiOkResponse({ description: '성공', isArray: true, type: UserRes })
   @Get()
   async getUsers(): Promise<UserRes[]> {
-    return (await this.userService.getUsers()).map(({ id, nickname, studentId }) => ({ id, nickname, studentId }));
+    return await this.userService.getUsers();
   }
 
   @ApiOperation({ summary: '사용자 정보 수정' })

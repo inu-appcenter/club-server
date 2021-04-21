@@ -1,3 +1,4 @@
+import { User } from '@/domain/entity/User';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNumber, IsString } from 'class-validator';
@@ -14,4 +15,8 @@ export class UserRes {
   @ApiProperty({ type: String, description: '사용자 닉네임', example: '도비는자유에요' })
   @IsString()
   nickname: string;
+
+  constructor(partial: Partial<User>) {
+    Object.assign(this, partial);
+  }
 }

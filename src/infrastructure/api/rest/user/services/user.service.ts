@@ -1,5 +1,4 @@
 import { UseCaseProxy } from '@/common/usecase/UseCaseProxy';
-import { User } from '@/domain/entity/User';
 import { CreateUserUseCase } from '@/domain/usecase/user/CreateUserUseCase';
 import { GetUserListUseCase } from '@/domain/usecase/user/GetUserListUseCase';
 import { GetUserUseCase } from '@/domain/usecase/user/GetUserUseCase';
@@ -10,6 +9,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDTO } from '../models/dto/create-user.dto';
 import { DeleteUserDTO } from '../models/dto/delete-user.dto';
 import { UpdateUserDTO } from '../models/dto/update-user.dto';
+import { UserRes } from '../models/res/user.res';
 
 @Injectable()
 export class UserService {
@@ -26,17 +26,20 @@ export class UserService {
     private readonly updateUserProxyService: UseCaseProxy<UpdateUserUseCase>,
   ) {}
 
-  async getUser(userId: number): Promise<User> {
-    return await this.getUserProxyService.getInstance().execute({ id: userId });
+  async getUser(userId: number): Promise<UserRes> {
+    const user = await this.getUserProxyService.getInstance().execute({ id: userId });
+    return new UserRes(user);
   }
 
-  async getUsers(): Promise<User[]> {
-    return await this.getUserListProxyService.getInstance().execute();
+  async getUsers(): Promise<UserRes[]> {
+    const users = await this.getUserListProxyService.getInstance().execute();
+    return users.map((user) => new UserRes(user));
   }
 
-  async createUser(createUserDto: CreateUserDTO, studentId: number): Promise<User> {
+  async createUser(createUserDto: CreateUserDTO, studentId: number): Promise<UserRes> {
     const { nickname } = createUserDto;
-    return await this.createUserProxyService.getInstance().execute({ nickname, studentId });
+    const user = await this.createUserProxyService.getInstance().execute({ nickname, studentId });
+    return new UserRes(user);
   }
 
   async updateUser(updateUserDto: UpdateUserDTO, userId: number): Promise<void> {

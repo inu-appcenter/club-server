@@ -18,7 +18,7 @@ export class CreateUserUseCase implements IUseCase<ICreateUserPort, User> {
    */
   async execute(port?: ICreateUserPort): Promise<User> {
     const userExist = await this.userRepository.getUserByNickname(port.nickname);
-    if (userExist) throw Exception.new({ code: Code.CONFLICT, data: port.nickname, overrideMessage: '닉네임 중복' });
+    if (userExist) throw Exception.new({ code: Code.CONFLICT, overrideMessage: '닉네임 중복' });
     const user = await User.new(port);
     return this.userRepository.createUser(user);
   }
