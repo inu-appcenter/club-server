@@ -7,30 +7,32 @@ import { EditUserEntityPayload, UserEntityPayload } from './types/payloads/UserE
  */
 export class User extends Entity {
   @IsInt()
-  private _studentId: number;
+  private studentId: number;
   @IsString()
   @NotEquals('')
-  private _nickname: string;
+  @NotEquals(null)
+  @NotEquals(undefined)
+  private nickname: string;
 
   constructor(payload: UserEntityPayload) {
     super();
-    this._id = payload.id || -1;
+    this.id = payload.id || -1;
 
-    this._studentId = payload.studentId;
-    this._nickname = payload.nickname;
+    this.studentId = payload.studentId;
+    this.nickname = payload.nickname;
   }
 
-  public get studentId() {
-    return this._studentId;
+  public getNickname(): string {
+    return this.nickname;
   }
 
-  public get nickname() {
-    return this._nickname;
+  public getStudentId(): number {
+    return this.studentId;
   }
 
   public async edit(payload: EditUserEntityPayload): Promise<void> {
     const { nickname } = payload;
-    if (nickname) this._nickname = nickname;
+    if (nickname) this.nickname = nickname;
     await this.validate();
   }
 

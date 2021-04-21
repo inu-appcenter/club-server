@@ -4,17 +4,17 @@ import { ClubImagePayload } from './types/payloads/ClubImagePayload';
 
 export class ClubImage extends Entity {
   @IsString()
-  private _url: string;
+  private url: string;
 
   constructor(payload: ClubImagePayload) {
     super();
-    this._id = payload.id || -1;
+    this.id = payload.id || -1;
 
-    this._url = payload.url;
+    this.url = payload.url;
   }
 
-  public get url() {
-    return this._url;
+  public getUrl(): string {
+    return this.url;
   }
 
   public static async new(payload: ClubImagePayload): Promise<ClubImage> {

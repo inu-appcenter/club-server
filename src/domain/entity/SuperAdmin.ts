@@ -8,52 +8,52 @@ import { hash, genSalt } from 'bcryptjs';
  */
 export class SuperAdmin extends Entity {
   @IsString()
-  private _superAdminId: string;
+  private superAdminId: string;
   @IsString()
-  private _name: string;
+  private name: string;
   @IsString()
-  private _phoneNumber: string;
+  private phoneNumber: string;
   @IsString()
-  private _password: string;
+  private password: string;
 
   constructor(payload: SuperAdminEntityPayload) {
     super();
-    this._id = payload.id || -1;
+    this.id = payload.id || -1;
 
-    this._superAdminId = payload.superAdminId;
-    this._name = payload.name;
-    this._phoneNumber = payload.phoneNumber;
-    this._password = payload.password;
+    this.superAdminId = payload.superAdminId;
+    this.name = payload.name;
+    this.phoneNumber = payload.phoneNumber;
+    this.password = payload.password;
   }
 
-  public get superAdminId() {
-    return this._superAdminId;
+  public getSuperAdminId(): string {
+    return this.superAdminId;
   }
 
-  public get name() {
-    return this._name;
+  public getName(): string {
+    return this.name;
   }
 
-  public get phoneNumber() {
-    return this._phoneNumber;
+  public getPhoneNumber(): string {
+    return this.phoneNumber;
   }
 
-  public get password() {
-    return this._password;
+  public getPassword(): string {
+    return this.password;
   }
 
   public async hashPassword(): Promise<void> {
     const salt: string = await genSalt();
-    this._password = await hash(this._password, salt);
+    this.password = await hash(this.password, salt);
     await this.validate();
   }
 
   public async edit(payload: EditSuperAdminEntityPayload): Promise<void> {
     const { name, password, phoneNumber, superAdminId } = payload;
-    if (name) this._name = name;
-    if (password) this._password = password;
-    if (phoneNumber) this._phoneNumber = phoneNumber;
-    if (superAdminId) this._superAdminId = superAdminId;
+    if (name) this.name = name;
+    if (password) this.password = password;
+    if (phoneNumber) this.phoneNumber = phoneNumber;
+    if (superAdminId) this.superAdminId = superAdminId;
     await this.validate();
   }
 

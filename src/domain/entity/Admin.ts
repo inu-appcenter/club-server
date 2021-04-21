@@ -1,5 +1,5 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsBoolean, IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsInt, IsOptional, IsString } from 'class-validator';
 import { AdminEntityPayload, EditAdminEntityPayload } from './types/payloads/AdminEntityPayload';
 
 /**
@@ -7,54 +7,54 @@ import { AdminEntityPayload, EditAdminEntityPayload } from './types/payloads/Adm
  */
 export class Admin extends Entity {
   @IsInt()
-  private _studentId: number;
+  private studentId: number;
   @IsString()
-  private _name: string;
+  private name: string;
   @IsString()
-  private _phoneNumber: string;
+  private phoneNumber: string;
   @IsInt()
   @IsOptional()
-  private _clubId: number;
+  private clubId: number;
   @IsBoolean()
-  private _role: boolean;
+  private role: boolean;
 
   constructor(payload: AdminEntityPayload) {
     super();
-    this._id = payload.id || -1;
+    this.id = payload.id || -1;
 
-    this._studentId = payload.studentId;
-    this._name = payload.name;
-    this._phoneNumber = payload.phoneNumber;
-    this._clubId = payload.clubId;
-    this._role = payload.role;
+    this.studentId = payload.studentId;
+    this.name = payload.name;
+    this.phoneNumber = payload.phoneNumber;
+    this.clubId = payload.clubId;
+    this.role = payload.role;
   }
 
-  public get studentId() {
-    return this._studentId;
+  public getPhoneNumber(): string {
+    return this.phoneNumber;
   }
 
-  public get name() {
-    return this._name;
+  public getClubId(): number {
+    return this.clubId;
   }
 
-  public get phoneNumber() {
-    return this._phoneNumber;
+  public isRole(): boolean {
+    return this.role;
   }
 
-  public get clubId() {
-    return this._clubId;
+  public getStudentId() {
+    return this.studentId;
   }
 
-  public get role() {
-    return this._role;
+  public getName() {
+    return this.name;
   }
 
   public async edit(payload: EditAdminEntityPayload): Promise<void> {
     const { name, phoneNumber, clubId, role } = payload;
-    if (name) this._name = name;
-    if (phoneNumber) this._phoneNumber = phoneNumber;
-    if (clubId) this._clubId = clubId;
-    if (role) this._role = role;
+    if (name) this.name = name;
+    if (phoneNumber) this.phoneNumber = phoneNumber;
+    if (clubId) this.clubId = clubId;
+    if (role) this.role = role;
     await this.validate();
   }
 

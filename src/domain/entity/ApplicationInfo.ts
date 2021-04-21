@@ -5,58 +5,58 @@ import { ApplicationInfoPayload, EditApplicationInfoPayload } from './types/payl
 export class ApplicationInfo extends Entity {
   @IsString()
   @IsOptional()
-  private _kakaoId?: string;
+  private kakaoId: string;
   @IsString()
   @IsOptional()
-  private _openChatUrl?: string;
+  private openChatUrl: string;
   @IsString()
   @IsOptional()
-  private _websiteUrl?: string;
+  private websiteUrl: string;
   @IsString()
   @IsOptional()
-  private _contact?: string;
+  private contact: string;
   @IsString()
   @IsOptional()
-  private _etc?: string;
+  private etc: string;
 
   constructor(payload: ApplicationInfoPayload) {
     super();
-    this._id = payload.id || -1;
+    this.id = payload.id || -1;
 
-    this._contact = payload.contact;
-    this._etc = payload.etc;
-    this._kakaoId = payload.kakaoId;
-    this._openChatUrl = payload.openChatUrl;
-    this._websiteUrl = payload.websiteUrl;
+    this.contact = payload.contact;
+    this.etc = payload.etc;
+    this.kakaoId = payload.kakaoId;
+    this.openChatUrl = payload.openChatUrl;
+    this.websiteUrl = payload.websiteUrl;
   }
 
-  public get kakaoId() {
-    return this._kakaoId;
+  public getKakaoId(): string {
+    return this.kakaoId;
   }
 
-  public get etc() {
-    return this._etc;
+  public getOpenChatUrl(): string {
+    return this.openChatUrl;
   }
 
-  public get openChatUrl() {
-    return this._openChatUrl;
+  public getWebsiteUrl(): string {
+    return this.websiteUrl;
   }
 
-  public get websiteUrl() {
-    return this._websiteUrl;
+  public getContact(): string {
+    return this.contact;
   }
 
-  public get contact() {
-    return this._contact;
+  public getEtc(): string {
+    return this.etc;
   }
 
   public async edit(payload: EditApplicationInfoPayload): Promise<void> {
     const { contact, etc, kakaoId, openChatUrl, websiteUrl } = payload;
-    if (contact) this._contact = contact;
-    if (etc) this._etc = etc;
-    if (kakaoId) this._kakaoId = kakaoId;
-    if (openChatUrl) this._openChatUrl = openChatUrl;
-    if (websiteUrl) this._websiteUrl = websiteUrl;
+    if (contact) this.contact = contact;
+    if (etc) this.etc = etc;
+    if (kakaoId) this.kakaoId = kakaoId;
+    if (openChatUrl) this.openChatUrl = openChatUrl;
+    if (websiteUrl) this.websiteUrl = websiteUrl;
     await this.validate();
   }
 
