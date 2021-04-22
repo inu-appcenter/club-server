@@ -2,7 +2,7 @@ import { ClubToday } from '@/domain/entity/ClubToday';
 import { IClubTodayRepository } from '@/domain/repository/IClubTodayRepository';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { createQueryBuilder, getConnection, Repository } from 'typeorm';
+import { getConnection, Repository } from 'typeorm';
 import { toClubToday } from './converters/clubtoday.converter';
 import { OrmCategory } from './entities/category.entity';
 import { OrmClub } from './entities/club.entity';
@@ -41,11 +41,15 @@ export class ClubTodayRepository implements IClubTodayRepository {
       .getOne();
     throw new Error('기달');
   }
-  getClubTodayListByClubId(clubId: number): Promise<ClubToday[]> {
-    throw new Error('Method not implemented.');
+
+  async getClubTodayListByClubId(clubId: number): Promise<ClubToday[]> {
+    const ormClub = await this.ormClubRepository.findOne(clubId, { relations: ['clubTodays'] });
+    return await Promise.all(ormClub.clubTodays.map((orm) => toClubToday(orm)));
   }
-  getClubTodayById(clubTodayId: number): Promise<ClubToday> {
-    throw new Error('Method not implemented.');
+
+  async getClubTodayById(clubTodayId: number): Promise<ClubToday> {
+    const ormClubToday = await this.ormClubTodayRepository.findOne(clubTodayId);
+    return await toClubToday(ormClubToday);
   }
 
   async createClubToday(clubToday: ClubToday): Promise<ClubToday> {
@@ -54,10 +58,12 @@ export class ClubTodayRepository implements IClubTodayRepository {
     return toClubToday(ormClubToday);
   }
 
-  updateClubToday(clubToday: ClubToday): Promise<void> {
-    throw new Error('Method not implemented.');
+  async updateClubToday(clubToday: ClubToday): Promise<void> {
+    const ormClubToday = await this.toOrmClubToday(clubToday);
+    await this.ormClubTodayRepository.save(ormClubToday);
   }
-  deleteClubTodayById(clubTodayId: number): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async deleteClubTodayById(clubTodayId: number): Promise<void> {
+    await this.ormClubTodayRepository.delete({ id: clubTodayId });
   }
 }
