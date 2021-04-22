@@ -7,7 +7,6 @@ export class GetClubByKeywordUseCase implements IUseCase<IGetClubByKeywordPort, 
   constructor(private readonly clubRepository: IClubRepository) {}
 
   /**
-   * todo: 키워드 usecase
    * 키워드별 동아리 조회
    * @param port IGetClubByKeywordPort
    * @step_1 port에서 받아온 keyword값으로 동아리를 조회한다.

@@ -10,6 +10,7 @@ import { UpdateClubUseCase } from '@/domain/usecase/club/UpdateClubUseCase';
 import { GetClubUseCase } from '@/domain/usecase/club/GetClubUseCase';
 import { GetClubListUseCase } from '@/domain/usecase/club/GetClubListUseCase';
 import { GetClubByCategoryUseCase } from '@/domain/usecase/club/GetClubByCategoryUseCase';
+import { SearchClubListUseCase } from '@/domain/usecase/club/searchClubListUseCase';
 
 // ! inject 리스트와 useFactory 파라미터의 순서를 지켜야함!!!!!!!!
 const CreateClubProvider: Provider = {
@@ -53,10 +54,18 @@ const GetAllClubByCategoryProvider: Provider = {
     new UseCaseProxy(new GetClubByCategoryUseCase(clubRepository, categoryRepository)),
 };
 
+const SearchAllClubProvider: Provider = {
+  inject: [ClubRepository],
+  provide: ClubProvides.SEARCH_ALL_CLUB_PROXY_SERVICE,
+  useFactory: (clubRepository: ClubRepository) => new UseCaseProxy(new SearchClubListUseCase(clubRepository)),
+};
+
 export const ClubProviders = [
   CreateClubProvider,
   UpdateClubProvider,
   GetClubProvider,
   GetAllClubProvider,
   GetAllClubByCategoryProvider,
+  // GetAllClubByKeywordProvider,
+  SearchAllClubProvider,
 ];

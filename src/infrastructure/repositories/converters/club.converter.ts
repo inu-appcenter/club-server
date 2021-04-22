@@ -13,6 +13,6 @@ export async function toClub(ormClub: OrmClub): Promise<Club> {
     applicationInfo: appInfo,
     categoryId: category.id,
     clubImages: await Promise.all(clubImages.map((image) => toClubImage(image))),
-    keywordIds: keywords.map((keyword) => keyword.id),
+    keywords: keywords.map((keyword) => keyword.keyword),
   });
 }
