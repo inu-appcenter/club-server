@@ -2,7 +2,7 @@ import { Category } from '../entity/Category';
 
 export interface ICategoryRepository {
   /**
-   * 카테고리생성
+   * 카테고리 생성
    * @param category 카테고리 엔티티
    * @description 동아리의 카테고리를 등록
    * @permission 슈퍼관리자
