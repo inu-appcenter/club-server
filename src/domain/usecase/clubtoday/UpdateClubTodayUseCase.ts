@@ -17,13 +17,13 @@ export class UpdateClubTodayUseCase implements IUseCase<IUpdateClubTodayPort, vo
    * @returns void
    */
   async execute(port?: IUpdateClubTodayPort): Promise<void> {
-    const clubTodayExist = await this.clubTodayRepository.getClubTodayById(port.id);
-    if (!clubTodayExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '클럽투데이 없음' });
+    // const clubTodayExist = await this.clubTodayRepository.getClubTodayById(port.id);
+    // if (!clubTodayExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '클럽투데이 없음' });
 
-    await clubTodayExist.edit({
-      headerImageUrl: port.headerImageUrl,
-      ...port,
-    });
-    await this.clubTodayRepository.updateClubToday(clubTodayExist);
+    // await clubTodayExist.edit({
+    //   headerImageUrl: port.headerImageUrl,
+    //   ...port,
+    // });
+    // await this.clubTodayRepository.updateClubToday(clubTodayExist);
   }
 }
