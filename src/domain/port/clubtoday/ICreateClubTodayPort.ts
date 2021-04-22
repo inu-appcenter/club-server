@@ -1,5 +1,5 @@
 export interface ICreateClubTodayPort {
-  headerImagUrl?: string;
+  headerImageUrl?: string;
   title: string;
   body: string;
   clubId: number;

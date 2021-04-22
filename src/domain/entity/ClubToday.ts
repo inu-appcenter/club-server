@@ -1,6 +1,5 @@
 import { Entity } from '@/common/entity/Entity';
-import { IsInstance, IsOptional, IsString, NotEquals } from 'class-validator';
-import { Club } from './Club';
+import { IsInt, IsOptional, IsString } from 'class-validator';
 import { ClubTodayEntityPayload, EditClubTodayEntityPayload } from './types/payloads/ClubTodayEntityPayload';
 
 /**
@@ -14,10 +13,8 @@ export class ClubToday extends Entity {
   private title: string;
   @IsString()
   private body: string;
-  @IsInstance(Club)
-  @NotEquals(null)
-  @NotEquals(undefined)
-  private club: Club;
+  @IsInt()
+  private clubId: number;
 
   constructor(payload: ClubTodayEntityPayload) {
     super();
@@ -25,7 +22,7 @@ export class ClubToday extends Entity {
     this.headerImageUrl = payload.headerImageUrl;
     this.title = payload.title;
     this.body = payload.body;
-    this.club = payload.club;
+    this.clubId = payload.clubId;
   }
 
   public getHeaderImageUrl(): string {
@@ -40,8 +37,8 @@ export class ClubToday extends Entity {
     return this.body;
   }
 
-  public getClub(): Club {
-    return this.club;
+  public getClubId(): number {
+    return this.clubId;
   }
 
   public async edit(payload: EditClubTodayEntityPayload): Promise<void> {
