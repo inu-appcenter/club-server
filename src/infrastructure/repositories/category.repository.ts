@@ -10,8 +10,18 @@ import { OrmCategory } from './entities/category.entity';
 export class CategoryRepository implements ICategoryRepository {
   constructor(@InjectRepository(OrmCategory) private readonly ormCategoryRepository: Repository<OrmCategory>) {}
 
-  createCategory(category: Category): Promise<Category> {
-    throw new Error('Method not implemented.');
+  private toOrmCategory(category: Category): OrmCategory {
+    const ormCategory = new OrmCategory();
+    const id = category.getId();
+    if (id !== -1) ormCategory.id = id;
+    ormCategory.name = category.getName();
+    return ormCategory;
+  }
+
+  async createCategory(category: Category): Promise<Category> {
+    const ormCategory = this.toOrmCategory(category);
+    await this.ormCategoryRepository.save(ormCategory);
+    return await toCategory(ormCategory);
   }
 
   async getCategoryById(categoryId: number): Promise<Category> {
@@ -19,13 +29,18 @@ export class CategoryRepository implements ICategoryRepository {
     return await toCategory(ormCategory);
   }
 
-  getCategoryByName(name: string): Promise<Category> {
-    throw new Error('Method not implemented.');
+  async getCategoryByName(name: string): Promise<Category> {
+    const ormCategory = await this.ormCategoryRepository.findOne({ name });
+    return await toCategory(ormCategory);
   }
-  getCategories(): Promise<Category[]> {
-    throw new Error('Method not implemented.');
+
+  async getCategories(): Promise<Category[]> {
+    const ormCategories = await this.ormCategoryRepository.find();
+    return await Promise.all(ormCategories.map((orm) => toCategory(orm)));
   }
-  updateCategory(category: Category): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async updateCategory(category: Category): Promise<void> {
+    const ormCategory = this.toOrmCategory(category);
+    await this.ormCategoryRepository.save(ormCategory);
   }
 }

@@ -22,7 +22,8 @@ export class UpdateCategoryUseCase implements IUseCase<IUpdateCategoryPort, void
       this.categoryRepository.getCategoryByName(port.name),
     ]);
     if (!categoryExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '카테고리 없음' });
-    if (categoryConflict) throw Exception.new({ code: Code.CONFLICT, data: port.name, overrideMessage: '이름 중복' });
+    if (categoryConflict && categoryConflict.getId() !== port.id)
+      throw Exception.new({ code: Code.CONFLICT, data: port.name, overrideMessage: '이름 중복' });
     await categoryExist.edit(port);
     await this.categoryRepository.updateCategory(categoryExist);
   }
