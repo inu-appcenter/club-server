@@ -1,63 +1,63 @@
-// import { ClubToday } from '@/domain/entity/ClubToday';
-// import { User } from '@/domain/entity/User';
-// import { IClubTodayRepository } from '@/domain/repository/IClubTodayRepository';
-// import { Injectable } from '@nestjs/common';
-// import { InjectRepository } from '@nestjs/typeorm';
-// import { Repository } from 'typeorm';
-// import { OrmClubTodayImage } from './entities/clubtoday-image.entity';
-// import { OrmClubToday } from './entities/clubtoday.entity';
+import { ClubToday } from '@/domain/entity/ClubToday';
+import { IClubTodayRepository } from '@/domain/repository/IClubTodayRepository';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { createQueryBuilder, getConnection, Repository } from 'typeorm';
+import { toClubToday } from './converters/clubtoday.converter';
+import { OrmCategory } from './entities/category.entity';
+import { OrmClub } from './entities/club.entity';
+import { OrmClubToday } from './entities/clubtoday.entity';
 
-// @Injectable()
-// export class ClubTodayRepository implements IClubTodayRepository {
-//   constructor(
-//     @InjectRepository(OrmClubToday) private readonly ormClubTodayRepository: Repository<OrmClubToday>,
-//     @InjectRepository(OrmClubTodayImage)
-//     private readonly ormClubTodayImageRepository: Repository<OrmClubTodayImage>,
-//   ) {}
+@Injectable()
+export class ClubTodayRepository implements IClubTodayRepository {
+  constructor(
+    @InjectRepository(OrmClubToday) private readonly ormClubTodayRepository: Repository<OrmClubToday>,
+    @InjectRepository(OrmClub) private readonly ormClubRepository: Repository<OrmClub>,
+  ) {}
 
-//   private toClubToday(ormClubToday: OrmClubToday): ClubToday {
-//     const { id, body, title, headerImage } = ormClubToday;
-//     const clubToday = new ClubToday({
-//       id,
-//       body,
-//       headerImage: headerImage.url,
-//       title,
-//     });
-//     return clubToday;
-//   }
+  private async toOrmClubToday(clubToday: ClubToday): Promise<OrmClubToday> {
+    const ormClubToday = new OrmClubToday();
+    const id = clubToday.getId();
+    const clubId = clubToday.getClubId();
+    if (id !== -1) ormClubToday.id = id;
+    ormClubToday.headerImageUrl = clubToday.getHeaderImageUrl();
+    ormClubToday.title = clubToday.getTitle();
+    ormClubToday.body = clubToday.getBody();
+    ormClubToday.club = await this.ormClubRepository.findOne(clubId);
+    return ormClubToday;
+  }
 
-//   private toOrmClubToday(clubToday: ClubToday): OrmClubToday {
-//     const ormClubToday = new OrmClubToday();
-//     const ormClubTodayImage = new OrmClubTodayImage();
-//     const { id, headerImage, title, body } = clubToday;
-//     if (id != -1) ormClubToday.id = id;
-//     ormClubTodayImage.url = headerImage;
-//     ormClubToday.headerImage = ormClubTodayImage;
-//     ormClubToday.title = title;
-//     ormClubToday.body = body;
-//     return ormClubToday;
-//   }
+  async getClubTodayList(): Promise<ClubToday[]> {
+    const ormClubTodayList = await this.ormClubTodayRepository.find({ relations: ['club'] });
+    return await Promise.all(ormClubTodayList.map((orm) => toClubToday(orm)));
+  }
 
-//   async getClubTodayList(): Promise<ClubToday[]> {
-//     return (await this.ormClubTodayRepository.find()).map((clubToday) => this.toClubToday(clubToday));
-//   }
+  async getLatelyDateByClubId(clubId: number): Promise<Date> {
+    const ormCategory = await getConnection()
+      .createQueryBuilder(OrmCategory, 'category')
+      .leftJoinAndSelect('category.clubId', 'club')
+      .where('category.clubId = :clubId', { clubId })
+      .orderBy('createdAt', 'DESC')
+      .getOne();
+    throw new Error('기달');
+  }
+  getClubTodayListByClubId(clubId: number): Promise<ClubToday[]> {
+    throw new Error('Method not implemented.');
+  }
+  getClubTodayById(clubTodayId: number): Promise<ClubToday> {
+    throw new Error('Method not implemented.');
+  }
 
-//   async getClubTodayListByClubId(clubId: number): Promise<ClubToday[]> {
-//     const a = await this.ormClubTodayRepository.find({ relations: ['club'], where: { club: { id: clubId } } });
-//     console.log('ClubTodayRepository', a);
+  async createClubToday(clubToday: ClubToday): Promise<ClubToday> {
+    const ormClubToday = await this.toOrmClubToday(clubToday);
+    await this.ormClubTodayRepository.save(ormClubToday);
+    return toClubToday(ormClubToday);
+  }
 
-//     return a.map((clubToday) => this.toClubToday(clubToday));
-//   }
-//   getClubTodayById(clubTodayId: number): Promise<ClubToday> {
-//     throw new Error('Method not implemented.');
-//   }
-//   createClubToday(clubToday: ClubToday): Promise<ClubToday> {
-//     throw new Error('Method not implemented.');
-//   }
-//   updateClubTodayById(clubTodayId: number): Promise<void> {
-//     throw new Error('Method not implemented.');
-//   }
-//   deleteClubTodayById(clubTodayId: number): Promise<void> {
-//     throw new Error('Method not implemented.');
-//   }
-// }
+  updateClubToday(clubToday: ClubToday): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+  deleteClubTodayById(clubTodayId: number): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+}

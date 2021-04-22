@@ -3,10 +3,9 @@ import { Exception } from '@/common/exception/Exception';
 import { IUseCase } from '@/common/usecase/IUseCase';
 import { IUpdateClubTodayPort } from '@/domain/port/clubtoday/IUpdateClubTodayPort';
 import { IClubTodayRepository } from '@/domain/repository/IClubTodayRepository';
-import { IClubImageRepository } from '@/domain/repository/IImageRepository';
 
 export class UpdateClubTodayUseCase implements IUseCase<IUpdateClubTodayPort, void> {
-  constructor(private imageRepository: IClubImageRepository, private clubTodayRepository: IClubTodayRepository) {}
+  constructor(private readonly clubTodayRepository: IClubTodayRepository) {}
 
   /**
    * 클럽투데이 수정
@@ -17,13 +16,9 @@ export class UpdateClubTodayUseCase implements IUseCase<IUpdateClubTodayPort, vo
    * @returns void
    */
   async execute(port?: IUpdateClubTodayPort): Promise<void> {
-    // const clubTodayExist = await this.clubTodayRepository.getClubTodayById(port.id);
-    // if (!clubTodayExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '클럽투데이 없음' });
-
-    // await clubTodayExist.edit({
-    //   headerImageUrl: port.headerImageUrl,
-    //   ...port,
-    // });
-    // await this.clubTodayRepository.updateClubToday(clubTodayExist);
+    const clubTodayExist = await this.clubTodayRepository.getClubTodayById(port.id);
+    if (!clubTodayExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 클럽투데이' });
+    await clubTodayExist.edit(port);
+    await this.clubTodayRepository.updateClubToday(clubTodayExist);
   }
 }
