@@ -50,7 +50,7 @@ export class UpdateClubUseCase implements IUseCase<IUpdateClubPort, void> {
       Promise.all(port.keywords.map((keyword) => Keyword.new({ keyword }))),
     ]);
 
-    const keywordIds = (await this.keywordRepository.createKeywords(keywords)).map((keyword) => keyword.getId());
+    const keywordNames = (await this.keywordRepository.createKeywords(keywords)).map((keyword) => keyword.getKeyword());
     const applicationInfo = clubExist.getApplicationInfo();
     await applicationInfo.edit(port.applicationInfoPort);
     await clubExist.edit({
@@ -58,7 +58,7 @@ export class UpdateClubUseCase implements IUseCase<IUpdateClubPort, void> {
       adminId: adminExist.getId(),
       clubImages: images,
       applicationInfo,
-      keywordIds,
+      keywords: keywordNames,
       ...port,
     });
 

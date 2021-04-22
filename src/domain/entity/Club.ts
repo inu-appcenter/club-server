@@ -42,7 +42,7 @@ export class Club extends Entity {
   private applicationInfo: ApplicationInfo;
   @IsArray()
   @IsOptional()
-  private keywordIds: number[];
+  private keywords: string[];
 
   constructor(payload: ClubEntityPayload) {
     super();
@@ -55,7 +55,7 @@ export class Club extends Entity {
     this.adminId = payload.adminId;
     this.clubImages = payload.clubImages;
     this.applicationInfo = payload.applicationInfo;
-    this.keywordIds = payload.keywordIds;
+    this.keywords = payload.keywords;
   }
 
   public getClubName(): string {
@@ -86,16 +86,16 @@ export class Club extends Entity {
     return this.applicationInfo;
   }
 
-  public getKeywordIds(): number[] {
-    return this.keywordIds;
+  public getKeywords(): string[] {
+    return this.keywords;
   }
 
   public async edit(payload: EditClubEntityPayload): Promise<void> {
-    const { applicationInfo, categoryId, clubImages, keywordIds, location, clubName, summary } = payload;
+    const { applicationInfo, categoryId, clubImages, keywords, location, clubName, summary } = payload;
     if (applicationInfo) this.applicationInfo = applicationInfo;
     if (categoryId) this.categoryId = categoryId;
     if (clubImages) this.clubImages = clubImages;
-    if (keywordIds) this.keywordIds = keywordIds;
+    if (keywords) this.keywords = keywords;
     if (location) this.location = location;
     if (clubName) this.clubName = clubName;
     if (summary) this.summary = summary;

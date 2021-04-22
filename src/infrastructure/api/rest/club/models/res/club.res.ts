@@ -78,8 +78,8 @@ export class ClubRes {
   })
   imageUrls: string[];
 
-  @ApiProperty({ isArray: true, type: Number, description: '키워드 id 리스트', example: [1, 2, 3] })
-  keywordIds: number[];
+  @ApiProperty({ isArray: true, type: String, description: '키워드', example: ['코딩', '개발', 'IT'] })
+  keywords: string[];
 
   constructor(model?: Partial<any>) {
     Object.assign(this, model);

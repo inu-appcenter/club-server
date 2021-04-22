@@ -46,9 +46,9 @@ export class CreateClubUseCase implements IUseCase<ICreateClubPort, Club> {
       Promise.all(port.imageUrls.map((url) => ClubImage.new({ url }))),
       Promise.all(port.keywords.map((keyword) => Keyword.new({ keyword }))),
     ]);
-    const keywordIds = (await this.keywordRepository.createKeywords(keywords)).map((keyword) => keyword.getId());
+    const keywordNames = (await this.keywordRepository.createKeywords(keywords)).map((keyword) => keyword.getKeyword());
 
-    const club = await Club.new({ applicationInfo, clubImages, keywordIds, ...port });
+    const club = await Club.new({ applicationInfo, clubImages, keywords: keywordNames, ...port });
     return this.clubRepository.createClub(club);
   }
 }

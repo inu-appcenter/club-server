@@ -2,7 +2,6 @@ import { UseCaseProxy } from '@/common/usecase/UseCaseProxy';
 import { ICreateApplicationInfoPort } from '@/domain/port/applicationInfo/ICreateApplicationInfoPort';
 import { IUpdateApplicationInfoPort } from '@/domain/port/applicationInfo/IUpdateApplicationInfoPort';
 import { CreateClubUseCase } from '@/domain/usecase/club/CreateClubUseCase';
-import { GetClubByCategoryUseCase } from '@/domain/usecase/club/GetClubByCategoryUseCase';
 import { GetClubListUseCase } from '@/domain/usecase/club/GetClubListUseCase';
 import { GetClubUseCase } from '@/domain/usecase/club/GetClubUseCase';
 import { UpdateClubUseCase } from '@/domain/usecase/club/UpdateClubUseCase';
@@ -23,8 +22,6 @@ export class ClubService {
     private readonly getClubsProxyService: UseCaseProxy<GetClubListUseCase>,
     @Inject(ClubProvides.GET_CLUB_PROXY_SERVICE)
     private readonly getClubProxyService: UseCaseProxy<GetClubUseCase>,
-    @Inject(ClubProvides.GET_ALL_CLUB_CATEGORY_PROXY_SERVICE)
-    private readonly getClubsByCategoryProxyService: UseCaseProxy<GetClubByCategoryUseCase>,
   ) {}
 
   async getClubById(clubId: number): Promise<ClubRes> {
@@ -34,11 +31,6 @@ export class ClubService {
 
   async getClubs(): Promise<ClubRes[]> {
     const clubs = await this.getClubsProxyService.getInstance().execute();
-    return clubs.map((club) => new ClubRes(club));
-  }
-
-  async getClubsByCategory(categoryId: number): Promise<ClubRes[]> {
-    const clubs = await this.getClubsByCategoryProxyService.getInstance().execute({ categoryId });
     return clubs.map((club) => new ClubRes(club));
   }
 

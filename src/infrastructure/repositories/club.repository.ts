@@ -32,7 +32,7 @@ export class ClubRepository implements IClubRepository {
     const [admin, category, keywords] = await Promise.all([
       this.ormAdminRepository.findOne(club.getAdminId()),
       await this.ormCategoryRepository.findOne(club.getCategoryId()),
-      await this.ormKeywordRepository.findByIds(club.getKeywordIds()),
+      await Promise.all(club.getKeywords().map((keyword) => this.ormKeywordRepository.findOne({ where: { keyword } }))),
     ]);
     ormClub.admin = admin;
     ormClub.category = category;
@@ -117,10 +117,10 @@ export class ClubRepository implements IClubRepository {
   }
 
   async getClubsByKeyword(keyword: string): Promise<Club[]> {
-    throw new Error('Method not implemented.');
-  }
-  getClubsByName(name: string): Promise<Club[]> {
-    throw new Error('Method not implemented.');
+    const ormKeyword = await this.ormKeywordRepository.findOne({ relations: ['clubs'], where: { keyword } });
+    if (!ormKeyword) return [];
+    const clubs = await Promise.all(ormKeyword.clubs.map((orm) => this.getClubById(orm.id)));
+    return clubs;
   }
 
   async updateClub(club: Club): Promise<void> {
