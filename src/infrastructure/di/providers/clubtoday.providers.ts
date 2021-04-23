@@ -25,10 +25,10 @@ const GetClubTodayListProvider: Provider = {
 };
 
 const GetClubTodayListByClubProvider: Provider = {
-  inject: [ClubTodayRepository],
+  inject: [ClubTodayRepository, ClubRepository],
   provide: ClubTodayProvides.GET_CLUB_TODAY_LIST_BY_CLUB_PROXY_SERVICE,
-  useFactory: (clubTodayRepository: ClubTodayRepository) =>
-    new UseCaseProxy(new GetClubTodayListByClubUseCase(clubTodayRepository)),
+  useFactory: (clubTodayRepository: ClubTodayRepository, clubRepository: ClubRepository) =>
+    new UseCaseProxy(new GetClubTodayListByClubUseCase(clubTodayRepository, clubRepository)),
 };
 
 const CreateClubTodayProvider: Provider = {
