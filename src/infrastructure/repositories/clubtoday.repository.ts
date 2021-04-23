@@ -28,7 +28,10 @@ export class ClubTodayRepository implements IClubTodayRepository {
   }
 
   async getClubTodayList(): Promise<ClubToday[]> {
-    const ormClubTodayList = await this.ormClubTodayRepository.find({ relations: ['club'] });
+    const ormClubTodayList = await this.ormClubTodayRepository.find({
+      relations: ['club'],
+      order: { createdAt: 'DESC' },
+    });
     return await Promise.all(ormClubTodayList.map((orm) => toClubToday(orm)));
   }
 
@@ -44,11 +47,11 @@ export class ClubTodayRepository implements IClubTodayRepository {
 
   async getClubTodayListByClubId(clubId: number): Promise<ClubToday[]> {
     const ormClub = await this.ormClubRepository.findOne(clubId, { relations: ['clubTodays'] });
-    return await Promise.all(ormClub.clubTodays.map((orm) => toClubToday(orm)));
+    return await Promise.all(ormClub.clubTodays.map((orm) => toClubToday(orm, clubId)));
   }
 
   async getClubTodayById(clubTodayId: number): Promise<ClubToday> {
-    const ormClubToday = await this.ormClubTodayRepository.findOne(clubTodayId);
+    const ormClubToday = await this.ormClubTodayRepository.findOne(clubTodayId, { relations: ['club'] });
     return await toClubToday(ormClubToday);
   }
 
