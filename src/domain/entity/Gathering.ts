@@ -1,11 +1,7 @@
 import { Entity } from '@/common/entity/Entity';
 import { Type } from 'class-transformer';
-import { IsArray, IsBoolean, IsDate, IsInstance, IsInt, IsOptional, IsString, NotEquals } from 'class-validator';
-import { Category } from './Category';
-import { Comment } from './Comment';
-import { ParticipationInfo } from './types/aliases';
+import { IsArray, IsBoolean, IsDate, IsInt, IsOptional, IsString, NotEquals } from 'class-validator';
 import { EditGatheringEntityPayload, GatheringEntityPayload } from './types/payloads/GatheringEntityPayload';
-import { User } from './User';
 
 /**
  * @description 소모임
@@ -17,24 +13,18 @@ export class Gathering extends Entity {
   private numberOfPersonsJoined: number;
   @IsInt()
   private numberOfPersonsToInvite: number;
-  @NotEquals(null)
-  @NotEquals(undefined)
-  @Type(() => Object)
-  private participationInfo: ParticipationInfo;
-  @IsInstance(User)
-  @NotEquals(null)
-  @NotEquals(undefined)
-  private user: User;
-  @IsInstance(Category)
-  @NotEquals(null)
-  @NotEquals(undefined)
-  private category: Category;
+  @IsString()
+  private openChatUrl: string;
+  @IsInt()
+  private userId: number;
+  @IsInt()
+  private categoryId: number;
   @IsArray()
   @IsOptional()
   @NotEquals(null)
   @NotEquals(undefined)
-  @Type(() => Comment)
-  private comments: Comment[];
+  @Type(() => Number)
+  private commentIds: number[];
   @IsDate()
   private deadline: Date;
   @IsBoolean()
@@ -50,10 +40,10 @@ export class Gathering extends Entity {
     this.body = payload.body;
     this.numberOfPersonsJoined = payload.numberOfPersonsJoined;
     this.numberOfPersonsToInvite = payload.numberOfPersonsToInvite;
-    this.participationInfo = payload.participationInfo;
-    this.user = payload.user;
-    this.comments = payload.comments || new Array<Comment>();
-    this.category = payload.category;
+    this.openChatUrl = payload.openChatUrl;
+    this.userId = payload.userId;
+    this.commentIds = payload.commentIds;
+    this.categoryId = payload.categoryId;
     this.closed = payload.closed || false;
     this.deadline = payload.deadline;
   }
@@ -66,20 +56,20 @@ export class Gathering extends Entity {
     return this.deadline;
   }
 
-  public getComments(): Comment[] {
-    return this.comments;
+  public getCommentIds(): number[] {
+    return this.commentIds;
   }
 
-  public getCategory(): Category {
-    return this.category;
+  public getCategoryId(): number {
+    return this.categoryId;
   }
 
-  public getUser(): User {
-    return this.user;
+  public getUserId(): number {
+    return this.userId;
   }
 
-  public getParticipationInfo(): ParticipationInfo {
-    return this.participationInfo;
+  public getOpenChatUrl(): string {
+    return this.openChatUrl;
   }
 
   public getNumberOfPersonsToInvite(): number {
@@ -98,13 +88,13 @@ export class Gathering extends Entity {
     return this.title;
   }
   public async edit(payload: EditGatheringEntityPayload): Promise<void> {
-    const { body, category, deadline, closed, numberOfPersonsToInvite, participationInfo, title } = payload;
+    const { body, categoryId, deadline, closed, numberOfPersonsToInvite, openChatUrl, title } = payload;
     if (body) this.body = body;
-    if (category) this.category = category;
+    if (categoryId) this.categoryId = categoryId;
     if (deadline) this.deadline = deadline;
     if (closed) this.closed = closed;
     if (numberOfPersonsToInvite) this.numberOfPersonsToInvite = numberOfPersonsToInvite;
-    if (participationInfo) this.participationInfo = participationInfo;
+    if (openChatUrl) this.openChatUrl = openChatUrl;
     if (title) this.title = title;
     await this.validate();
   }

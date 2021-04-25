@@ -9,6 +9,12 @@ export interface IGatheringRepository {
   getGatherings(isClosed: boolean): Promise<Gathering[]>;
 
   /**
+   * 내 소모임 모두 조회
+   * @description 내가 참여한 소모임 모두 조회
+   */
+  getMyGatherings(): Promise<Gathering[]>;
+
+  /**
    * 소모임 생성
    * @param gathering 소모임 엔티티
    * @param userId 유저 pk
@@ -23,7 +29,7 @@ export interface IGatheringRepository {
    * @description 소모임 수정
    * @permission 사용자
    */
-  updateGatheringById(gathering: Gathering): Promise<Gathering>;
+  updateGathering(gathering: Gathering): Promise<Gathering>;
 
   /**
    * 소모임 삭제
