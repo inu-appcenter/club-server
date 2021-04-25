@@ -1,25 +1,22 @@
 import { Code } from '@/common/code/Code';
 import { Exception } from '@/common/exception/Exception';
 import { IUseCase } from '@/common/usecase/IUseCase';
-import { ICloseGatheringPort } from '@/domain/port/gathering/ICloseGatheringPort';
+import { IQuitGatheringPort } from '@/domain/port/gathering/IQuitGatheringPort';
 import { IGatheringRepository } from '@/domain/repository/IGatheringRepository';
 import { IUserRepository } from '@/domain/repository/IUserRepository';
 
-export class CloseGatheringUseCase implements IUseCase<ICloseGatheringPort, void> {
+export class QuitGatheringUseCase implements IUseCase<IQuitGatheringPort, void> {
   constructor(
     private readonly gatheringRepository: IGatheringRepository,
     private readonly userRepository: IUserRepository,
   ) {}
 
-  /**
-   * 소모임 강제 마감
-   * @param port ICloseGatheringPort
-   * @step_1 작성자를 확인한다.
-   * @step_2 소모임을 강제로 마감시킨다.
-   */
-  async execute(port?: ICloseGatheringPort): Promise<void> {
+  async execute(port?: IQuitGatheringPort): Promise<void> {
     const userExist = await this.userRepository.getUserById(port.userId);
     if (!userExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '사용자 없음' });
-    await this.gatheringRepository.closeGatheringById(port.id, port.userId);
+    const gatheringExist = await this.gatheringRepository.getMyGatheringById(port.userId, port.id);
+    if (!gatheringExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '참여하지 않은 소모임' });
+
+    await this.gatheringRepository.quitGathering(port.id, port.userId);
   }
 }
