@@ -87,6 +87,7 @@ export class Gathering extends Entity {
   public getTitle(): string {
     return this.title;
   }
+
   public async edit(payload: EditGatheringEntityPayload): Promise<void> {
     const { body, categoryId, deadline, closed, numberOfPersonsToInvite, openChatUrl, title } = payload;
     if (body) this.body = body;

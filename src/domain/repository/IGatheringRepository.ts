@@ -40,7 +40,7 @@ export interface IGatheringRepository {
    * @description 소모임 수정
    * @permission 사용자
    */
-  updateGathering(gathering: Gathering): Promise<Gathering>;
+  updateGathering(gathering: Gathering): Promise<void>;
 
   /**
    * 소모임 삭제
@@ -53,11 +53,10 @@ export interface IGatheringRepository {
   /**
    * 소모임 강제 마감
    * @param gatheringId 소모임 pk
-   * @param userId 사용자 pk
    * @description 모집 중인 특정 소모임을 강제 마감
    * @permission 사용자
    */
-  closeGatheringById(gatheringId: number, userId: number): Promise<any>;
+  closeGatheringById(gatheringId: number): Promise<any>;
 
   /**
    * 소모임 신고

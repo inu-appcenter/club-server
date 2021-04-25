@@ -3,13 +3,9 @@ import { Exception } from '@/common/exception/Exception';
 import { IUseCase } from '@/common/usecase/IUseCase';
 import { IDeleteGatheringPort } from '@/domain/port/gathering/IDeleteGatheringPort';
 import { IGatheringRepository } from '@/domain/repository/IGatheringRepository';
-import { IUserRepository } from '@/domain/repository/IUserRepository';
 
 export class DeleteGatheringUseCase implements IUseCase<IDeleteGatheringPort, void> {
-  constructor(
-    private readonly gatheringRepository: IGatheringRepository,
-    private readonly userRepository: IUserRepository,
-  ) {}
+  constructor(private readonly gatheringRepository: IGatheringRepository) {}
 
   /**
    * 소모임 게시글 삭제

@@ -20,6 +20,10 @@ export class CloseGatheringUseCase implements IUseCase<ICloseGatheringPort, void
   async execute(port?: ICloseGatheringPort): Promise<void> {
     const userExist = await this.userRepository.getUserById(port.userId);
     if (!userExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '사용자 없음' });
-    await this.gatheringRepository.closeGatheringById(port.id, port.userId);
+    const gatheringExist = await this.gatheringRepository.getGatheringById(port.id);
+    if (!gatheringExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 소모임' });
+    if (gatheringExist.getUserId() !== port.userId)
+      throw Exception.new({ code: Code.ACCESS_DENIED, overrideMessage: '권한 없음' });
+    await this.gatheringRepository.closeGatheringById(port.id);
   }
 }
