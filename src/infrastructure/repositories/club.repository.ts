@@ -31,8 +31,8 @@ export class ClubRepository implements IClubRepository {
     if (id != -1) ormClub.id = id;
     const [admin, category, keywords] = await Promise.all([
       this.ormAdminRepository.findOne(club.getAdminId()),
-      await this.ormCategoryRepository.findOne(club.getCategoryId()),
-      await Promise.all(club.getKeywords().map((keyword) => this.ormKeywordRepository.findOne({ where: { keyword } }))),
+      this.ormCategoryRepository.findOne(club.getCategoryId()),
+      Promise.all(club.getKeywords().map((keyword) => this.ormKeywordRepository.findOne({ where: { keyword } }))),
     ]);
     ormClub.admin = admin;
     ormClub.category = category;
