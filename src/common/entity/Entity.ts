@@ -5,6 +5,8 @@ import { ClassValidationDetails, ClassValidator } from '../utils/class-validator
 
 export class Entity {
   protected id: number;
+  public createdAt?: Date;
+  public updatedAt?: Date;
 
   public getId(): number {
     if (typeof this.id === 'undefined')

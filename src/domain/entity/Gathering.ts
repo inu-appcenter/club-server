@@ -38,7 +38,7 @@ export class Gathering extends Entity {
 
     this.title = payload.title;
     this.body = payload.body;
-    this.numberOfPersonsJoined = payload.numberOfPersonsJoined;
+    this.numberOfPersonsJoined = 0;
     this.numberOfPersonsToInvite = payload.numberOfPersonsToInvite;
     this.openChatUrl = payload.openChatUrl;
     this.userId = payload.userId;

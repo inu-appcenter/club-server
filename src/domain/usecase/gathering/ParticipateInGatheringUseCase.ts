@@ -12,6 +12,7 @@ export class ParticipateInGatheringUseCase implements IUseCase<IParticipateInGat
   ) {}
 
   /**
+   * todo: 선착순, 동시접속
    * 소모임에 참여
    * @param port IParticipateInGatheringPort
    * @step_1 사용자, 소모임이 존재하는지 확인한다.

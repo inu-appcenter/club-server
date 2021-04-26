@@ -2,7 +2,6 @@ export type GatheringEntityPayload = {
   id?: number;
   title: string;
   body: string;
-  numberOfPersonsJoined: number;
   numberOfPersonsToInvite: number;
   openChatUrl: string;
   userId: number;

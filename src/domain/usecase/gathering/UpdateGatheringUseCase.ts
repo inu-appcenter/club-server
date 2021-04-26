@@ -14,6 +14,7 @@ export class UpdateGatheringUseCase implements IUseCase<IUpdateGatheringPort, vo
   ) {}
 
   /**
+   * todo: 모집 인원 수정 시 현재 참여 인원과 비교하여 수정할 수 있도록
    * 소모임 수정
    * @param port IUpdateGatheringPort
    * @step_1 사용자, 카테고리, 소모임이 존재하는지 확인한다.
@@ -30,6 +31,13 @@ export class UpdateGatheringUseCase implements IUseCase<IUpdateGatheringPort, vo
     if (!userExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 사용자' });
     if (!categoryExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 카테고리' });
     if (!gatheringExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 소모임' });
+    if (port.userId !== gatheringExist.getUserId())
+      throw Exception.new({ code: Code.UNAUTHORIZED, overrideMessage: '권한 없음' });
+    if (port.numberOfPersonsToInvite <= gatheringExist.getNumberOfPersonsJoined())
+      throw Exception.new({
+        code: Code.ACCESS_DENIED,
+        overrideMessage: '수정할 모집 인원이 참여한 인원과 작거나 같음',
+      });
 
     await gatheringExist.edit(port);
     await this.gatheringRepository.updateGathering(gatheringExist);

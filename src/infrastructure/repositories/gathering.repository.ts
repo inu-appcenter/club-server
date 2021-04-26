@@ -26,7 +26,9 @@ export class GatheringRepository implements IGatheringRepository {
     const [user, category, comments] = await Promise.all([
       this.ormUserRepository.findOne(gathering.getUserId()),
       this.ormCategoryRepository.findOne(gathering.getCategoryId()),
-      Promise.all(gathering.getCommentIds().map((id) => this.ormCommentRepository.findOne(id))),
+      Array.isArray(gathering.getCommentIds())
+        ? Promise.all(gathering.getCommentIds().map((id) => this.ormCommentRepository.findOne(id)))
+        : [],
     ]);
     ormGathering.user = user;
     ormGathering.category = category;
@@ -36,7 +38,7 @@ export class GatheringRepository implements IGatheringRepository {
     ormGathering.closed = gathering.isClosed();
     ormGathering.deadline = gathering.getDeadline();
     ormGathering.numberOfPersonsJoined = gathering.getNumberOfPersonsJoined();
-    ormGathering.numberOfPersonsJoined = gathering.getNumberOfPersonsJoined();
+    ormGathering.numberOfPersonsToInvite = gathering.getNumberOfPersonsToInvite();
     ormGathering.openChatUrl = gathering.getOpenChatUrl();
     return ormGathering;
   }
@@ -50,9 +52,13 @@ export class GatheringRepository implements IGatheringRepository {
   }
 
   async getMyGatherings(userId: number): Promise<Gathering[]> {
-    const ormUser = await this.ormUserRepository.findOne(userId, { relations: ['participantsGatherings'] });
-    console.log(ormUser);
-    return await Promise.all(ormUser.participantsGatherings.map((orm) => this.getGatheringById(orm.id)));
+    const [ormUser, ormGatheringList] = await Promise.all([
+      this.ormUserRepository.findOne(userId, { relations: ['participantsGatherings'] }),
+      this.ormGatheringRepository.find({ where: { user: { id: userId } } }),
+    ]);
+    return await Promise.all(
+      [...ormUser.participantsGatherings, ...ormGatheringList].map((orm) => this.getGatheringById(orm.id)),
+    );
   }
 
   async getMyGatheringById(userId: number, gatheringId: number): Promise<Gathering> {
@@ -84,7 +90,7 @@ export class GatheringRepository implements IGatheringRepository {
   }
 
   async closeGatheringById(gatheringId: number): Promise<any> {
-    await this.ormGatheringRepository.update({ id: gatheringId }, { closed: false });
+    await this.ormGatheringRepository.update({ id: gatheringId }, { closed: true });
   }
 
   async reportGatheringById(gatheringId: number): Promise<void> {

@@ -27,7 +27,7 @@ export class CreateGatheringUseCase implements IUseCase<ICreateGatheringPort, Ga
       this.userRepository.getUserById(userId),
       this.categoryRepository.getCategoryById(categoryId),
     ]);
-    if (!userExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '사용자 없음' });
+    if (!userExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 사용자' });
     if (!categoryExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 카테고리' });
 
     const gathering = await Gathering.new(port);
