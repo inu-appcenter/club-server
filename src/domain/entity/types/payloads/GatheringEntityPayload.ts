@@ -6,6 +6,7 @@ export type GatheringEntityPayload = {
   openChatUrl: string;
   userId: number;
   commentIds?: number[];
+  participantIds?: number[];
   categoryId: number;
   closed?: boolean;
   deadline: Date;

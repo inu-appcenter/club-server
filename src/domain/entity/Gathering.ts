@@ -25,6 +25,12 @@ export class Gathering extends Entity {
   @NotEquals(undefined)
   @Type(() => Number)
   private commentIds: number[];
+  @IsArray()
+  @IsOptional()
+  @NotEquals(null)
+  @NotEquals(undefined)
+  @Type(() => Number)
+  private participantIds: number[];
   @IsDate()
   private deadline: Date;
   @IsBoolean()
@@ -46,6 +52,7 @@ export class Gathering extends Entity {
     this.categoryId = payload.categoryId;
     this.closed = payload.closed || false;
     this.deadline = payload.deadline;
+    this.participantIds = payload.participantIds;
   }
 
   public isClosed(): boolean {
@@ -58,6 +65,10 @@ export class Gathering extends Entity {
 
   public getCommentIds(): number[] {
     return this.commentIds;
+  }
+
+  public getParticipantIds(): number[] {
+    return this.participantIds;
   }
 
   public getCategoryId(): number {

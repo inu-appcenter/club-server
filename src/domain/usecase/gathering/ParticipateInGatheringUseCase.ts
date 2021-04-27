@@ -12,7 +12,6 @@ export class ParticipateInGatheringUseCase implements IUseCase<IParticipateInGat
   ) {}
 
   /**
-   * todo: 선착순, 동시접속
    * 소모임에 참여
    * @param port IParticipateInGatheringPort
    * @step_1 사용자, 소모임이 존재하는지 확인한다.
@@ -26,6 +25,9 @@ export class ParticipateInGatheringUseCase implements IUseCase<IParticipateInGat
 
     if (!userExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 사용자' });
     if (!gatheringExist) throw Exception.new({ code: Code.NOT_FOUND, overrideMessage: '없는 소모임' });
+    if (gatheringExist.isClosed()) throw Exception.new({ code: Code.BAD_REQUEST, overrideMessage: '마감' });
+    if (gatheringExist.getUserId() === port.userId)
+      throw Exception.new({ code: Code.BAD_REQUEST, overrideMessage: '작성자 참여 불가' });
 
     await this.gatheringRepository.participateInGathering(port.id, port.userId);
   }

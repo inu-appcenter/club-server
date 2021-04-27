@@ -21,6 +21,12 @@ export interface IGatheringRepository {
   getMyGatheringById(userId: number, gatheringId: number): Promise<Gathering>;
 
   /**
+   * 내가 작성한 소모임들 조회
+   * @description 내가 작성한 소모임들 조회
+   */
+  getPostedGatheringsByUserId(userId: number): Promise<Gathering[]>;
+
+  /**
    * 소모임 상세 조회
    * @description 소모임 상세 조회
    */
