@@ -5,6 +5,9 @@ import { DeleteGatheringUseCase } from '@/domain/usecase/gathering/DeleteGatheri
 import { GetGatheringsUseCase } from '@/domain/usecase/gathering/GetGatheringsUseCase';
 import { GetGatheringUseCase } from '@/domain/usecase/gathering/GetGatheringUseCase';
 import { GetMyGatheringsUseCase } from '@/domain/usecase/gathering/GetMyGatheringsUseCase';
+import { GetPostedGatheringsUseCase } from '@/domain/usecase/gathering/GetPostedGatheringsUseCase';
+import { ParticipateInGatheringUseCase } from '@/domain/usecase/gathering/ParticipateInGatheringUseCase';
+import { QuitGatheringUseCase } from '@/domain/usecase/gathering/QuitGatheringUseCase';
 import { ReportGatheringUseCase } from '@/domain/usecase/gathering/ReportGatheringUseCase';
 import { UpdateGatheringUseCase } from '@/domain/usecase/gathering/UpdateGatheringUseCase';
 import { CategoryRepository } from '@/infrastructure/repositories/category.repository';
@@ -75,7 +78,26 @@ const ReportGatheringProvider: Provider = {
     new UseCaseProxy(new ReportGatheringUseCase(gatheringRepository)),
 };
 
-// todo: participate in, quit
+const ParticipateInGatheringProvider: Provider = {
+  inject: [GatheringRepository, UserRepository],
+  provide: GatheringProvides.PARTICIPATE_IN_GATHERING_PROXY_SERVICE,
+  useFactory: (gatheringRepository: GatheringRepository, userRepository: UserRepository) =>
+    new UseCaseProxy(new ParticipateInGatheringUseCase(gatheringRepository, userRepository)),
+};
+
+const GetAllPostedGatheringProvider: Provider = {
+  inject: [GatheringRepository],
+  provide: GatheringProvides.GET_ALL_POSTED_GATHERING_PROXY_SERVICE,
+  useFactory: (gatheringRepository: GatheringRepository) =>
+    new UseCaseProxy(new GetPostedGatheringsUseCase(gatheringRepository)),
+};
+
+const QuitGatheringProvider: Provider = {
+  inject: [GatheringRepository],
+  provide: GatheringProvides.QUIT_GATHERING_PROXY_SERVICE,
+  useFactory: (gatheringRepository: GatheringRepository) =>
+    new UseCaseProxy(new QuitGatheringUseCase(gatheringRepository)),
+};
 
 export const GatheringProviders = [
   CreateGatheringProvider,
@@ -86,4 +108,7 @@ export const GatheringProviders = [
   CloseGatheringProvider,
   RemoveGatheringProvider,
   ReportGatheringProvider,
+  ParticipateInGatheringProvider,
+  GetAllPostedGatheringProvider,
+  QuitGatheringProvider,
 ];
