@@ -42,6 +42,13 @@ export class GatheringController {
     return await this.gatheringService.geGatheringList();
   }
 
+  @ApiOperation({ summary: '특정 사용자가 작성한 소모임들 조회' })
+  @ApiOkResponse({ description: '성공', isArray: true, type: GatheringRes })
+  @Get('users/:userId')
+  async getPostedGatherings(@Param('userId') userId: number): Promise<GatheringRes[]> {
+    return await this.gatheringService.getPostedGatheringList(userId);
+  }
+
   // todo: 인증
   @ApiOperation({ summary: '참여한 소모임들 조회(자신이 생성한 소모임까지)' })
   @ApiOkResponse({ description: '성공', isArray: true, type: GatheringRes })
@@ -51,6 +58,7 @@ export class GatheringController {
     const userId = 1;
     return await this.gatheringService.getMyGatheringList(userId);
   }
+
   @ApiOperation({ summary: '소모임 상세 조회' })
   @ApiOkResponse({ description: '성공', type: GatheringRes })
   @ApiNotFoundResponse({ description: '데이터가 없음' })

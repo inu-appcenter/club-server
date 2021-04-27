@@ -5,6 +5,7 @@ import { DeleteGatheringUseCase } from '@/domain/usecase/gathering/DeleteGatheri
 import { GetGatheringsUseCase } from '@/domain/usecase/gathering/GetGatheringsUseCase';
 import { GetGatheringUseCase } from '@/domain/usecase/gathering/GetGatheringUseCase';
 import { GetMyGatheringsUseCase } from '@/domain/usecase/gathering/GetMyGatheringsUseCase';
+import { GetPostedGatheringsUseCase } from '@/domain/usecase/gathering/GetPostedGatheringsUseCase';
 import { ReportGatheringUseCase } from '@/domain/usecase/gathering/ReportGatheringUseCase';
 import { UpdateGatheringUseCase } from '@/domain/usecase/gathering/UpdateGatheringUseCase';
 import { GatheringProvides } from '@/infrastructure/di/providers/provides/gathering.provide';
@@ -32,6 +33,8 @@ export class GatheringsService {
     private readonly updateGatheringProxyService: UseCaseProxy<UpdateGatheringUseCase>,
     @Inject(GatheringProvides.REPORT_GATHERING_PROXY_SERVICE)
     private readonly reportGatheringProxyService: UseCaseProxy<ReportGatheringUseCase>,
+    @Inject(GatheringProvides.GET_ALL_POSTED_GATHERING_PROXY_SERVICE)
+    private readonly getPostedGatheringProxyService: UseCaseProxy<GetPostedGatheringsUseCase>,
   ) {}
 
   async createGathering(createGatheringDto: CreateGatheringDTO, userId: number): Promise<GatheringRes> {
@@ -46,6 +49,11 @@ export class GatheringsService {
 
   async geGatheringList(): Promise<GatheringRes[]> {
     const gatheringList = await this.getAllGatheringProxyService.getInstance().execute();
+    return gatheringList.map((gathering) => new GatheringRes(gathering));
+  }
+
+  async getPostedGatheringList(userId: number): Promise<GatheringRes[]> {
+    const gatheringList = await this.getPostedGatheringProxyService.getInstance().execute({ userId });
     return gatheringList.map((gathering) => new GatheringRes(gathering));
   }
 

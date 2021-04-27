@@ -48,8 +48,14 @@ export class GatheringRes {
   @ApiProperty({ type: Number })
   categoryId: number;
 
-  @ApiProperty({ isArray: true, type: Number })
+  @ApiProperty({ description: '댓글 id 리스트', isArray: true, type: Number })
   commentIds: number[];
+
+  @ApiProperty({ type: Boolean, description: '마감 여부', example: false })
+  closed: boolean;
+
+  @ApiProperty({ description: '참가자 id 리스트', isArray: true, type: Number })
+  participantIds: number[];
 
   constructor(partial: Partial<Gathering>) {
     Object.assign(this, partial);
