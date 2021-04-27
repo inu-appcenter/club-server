@@ -1,4 +1,4 @@
-import { Column, Entity as OrmEntity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity as OrmEntity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { OrmCategory } from './category.entity';
 import { OrmComment } from './comment.entity';
 import { CommonTypeOrm } from './common/common';
@@ -39,4 +39,8 @@ export class OrmGathering extends CommonTypeOrm {
 
   @OneToMany(() => OrmReportGathering, (report) => report.gathering, { cascade: true })
   reports: OrmReportGathering[];
+
+  @ManyToMany(() => OrmUser, (ormUser) => ormUser.participantsGatherings)
+  @JoinTable({ name: 'orm_participants' })
+  participants: OrmUser[];
 }

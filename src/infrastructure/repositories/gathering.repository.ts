@@ -1,8 +1,10 @@
+import { Code } from '@/common/code/Code';
+import { Exception } from '@/common/exception/Exception';
 import { Gathering } from '@/domain/entity/Gathering';
 import { IGatheringRepository } from '@/domain/repository/IGatheringRepository';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { getConnection, Repository } from 'typeorm';
 import { toGathering } from './converters/gathering.converter';
 import { OrmCategory } from './entities/category.entity';
 import { OrmComment } from './entities/comment.entity';
@@ -43,10 +45,18 @@ export class GatheringRepository implements IGatheringRepository {
     return ormGathering;
   }
 
+  async getPostedGatheringsByUserId(userId: number): Promise<Gathering[]> {
+    const ormGatherings = await this.ormGatheringRepository.find({
+      where: { user: { id: userId } },
+      relations: ['user', 'category', 'comments', 'participants'],
+    });
+    return Promise.all(ormGatherings.map((orm) => toGathering(orm)));
+  }
+
   async getGatherings(isClosed: boolean): Promise<Gathering[]> {
     const ormGatherings = await this.ormGatheringRepository.find({
       where: { closed: isClosed },
-      relations: ['user', 'category', 'comments'],
+      relations: ['user', 'category', 'comments', 'participants'],
     });
     return await Promise.all(ormGatherings.map((orm) => toGathering(orm)));
   }
@@ -64,13 +74,14 @@ export class GatheringRepository implements IGatheringRepository {
   async getMyGatheringById(userId: number, gatheringId: number): Promise<Gathering> {
     const ormUser = await this.ormUserRepository.findOne(userId, { relations: ['participantsGatherings'] });
     const ormGathering = ormUser.participantsGatherings.find((orm) => orm.id === gatheringId);
-    console.log(ormGathering);
     if (!ormGathering) return null;
     return await this.getGatheringById(ormGathering.id);
   }
 
   async getGatheringById(gatheringId: number): Promise<Gathering> {
-    const orm = await this.ormGatheringRepository.findOne(gatheringId, { relations: ['user', 'category', 'comments'] });
+    const orm = await this.ormGatheringRepository.findOne(gatheringId, {
+      relations: ['user', 'category', 'comments', 'participants'],
+    });
     return await toGathering(orm);
   }
 
@@ -99,10 +110,45 @@ export class GatheringRepository implements IGatheringRepository {
     await ormReportGathering.save();
   }
 
-  participateInGathering(gatheringId: number, userId: number): Promise<void> {
-    throw new Error('Method not implemented.');
+  async participateInGathering(gatheringId: number, userId: number): Promise<void> {
+    const queryRunner = await getConnection().createQueryRunner();
+    await queryRunner.startTransaction();
+    const ormUser = await this.ormUserRepository.findOne(userId, { relations: ['participantsGatherings'] });
+    if (ormUser.participantsGatherings.find((e) => e.id === gatheringId))
+      throw Exception.new({ code: Code.CONFLICT, overrideMessage: '이미 참여함' });
+    try {
+      const ormGathering = await this.ormGatheringRepository.findOne(gatheringId);
+      ormGathering.numberOfPersonsJoined++;
+      if (ormGathering.numberOfPersonsToInvite === ormGathering.numberOfPersonsJoined) ormGathering.closed = true;
+      ormUser.participantsGatherings.push(ormGathering);
+      await ormUser.save();
+      await ormGathering.save();
+      await queryRunner.commitTransaction();
+      await queryRunner.release();
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      await queryRunner.release();
+      throw Exception.new({ code: Code.INTERNAL, overrideMessage: error.message });
+    }
   }
-  quitGathering(gatheringId: number, userId: number): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async quitGathering(gatheringId: number, userId: number): Promise<void> {
+    const queryRunner = await getConnection().createQueryRunner();
+    await queryRunner.startTransaction();
+    try {
+      const [ormUser, ormGathering] = await Promise.all([
+        this.ormUserRepository.findOne(userId, { relations: ['participantsGatherings'] }),
+        this.ormGatheringRepository.findOne(gatheringId),
+      ]);
+      ormGathering.numberOfPersonsJoined--;
+      ormUser.participantsGatherings = ormUser.participantsGatherings.filter((orm) => orm.id !== gatheringId);
+      await ormUser.save();
+      await queryRunner.commitTransaction();
+      await queryRunner.release();
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      await queryRunner.release();
+      throw Exception.new({ code: Code.INTERNAL, overrideMessage: error.message });
+    }
   }
 }
