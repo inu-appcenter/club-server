@@ -1,4 +1,5 @@
-export interface ICreateGatheringPort {
+export interface IUpdateGatheringPort {
+  id: number;
   userId: number;
   categoryId: number;
   title: string;

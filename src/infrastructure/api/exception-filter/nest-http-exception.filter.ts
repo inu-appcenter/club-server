@@ -14,6 +14,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
+    console.error(exception);
+
     const errorRes: IErrorResponse = {
       errors: [],
       path: '',
@@ -31,7 +33,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
     // Nest HttpException 타입의 에러일 때
     else if (exception instanceof HttpException) {
       status = exception.getStatus();
-      errorRes.errors = [exception.message];
+      const response = exception.getResponse();
+      if (typeof response === 'object')
+        errorRes.errors = Array.isArray(response['message']) ? [...response['message']] : [response['message']];
+      else errorRes.errors = [exception.message];
     }
     // Error 타입의 에러일 때
     else {

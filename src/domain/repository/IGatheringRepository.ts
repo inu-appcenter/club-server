@@ -12,16 +12,33 @@ export interface IGatheringRepository {
    * 내 소모임 모두 조회
    * @description 내가 참여한 소모임 모두 조회
    */
-  getMyGatherings(): Promise<Gathering[]>;
+  getMyGatherings(userId: number): Promise<Gathering[]>;
+
+  /**
+   * 내 소모임에서 상세 조회
+   * @description 내가 참여한 소모임에서 상세 조회
+   */
+  getMyGatheringById(userId: number, gatheringId: number): Promise<Gathering>;
+
+  /**
+   * 내가 작성한 소모임들 조회
+   * @description 내가 작성한 소모임들 조회
+   */
+  getPostedGatheringsByUserId(userId: number): Promise<Gathering[]>;
+
+  /**
+   * 소모임 상세 조회
+   * @description 소모임 상세 조회
+   */
+  getGatheringById(gatheringId: number): Promise<Gathering>;
 
   /**
    * 소모임 생성
    * @param gathering 소모임 엔티티
-   * @param userId 유저 pk
    * @description 소모임 생성
    * @permission 사용자
    */
-  createGathering(gathering: Gathering, userId: number): Promise<Gathering>;
+  createGathering(gathering: Gathering): Promise<Gathering>;
 
   /**
    * 소모임 수정
@@ -29,7 +46,7 @@ export interface IGatheringRepository {
    * @description 소모임 수정
    * @permission 사용자
    */
-  updateGathering(gathering: Gathering): Promise<Gathering>;
+  updateGathering(gathering: Gathering): Promise<void>;
 
   /**
    * 소모임 삭제
@@ -54,4 +71,7 @@ export interface IGatheringRepository {
    * @permission 사용자
    */
   reportGatheringById(gatheringId: number): Promise<void>;
+
+  participateInGathering(gatheringId: number, userId: number): Promise<void>;
+  quitGathering(gatheringId: number, userId: number): Promise<void>;
 }

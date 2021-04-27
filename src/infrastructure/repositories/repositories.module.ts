@@ -21,6 +21,7 @@ import { KeywordRepository } from './keyword.repository';
 import { CategoryRepository } from './category.repository';
 import { ClubImageRepository } from './club-image.repository';
 import { ClubTodayRepository } from './clubtoday.repository';
+import { GatheringRepository } from './gathering.repository';
 
 // todo: 레포지토리 구현체 exports and providers
 @Module({
@@ -50,6 +51,7 @@ import { ClubTodayRepository } from './clubtoday.repository';
     KeywordRepository,
     CategoryRepository,
     ClubImageRepository,
+    GatheringRepository,
   ],
   exports: [
     UserRepository,
@@ -59,6 +61,7 @@ import { ClubTodayRepository } from './clubtoday.repository';
     KeywordRepository,
     CategoryRepository,
     ClubImageRepository,
+    GatheringRepository,
   ],
 })
 export class RepositoriesModule {}

@@ -1,17 +1,14 @@
 import { Module } from '@nestjs/common';
-import { GatheringCommentController } from './controllers/gathering-comments.controller';
+import { GatheringCommentController } from './controllers/comment.controller';
 import { GatheringController } from './controllers/gatherings.controller';
-import { GatheringReCommentController } from './controllers/gathering-re-comments.controller';
-import { GatheringService } from './services/gatherings.service';
-import { GatheringParticipationController } from './controllers/gathering-participation.controller';
+import { GatheringsService } from './services/gatherings.service';
+import { GatheringParticipationController } from './controllers/participation.controller';
+import { GatheringServiceModule } from '@/infrastructure/di/injections/gathering.services.module';
+import { ParticipationService } from './services/participation.service';
 
 @Module({
-  controllers: [
-    GatheringController,
-    GatheringCommentController,
-    GatheringReCommentController,
-    GatheringParticipationController,
-  ],
-  providers: [GatheringService],
+  imports: [GatheringServiceModule.register()],
+  controllers: [GatheringController, GatheringCommentController, GatheringParticipationController],
+  providers: [GatheringsService, ParticipationService],
 })
 export class GatheringModule {}

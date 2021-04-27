@@ -25,6 +25,12 @@ export class Gathering extends Entity {
   @NotEquals(undefined)
   @Type(() => Number)
   private commentIds: number[];
+  @IsArray()
+  @IsOptional()
+  @NotEquals(null)
+  @NotEquals(undefined)
+  @Type(() => Number)
+  private participantIds: number[];
   @IsDate()
   private deadline: Date;
   @IsBoolean()
@@ -38,7 +44,7 @@ export class Gathering extends Entity {
 
     this.title = payload.title;
     this.body = payload.body;
-    this.numberOfPersonsJoined = payload.numberOfPersonsJoined;
+    this.numberOfPersonsJoined = 0;
     this.numberOfPersonsToInvite = payload.numberOfPersonsToInvite;
     this.openChatUrl = payload.openChatUrl;
     this.userId = payload.userId;
@@ -46,6 +52,7 @@ export class Gathering extends Entity {
     this.categoryId = payload.categoryId;
     this.closed = payload.closed || false;
     this.deadline = payload.deadline;
+    this.participantIds = payload.participantIds;
   }
 
   public isClosed(): boolean {
@@ -58,6 +65,10 @@ export class Gathering extends Entity {
 
   public getCommentIds(): number[] {
     return this.commentIds;
+  }
+
+  public getParticipantIds(): number[] {
+    return this.participantIds;
   }
 
   public getCategoryId(): number {
@@ -87,6 +98,7 @@ export class Gathering extends Entity {
   public getTitle(): string {
     return this.title;
   }
+
   public async edit(payload: EditGatheringEntityPayload): Promise<void> {
     const { body, categoryId, deadline, closed, numberOfPersonsToInvite, openChatUrl, title } = payload;
     if (body) this.body = body;

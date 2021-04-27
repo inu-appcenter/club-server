@@ -1,8 +1,8 @@
+import { getDayJs } from '@/common/utils/dayjs/getDayJs';
+import { Gathering } from '@/domain/entity/Gathering';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsDate, IsNumber, IsString } from 'class-validator';
-import { CategoryRes } from '../../../club/models/res/club.res';
-import { CommentRes } from './comment.res';
 
 export class GatheringRes {
   @ApiProperty({ type: Number, description: '소모임 pk', example: 1 })
@@ -28,7 +28,7 @@ export class GatheringRes {
   @Type(() => Number)
   numberOfPersonsToInvite: number;
 
-  @ApiProperty({ type: Date, description: '마감일', example: '2021.04.01' })
+  @ApiProperty({ type: Date, description: '마감일', example: '2021-12-10T00:00:00.000Z' })
   @IsDate()
   @Type(() => Date)
   deadline: Date;
@@ -45,9 +45,20 @@ export class GatheringRes {
   @IsString()
   relativeTime: string;
 
-  @ApiProperty({ type: CategoryRes })
-  category: CategoryRes;
+  @ApiProperty({ type: Number })
+  categoryId: number;
 
-  @ApiProperty({ isArray: true, type: CommentRes })
-  comments: CommentRes[];
+  @ApiProperty({ description: '댓글 id 리스트', isArray: true, type: Number })
+  commentIds: number[];
+
+  @ApiProperty({ type: Boolean, description: '마감 여부', example: false })
+  closed: boolean;
+
+  @ApiProperty({ description: '참가자 id 리스트', isArray: true, type: Number })
+  participantIds: number[];
+
+  constructor(partial: Partial<Gathering>) {
+    Object.assign(this, partial);
+    this.relativeTime = getDayJs().to(partial.createdAt);
+  }
 }

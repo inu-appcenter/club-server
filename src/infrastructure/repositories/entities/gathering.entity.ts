@@ -1,8 +1,7 @@
-import { Column, Entity as OrmEntity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity as OrmEntity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { OrmCategory } from './category.entity';
 import { OrmComment } from './comment.entity';
 import { CommonTypeOrm } from './common/common';
-import { EmParticipationInfo } from './embedded/embedded';
 import { OrmReportGathering } from './report-gathering.entity';
 import { OrmUser } from './user.entity';
 
@@ -26,8 +25,8 @@ export class OrmGathering extends CommonTypeOrm {
   @Column({ type: 'boolean', default: false })
   closed: boolean;
 
-  @Column(() => EmParticipationInfo)
-  participationInfo!: EmParticipationInfo;
+  @Column()
+  openChatUrl: string;
 
   @ManyToOne(() => OrmUser, (user) => user.gatherings, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   user: OrmUser;
@@ -40,4 +39,8 @@ export class OrmGathering extends CommonTypeOrm {
 
   @OneToMany(() => OrmReportGathering, (report) => report.gathering, { cascade: true })
   reports: OrmReportGathering[];
+
+  @ManyToMany(() => OrmUser, (ormUser) => ormUser.participantsGatherings)
+  @JoinTable({ name: 'orm_participants' })
+  participants: OrmUser[];
 }

@@ -66,6 +66,5 @@ export const ClubProviders = [
   GetClubProvider,
   GetAllClubProvider,
   GetAllClubByCategoryProvider,
-  // GetAllClubByKeywordProvider,
   SearchAllClubProvider,
 ];

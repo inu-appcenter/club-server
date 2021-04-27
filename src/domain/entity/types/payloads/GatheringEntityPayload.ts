@@ -2,11 +2,11 @@ export type GatheringEntityPayload = {
   id?: number;
   title: string;
   body: string;
-  numberOfPersonsJoined: number;
   numberOfPersonsToInvite: number;
   openChatUrl: string;
   userId: number;
   commentIds?: number[];
+  participantIds?: number[];
   categoryId: number;
   closed?: boolean;
   deadline: Date;

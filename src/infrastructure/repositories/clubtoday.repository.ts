@@ -35,6 +35,7 @@ export class ClubTodayRepository implements IClubTodayRepository {
     return await Promise.all(ormClubTodayList.map((orm) => toClubToday(orm)));
   }
 
+  // todo: 여기 기달
   async getLatelyDateByClubId(clubId: number): Promise<Date> {
     const ormCategory = await getConnection()
       .createQueryBuilder(OrmCategory, 'category')
