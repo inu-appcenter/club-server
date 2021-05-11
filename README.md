@@ -1,5 +1,9 @@
 # 2.2 - 동아리 서버 (club-server)
 
+![last commit Badge](https://img.shields.io/github/last-commit/inu-appcenter/club-server)
+![commit Badge](https://img.shields.io/github/commit-activity/y/inu-appcenter/club-server)
+[![GitHub stars](https://img.shields.io/github/stars/inu-appcenter/club-server?style=shield)](https://github.com/inu-appcenter/club-server/stargazers)
+
 > 이 저장소는 기존 동아리 서버를 리뉴얼한 저장소이며 새롭게 MVC 패턴으로 개발된 express 애플리케이션을 리팩토링한 저장소입니다. <br>
 >
 > > #### **리팩토링 이유**
@@ -33,54 +37,70 @@
 ```
 src
 ├── common
-│   ├── code
-│   ├── entity
-│   ├── error
-│   ├── exception
-│   ├── swagger
-│   ├── type
-│   ├── usecase
-│   └── utils
-│       └── class-validator
+│   ├── code
+│   ├── entity
+│   ├── exception
+│   ├── swagger
+│   ├── type
+│   ├── usecase
+│   └── utils
+│       ├── class-validator
+│       ├── dayjs
+│       └── format
 ├── domain
-│   ├── entity
-│   │   └── types
-│   ├── port
-│   │   ├── admin
-│   │   ├── applicationInfo
-│   │   ├── club
-│   │   ├── clubtoday
-│   │   └── user
-│   ├── repository
-│   └── usecase
-│       ├── admin
-│       ├── applicationInfo
-│       ├── club
-│       ├── clubtoday
-│       └── user
+│   ├── entity
+│   │   └── types
+│   ├── port
+│   │   ├── admin
+│   │   ├── applicationInfo
+│   │   ├── category
+│   │   ├── club
+│   │   ├── clubtoday
+│   │   ├── gathering
+│   │   └── user
+│   ├── repository
+│   └── usecase
+│       ├── admin
+│       ├── applicationInfo
+│       ├── category
+│       ├── club
+│       ├── clubtoday
+│       ├── comment
+│       ├── gathering
+│       └── user
 └── infrastructure
     ├── api
-    │   ├── custom-swagger
-    │   ├── middlewares
-    │   └── rest
+    │   ├── custom-swagger
+    │   ├── exception-filter
+    │   ├── middlewares
+    │   └── rest
     ├── config
-    │   ├── environment
-    │   ├── multer
-    │   └── typeorm
+    │   ├── environment
+    │   ├── multer
+    │   └── typeorm
     ├── di
-    │   ├── injections
-    │   └── providers
+    │   ├── injections
+    │   └── providers
     └── repositories
+        ├── converters
         └── entities
 ```
 
 #### 의존성 원칙
 
-- **공통사항(common)**: 모든 계층에서 참조할 수 있는 공통사항 담당
-- **도메인(domain)**: 핵심 영역으로 비지니스 규칙 구현 및 캡슐화 담당
-- **인프라스트럭처(infrastructure)**: 애플리케이션을 구성하는 기술적 세부 구현 담당
+- **공통사항(common)**
 
-도메인 계층의 클래스에서는 인프라스트럭처 계층의 클래스를 직접 참조할 수 없고, 반대로 인프라스트럭처 계층의 클래스에서는 도메인 계층의 클래스를 직접 참조할 수 있습니다.
+  모든 계층에서 참조할 수 있는 공통사항 담당
+
+- **도메인(domain)**
+
+  핵심 영역으로 비지니스 규칙 구현 및 캡슐화 담당
+
+- **인프라스트럭처(infrastructure)**
+
+  애플리케이션을 구성하는 기술적 세부 구현 담당
+
+> 도메인 계층의 클래스에서는 인프라스트럭처 계층의 클래스를 직접 참조할 수 없고, 반대로 인프라스트럭처 계층의 클래스에서는 도메인 계층의 클래스를 직접 참조할 수 있습니다.
 
 ## API
 
@@ -97,7 +117,7 @@ src
 | **[2021-03-11]** |   Parameter, Query, Body 예제 데이터 추가   | [bbaktaeho](https://github.com/bbaktaeho) |
 | **[2021-03-12]** |        URL 수정, 오타 수정, DTO 수정        | [bbaktaeho](https://github.com/bbaktaeho) |
 | **[2021-03-21]** |         전체적으로 많은 변경 사항..         | [bbaktaeho](https://github.com/bbaktaeho) |
-| **[2021-04-16]** | 관리자 API 수정 | [bbaktaeho](https://github.com/bbaktaeho) |
+| **[2021-04-16]** |               관리자 API 수정               | [bbaktaeho](https://github.com/bbaktaeho) |
 
 ## 더 알고싶다면?
 
