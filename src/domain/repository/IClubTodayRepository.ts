@@ -6,6 +6,7 @@ export interface IClubTodayRepository {
    * @description 클럽투데이 모두 조회
    */
   getClubTodayList(): Promise<ClubToday[]>;
+  // public Promise<ClubToday[]> GetClubTodayList();
 
   /**
    * 최근 클럽투데이 날짜 조회
